@@ -1,0 +1,29 @@
+<div class="smartClientContainer">
+    <div class="smart-filterCon smart-hie">
+        <div class="smart-filterTitle">Filter clients</div>
+        <div class="smart-serachCon" data-dojo-attach-point="serachCon">
+            <input class="smart-searchBtn" data-dojo-attach-point="searchBtn" placeholder="Search by client name or ID"/>
+            <div class="smart-filterDetail" data-dojo-attach-point="filterDetail"></div>
+        </div>
+        <div class="smart-filterItemCon" data-dojo-attach-point="filterItemCon"></div>
+    </div>
+    <div class="smart-container">
+        <div class="smart-cHead">
+            <div class="smart-cHeadTitle"><span data-dojo-attach-point="clientNum">0</span> clients</div>
+            <div class="smart-cHeadBtn">Add task to SC</div>
+        </div>
+        <div class="smart-tableContainer">
+            <div class="smart-tableHead" data-dojo-attach-point="tableHead"></div>
+            <div class="smart-tableBody" data-dojo-attach-point="tableBody">
+                <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="scrollView"></div>
+            </div>
+        </div>
+    </div>
+    <div class="status-container  smart-hidden" data-dojo-attach-point="loaderContainer">
+        <div class="loaderBtn"></div>
+    </div>
+    <div class="status-container smart-hidden" data-dojo-attach-point="errorContainer">
+        <div class="errorBtn" data-dojo-attach-point="errorBtn"></div>
+        <div>An error has occurred</div>
+    </div>
+</div>

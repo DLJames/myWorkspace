@@ -1,0 +1,159 @@
+{
+    "data": {
+        "headerItems": [
+                    {
+                        "title": "Score",
+                        "classname": "HeadColumn commonColumn sortable desc active showIcon",
+                        "sortable": true,
+                        "sort": "desc",
+                        "flexnum": "1"
+                    },
+                    {
+                        "title": "Reasons for call",
+                        "classname": "HeadColumn commonColumn sortable desc",
+                        "sortable": true,
+                        "sort": "desc",
+                        "flexnum": "1.5"
+                    },
+                    {
+                        "title": "Rank",
+                        "classname": "HeadColumn commonColumn sortable desc",
+                        "sortable": true,
+                        "sort": "desc",
+                        "flexnum": "1"
+                    },
+                    {
+                        "title": "Client",
+                        "classname": "HeadColumn largerColumn",
+                        "sortable": false,
+                        "flexnum": "2"
+                    },
+                    {
+                        "title": "Industry",
+                        "classname": "HeadColumn largerColumn",
+                        "sortable": false,
+                        "flexnum": "2"
+                    },
+                    {
+                        "title": "Contacts",
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
+                        "flexnum": "1"
+                    },
+                    {
+                        "title": "SC Task",
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
+                        "flexnum": "1"
+                    },
+                    {
+                        "title": "All/None",
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
+                        "flexnum": "1"
+                    }
+                ],
+        "clients": [
+            {
+                "score": "5.9",
+                "reasons": "7",
+                "rank": "1",
+                "clientTitle": "Oxfordshire Country ....",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "4.9",
+                "reasons": "6",
+                "rank": "2",
+                "clientTitle": "University of Oxford",
+                "industry": "Education",
+                "contacts": {},
+                "scTask": 1,
+                "option": 1
+            },
+            {
+                "score": "2.9",
+                "reasons": "7",
+                "rank": "3",
+                "clientTitle": "Essex Country council",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 1,
+                "option": 1
+            },
+            {
+                "score": "3.9",
+                "reasons": "5",
+                "rank": "4",
+                "clientTitle": "City & Guilds of London Institute",
+                "industry": "Education",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "5.9",
+                "reasons": "7",
+                "rank": "1",
+                "clientTitle": "Cambridge Accessment",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 1,
+                "option": 1
+            },
+            {
+                "score": "5.9",
+                "reasons": "7",
+                "rank": "1",
+                "clientTitle": "Univercity of East Anglia Biology Department",
+                "industry": "Education",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "5",
+                "reasons": "5",
+                "rank": "1",
+                "clientTitle": "Cardiff Univercity",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "5.9",
+                "reasons": "7",
+                "rank": "1",
+                "clientTitle": "Univercity of Bristol",
+                "industry": "Education",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "5.9",
+                "reasons": "7",
+                "rank": "1",
+                "clientTitle": "Derbyshine Country Council",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            },
+            {
+                "score": "5.3",
+                "reasons": "6",
+                "rank": "1",
+                "clientTitle": "Una test.. ",
+                "industry": "Government, State/Provincial/Local",
+                "contacts": {},
+                "scTask": 0,
+                "option": 0
+            }
+        ]
+    }
+}

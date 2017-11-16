@@ -1,0 +1,68 @@
+.FilterUtil{
+    width: 100%;
+    height: 100%;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+.FilterUtil .smart-filterItem{
+    overflow: hidden;
+    border-bottom: 1px solid #d3d3d3;
+}
+.FilterUtil .smart-filterItem.bodyHide{
+    height: 50px;
+}
+.FilterUtil .smart-filterItem .smart-filterItemHead{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 10px 20px;
+}
+.FilterUtil .smart-filterItem .smart-filterItemHead .smart-filterItemName{
+    width: 80%;
+}
+.FilterUtil .smart-filterItem.bodyHide .smart-filterItemHead .icon-expand-graphic{
+    transform: rotate(0deg);
+}
+.FilterUtil .smart-filterItem .smart-filterItemHead .icon-expand-graphic{
+    font-size: 20px;
+    color: #00B0DA;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+.FilterUtil .smart-filterItem .smart-filterItemBody{
+    padding-left: 30px;
+    min-height: 50px;
+    box-sizing: border-box;
+}
+.FilterUtil .smart-filterItem .smart-filterItemBody .smart-filter-input{
+    
+}
+.FilterUtil .smart-filterItem .smart-filterItemBtn{
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    background-color: #00B0DA;
+    color: #fff;
+    text-align: center;
+    width: 100px;
+    margin: 0 0 20px 30px;
+}
+.FilterUtil .smart-filterItem .smart-filterItemBtn:hover{
+    background-color: #008ABF;
+}
+.FilterUtil .smart-completeTaskCon{
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 10px 20px;
+    border-bottom: 1px solid #d3d3d3;
+}
+.FilterUtil .smart-completeTaskCon .smart-completeTaskBtn input{
+    cursor: pointer;
+}
+.FilterUtil .smart-completeTaskCon > div:nth-child(2){
+    margin-left: 5px;
+    height: 20px;
+}
+
+

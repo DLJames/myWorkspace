@@ -1,0 +1,208 @@
+@import url(../widgets/smartClientList/css/style.css);
+@import url(../widgets/HeadColumn/css/style.css);
+@import url(../widgets/scTaskDetail/css/style.css);
+
+.smartClientContainer{
+    display: box;
+    display:-webkit-box;
+    box-flex:1.0;
+    -moz-box-flex:1.0;
+    -webkit-box-flex:1.0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #fff;
+    border: 1px solid #B3B3B3;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.smartClientContainer .smart-hidden{
+    display: none !important;
+}
+.smartClientContainer .smart-filterCon{
+    width: 20%;
+    border-right: 1px solid #B3B3B3;
+}
+.smartClientContainer .smart-filterCon .smart-filterTitle{
+    height: 69px;
+    line-height: 70px;
+    padding-left: 10px;
+    font-size: 13px;
+    color: #000;
+    border-bottom: 1px solid #d3d3d3;
+}
+.smartClientContainer .smart-filterCon .smart-serachCon{
+    position: relative;
+    padding: 10px 10px 30px 10px;
+    border-bottom: 1px solid #d3d3d3;
+}
+.smartClientContainer .smart-filterCon .smart-serachCon .smart-searchBtn{
+    width: calc(100% - 6px);
+    height: 30px;
+}
+.smartClientContainer .smart-filterCon .smart-serachCon .smart-filterDetail{
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+}
+.smartClientContainer .smart-filterCon .smart-filterItemCon{
+    
+}
+.smartClientContainer .smart-filterCon .smart-filterItemCon .smart-filterItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 10px 20px;
+    border-bottom: 1px solid #d3d3d3;
+}
+.smartClientContainer .smart-filterCon .smart-filterItemCon .smart-filterItem .smart-filterItemName{
+    width: 80%;
+}
+.smartClientContainer .smart-filterCon .smart-filterItemCon .smart-filterItem .icon-expand-graphic{
+    font-size: 20px;
+    color: #00B0DA;
+    cursor: pointer;
+}
+.smartClientContainer .smart-container{
+    box-flex:1.0;
+    -moz-box-flex:1.0;
+    -webkit-box-flex:1.0;
+    display: box;
+    display:-webkit-box;
+    box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+}
+.smartClientContainer .smart-container .smart-cHead{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.smartClientContainer .smart-container .smart-cHead .smart-cHeadBtn{
+    height: 44px;
+    line-height: 44px;
+    padding: 0 15px;
+    color: #fff;
+    background-color: #00B0DA;
+    cursor: pointer;
+}
+.smartClientContainer .smart-container .smart-cHead .smart-cHeadBtn:hover{
+    background-color: #008ABF;
+}
+.smartClientContainer .smart-container .smart-tableContainer{
+    box-flex:1.0;
+    -moz-box-flex:1.0;
+    -webkit-box-flex:1.0;
+    display: box;
+    display:-webkit-box;
+    box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+}
+.smartClientContainer .smart-container .smart-tableContainer .smart-tableHead{
+    width: 100%;
+    height: 40px;
+    color: #fff;
+    background-color: #835ca3;
+    line-height: 40px;
+    display: flex;
+}
+.smartClientContainer .smart-container .smart-tableContainer .smart-tableBody{
+    box-flex:1.0;
+    -moz-box-flex:1.0;
+    -webkit-box-flex:1.0;
+    display: box;
+    display:-webkit-box;
+}
+.smartClientContainer .smart-container .smart-tableContainer .smart-tableBody .wrapper{
+    box-flex:1.0;
+    -moz-box-flex:1.0;
+    -webkit-box-flex:1.0;
+}
+
+
+/*loader, error*/
+.smartClientContainer .status-container{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.smartClientContainer .loaderBtn{
+    width : 35px;
+    height: 35px;
+    background-image : url('../images/loader.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+}
+.smartClientContainer .errorBtn{
+    width : 35px;
+    height: 35px;
+    background-image : url('../images/error.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+    cursor: pointer;
+}
+
+/* scroller bar */
+.smartClientContainer .wrapper {
+    position: relative;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    /* height: 100%; */
+    overflow: hidden;
+}
+.smartClientContainer .scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: inherit;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.smartClientContainer .iScrollVerticalScrollbar{
+    right: 1px !important;
+    background-color: #d3d3d3 !important;
+    width: 4px !important;
+} 
+.smartClientContainer .iScrollIndicator{
+    background: #999999 !important;
+    border: none !important;
+    border-radius: 0px !important;
+}
+
+

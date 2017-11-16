@@ -1,0 +1,72 @@
+.smartClientList{
+    padding: 15px 0;
+    margin: 0 10px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.smartClientList:hover{
+    background-color: #e5e5e5;
+}
+.smartClientList > div.text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.smartClientList > div.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.smartClientList .smartList-score{
+    flex: 0.8;
+    text-align: center;
+}
+.smartClientList .smartList-reasons{
+    flex: 1.5;
+    text-align: center;
+}
+.smartClientList .smartList-rank{
+    flex: 1;
+    text-align: center;
+}
+.smartClientList .smartList-client{
+    flex: 1.9;
+    color: #00B0DA;
+    cursor: pointer;
+    padding-right: 5px;
+}
+.smartClientList .smartList-industry{
+    flex: 1.9;
+}
+.smartClientList .smartList-contacts{
+    flex: 1;
+}
+.smartClientList .smartList-contacts .smart-contact{
+    width: 30px;
+    height: 30px;
+    background-image: url(../images/blue_contacts_graphic.svg);
+    background-size: 40px;
+    background-position: -7px -4px;
+    cursor: pointer;
+}
+.smartClientList .smartList-scTtask{
+    flex: 1;
+}
+.smartClientList .smartList-scTtask .icon-task-selected{
+    font-size: 25px;
+    color: #00B0DA;
+    cursor: pointer;
+}
+.smartClientList .smartList-optionBtn{
+    flex: 0.8;
+}
+.smartClientList .smartList-optionBtn input[type="checkbox"]{
+    cursor: pointer;
+}
+

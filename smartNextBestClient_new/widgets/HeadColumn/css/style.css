@@ -1,0 +1,63 @@
+.HeadColumn{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+.HeadColumn.commonColumn{
+    justify-content: center;
+}
+.HeadColumn.largerColumn{
+    justify-content: flex-start;
+}
+.HeadColumn.active{
+    background: rgba(0, 0, 0, 0.1);
+}
+.HeadColumn > span{
+    cursor: default;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.HeadColumn.sortable,
+.HeadColumn.sortable span
+{
+    cursor: pointer;
+}
+.HeadColumn.sortable:hover{
+    background: rgba(0, 0, 0, 0.1);
+}
+.HeadColumn.sortable.desc:after{
+    position: absolute;
+    right: 0;
+    content: '';
+    width: 20px;
+    height: 20px;
+    visibility: hidden;
+    background-image: url("../images/sort-icon.svg");
+    background-repeat: no-repeat;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+}
+.HeadColumn.sortable.desc.showIcon:after{
+    visibility: visible;
+}
+.HeadColumn.sortable.asc:after{
+    position: absolute;
+    right: 0;
+    content: '';
+    width: 20px;
+    height: 20px;
+    visibility: hidden;
+    background-image: url("../images/sort-icon.svg");
+    background-repeat: no-repeat;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+.HeadColumn.sortable.asc.showIcon:after{
+    visibility: visible;
+}
