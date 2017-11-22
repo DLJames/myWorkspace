@@ -1,0 +1,35 @@
+.FilterDropdownDetail{
+    display: none;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon{
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 5px 15px;
+    cursor: pointer;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon:hover{
+    background-color: #ededee;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon .icon-completed-idle{
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    margin-right: 10px;
+    color: rgba(102, 102, 102, 0);
+}
+.FilterDropdownDetail .smart-filterDetailItemCon .selectMe{
+    font-size: 18px;
+    color: #666666;
+    font-weight: bold;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon .icon-completed-idle:before{
+    box-shadow: 0 -2px 0 #666666 inset, 2px 0 0 #666666 inset, 0 2px 0 #666666 inset, -2px 0 0 #666666 inset;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon .selectMe:before{
+    background-color: #D3D3D3;
+}
+.FilterDropdownDetail .smart-filterDetailItemCon .smart-filterItemName{
+    
+}
+
+

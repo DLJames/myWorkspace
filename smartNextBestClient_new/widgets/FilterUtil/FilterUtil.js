@@ -4,14 +4,15 @@ define([
     'dojo/dom-style',
     'dojo/dom-class',
     'dojo/dom-construct',
+    'dojo/Evented',
     'dojo/text!./template/template.html',
     'comlib/ui/CustomUIWidget',
     '../../proxy/proxy',
     'dijit/form/CheckBox'
     
-], function (declare, on, domStyle, domClass, domConstruct, template, CustomUIWidget, proxy, CheckBox) {    
-    var widget = declare('FilterUtil', [CustomUIWidget], {    
-        baseClass: 'FilterUtil',    
+], function (declare, on, domStyle, domClass, domConstruct, Evented, template, CustomUIWidget, proxy, CheckBox) {    
+    var widget = declare('FilterUtil', [CustomUIWidget, Evented], {
+        baseClass: 'FilterUtil',
         templateString: template,
         constructor: function(data) {
 //            this.data = data;
@@ -19,11 +20,12 @@ define([
         postCreate: function() {    
             this.inherited(arguments);    
             
-            var domNode = this.domNode;
+            var me = this;
             
-            on(this.checkboxBtn, 'click', function() {
-                this.showCompleteTask();
-            }.bind(this));
+            on(me.checkboxBtn, 'click', function() {
+                me.showCompleteTask();
+            });
+            
         },
         
         startup : function() {    
@@ -32,8 +34,14 @@ define([
         },
         
         createView: function() {
+        	this._bindEvent();
+        },
+        
+        _bindEvent: function() {
             var me = this;
             var filterItemHeads = me.domNode.querySelectorAll('.smart-filterItemHead');
+            var filterInputs = me.domNode.querySelectorAll('.smart-filter-input');
+            var filterButtons = me.domNode.querySelectorAll('.smart-filterItemBtn');
             
             filterItemHeads.forEach(function(item){
                 var lastSelectFilter = '';
@@ -44,6 +52,24 @@ define([
                 });
             });
             
+            filterInputs.forEach(function(item) {
+                var filterType = item.getAttribute('filterType');
+                
+                on(item, 'input', function(evt) {
+                    me.controlFilterDetailView(evt, filterType);
+                });
+                
+                on(item, 'click', function(evt) {
+                    me.controlFilterDetailView(evt, filterType);
+                    evt.stopPropagation();
+                });
+            });
+            
+            filterButtons.forEach(function(item) {
+                on(item, 'click', function() {
+                    me.emit('showFilterResult');
+                })
+            });
         },
         
         showFilterItem: function(lastSelectFilter) {
@@ -65,17 +91,24 @@ define([
                 }
             });
             
-            me._resize();
+            me.emit('refreshScroll');
+        },
+        
+        controlFilterDetailView: function(evt, filterType) {
+            var val = evt.target.value.trim();
+            var data = {
+                'show': val ? true : false,
+                'filterType': filterType,
+                'val': val
+            };
+            
+            this.emit('showFilterDetail', data);
         },
         
         showCompleteTask: function() {
             var me = this;
             
 //            proxy.xxx()
-        },
-        
-        _resize: function() {
-            this.parentView._refreshFilterScroll();
         },
         
         _onFocus: function() {    

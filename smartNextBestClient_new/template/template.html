@@ -1,8 +1,16 @@
 <div class="smartClientContainer">
-    <div class="smart-filterCon">
-        <div class="smart-filterTitle">Filter clients</div>
+    <div class="smart-filterCon" data-dojo-attach-point="filterCon">
+        <div class="smart-filterHead" data-dojo-attach-point="filterHead">
+            <div class="smart-filterTitle">Filter clients</div>
+            <div class="smart-filterResult" data-dojo-attach-point="filterResult"></div>
+        </div>
         <div class="smart-filterItemCon" data-dojo-attach-point="filterItemCon">
             <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterScrollView"></div>
+        </div>
+        <div class="smart-filterdetail smart-hidden" data-dojo-attach-point="filterDetail">
+            <div>
+                <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterDeatilScrollView"></div>
+            </div>
         </div>
     </div>
     <div class="smart-container" data-dojo-attach-point="container">
@@ -13,7 +21,7 @@
                     <input class="smart-searchBtn" data-dojo-attach-point="searchBtn" placeholder="Search by client name or ID"/>
                     <div class="smart-searchIcon icon-search-button" data-dojo-attach-point="search_btn"></div>
                     <div class="smart-inputTip icon-delete smart-hidden" data-dojo-attach-point="input_tip"></div>
-                    <div class="smart-filterDetail" data-dojo-attach-point="filterDetail"></div>
+                    <div class="smart-searchDetail" data-dojo-attach-point="searchDetail"></div>
                 </div>
             </div>
             <div class="smart-createTaskBtn smart-hidden" data-dojo-attach-point="createTaskBtn" data-dojo-attach-event="click:createTask">Create task</div>
