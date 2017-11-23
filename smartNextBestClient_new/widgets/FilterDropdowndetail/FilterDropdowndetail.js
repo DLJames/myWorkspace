@@ -13,9 +13,10 @@ define([
     var widget = declare('FilterDropdownDetail', [CustomUIWidget, Evented], {    
         baseClass: 'FilterDropdownDetail',    
         templateString: template,
-        constructor: function(data, filterDetailType) {
+        constructor: function(data, contentType, dataSource) {
             this.data = data;
-            this.filterDetailType = filterDetailType;
+            this.contentType = contentType;
+            this.dataSource = dataSource;
             this.itemCons = [];
             this.selectedItems = [];
         },
@@ -25,7 +26,7 @@ define([
             var me = this;
             
             me.data.forEach(function(item) {
-                if(me.filterDetailType === 'filterOpt') {
+                if(me.contentType === 'filterOpt') {
                     me.createOptView(item);
                 }else {
                     me.createRestView(item);
@@ -35,7 +36,7 @@ define([
         
         createOptView: function(item) {
             var itemCon, itemSel;
-            var data = {'val': item};
+            var data = {'val': this.dataSource + '-' + item};
             
             itemCon = domConstruct.create('div', {'class': 'smart-filterDetailItemCon', 'dataid': item}, this.domNode, 'last');
             itemSel = domConstruct.create('div', {'class': 'icon-completed-idle'}, itemCon, 'last');
@@ -55,8 +56,33 @@ define([
         
         },
         
+        clearData: function(data) {
+            var val = data.val.split('-')[1];
+            var _idx = this.selectedItems.indexOf(val);
+            
+            this.selectedItems.splice(_idx, 1);
+            
+            this.itemCons.forEach(function(item) {
+                var _text = item.getAttribute('dataid');
+                
+                if(_text === val) {
+                    domClass.remove(item.children[0], 'selectMe');
+                }
+            });
+        },
+        
+        clearAllData: function() {
+            var me = this;
+            var items = me.domNode.querySelectorAll('.smart-filterDetailItemCon');
+            
+            me.selectedItems.length = 0;
+            items.forEach(function(item) {
+                domClass.remove(item.children[0], 'selectMe');
+            });
+        },
+        
         _customDataArr: function(data) {
-            var val = data.val;
+            var val = data.val.split('-')[1];
             var _idx = this.selectedItems.indexOf(val);
             
             if(data.customType === 'add' && _idx < 0) {

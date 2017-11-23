@@ -88,8 +88,8 @@ define([
             var clients = JSON.parse(config).data.clients;
             var params = JSON.stringify({
                 city: me.cityDropdown ? me.cityDropdown.selectedItems : [],
-                country: me.regionDropdown ? me.regionDropdown.selectedItems : [],
-                region: me.countryDropdown ? me.countryDropdown.selectedItems : [],
+                region: me.regionDropdown ? me.regionDropdown.selectedItems : [],
+                country: me.countryDropdown ? me.countryDropdown.selectedItems : [],
                 salesPlays: me.salesplayDropdown ? me.salesplayDropdown.selectedItems : [],
                 industry: me.industryDropdown ? me.industryDropdown.selectedItems : [],
                 pageIndex: me.pageNum
@@ -108,11 +108,11 @@ define([
         },
         
         createFilterDetail: function(res) {
-            this.cityDropdown = new FilterDropdowndetail(res.city, 'filterOpt');
-            this.regionDropdown = new FilterDropdowndetail(res.region, 'filterOpt');
-            this.countryDropdown = new FilterDropdowndetail(res.country, 'filterOpt');
-            this.salesplayDropdown = new FilterDropdowndetail(res.salesPlays, 'filterOpt');
-            this.industryDropdown = new FilterDropdowndetail(res.industry, 'filterOpt');
+            this.cityDropdown = new FilterDropdowndetail(res.city, 'filterOpt', 'city');
+            this.regionDropdown = new FilterDropdowndetail(res.region, 'filterOpt', 'region');
+            this.countryDropdown = new FilterDropdowndetail(res.country, 'filterOpt', 'country');
+            this.salesplayDropdown = new FilterDropdowndetail(res.salesPlays, 'filterOpt', 'salesPlays');
+            this.industryDropdown = new FilterDropdowndetail(res.industry, 'filterOpt', 'industry');
             
             this.filterDeatilScrollView.scroll_con.appendChild(this.cityDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.regionDropdown.domNode);
@@ -120,13 +120,21 @@ define([
             this.filterDeatilScrollView.scroll_con.appendChild(this.salesplayDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.industryDropdown.domNode);
             
-            this.dropdownList = [
-               {filterType: 'city', obj: this.cityDropdown},
-               {filterType: 'state', obj: this.regionDropdown},
-               {filterType: 'country', obj: this.countryDropdown},
-               {filterType: 'salesplay', obj: this.salesplayDropdown},
-               {filterType: 'industry', obj: this.industryDropdown}
-           ];
+//            this.dropdownList = [
+//               {filterType: 'city', obj: this.cityDropdown},
+//               {filterType: 'state', obj: this.regionDropdown},
+//               {filterType: 'country', obj: this.countryDropdown},
+//               {filterType: 'salesplay', obj: this.salesplayDropdown},
+//               {filterType: 'industry', obj: this.industryDropdown}
+//           ];
+            
+            this.dropdownList = {
+                'city': this.cityDropdown,
+                'region': this.regionDropdown,
+                'country': this.countryDropdown,
+                'salesPlays': this.salesplayDropdown,
+                'industry': this.industryDropdown
+            };
             
             this.filterUtilEventBind();
             this.filterDetailEventBind();
@@ -147,12 +155,16 @@ define([
             me._refreshClientBodyScroll();
         },
         
+        loadMore: function() {
+        	
+        }
+        
         filterUtilEventBind: function() {
             var me = this;
             
             on(me.filterUtil, 'showFilterDetail', function(data) {
                 if(data.show) {
-                    me.showFilterDetail(data.filterType, data.val);
+                    me.showFilterDetail(data);
                 }else {
                     me.hideFilterDetail();
                 }
@@ -177,22 +189,22 @@ define([
         filterDetailEventBind: function() {
             var me = this;
             
-            me.dropdownList.forEach(function(item) {
-                on(item.obj, 'customFilterResult', function(data) {
+            for(var key in me.dropdownList) {
+                on(me.dropdownList[key], 'customFilterResult', function(data) {
                     me.customFilterResult(data);
                 });
-            });
+            }
         },
         
-        showFilterDetail: function(filterType, val) {
-            this.dropdownList.forEach(function(item) {
-                if(item.filterType === filterType) {
-                    item.obj._filter(val);
-                    domStyle.set(item.obj.domNode, 'display', 'block');
+        showFilterDetail: function(data) {
+            for(var key in this.dropdownList) {
+                if(key === data.filterType) {
+                    this.dropdownList[key]._filter(data.val);
+                    domStyle.set(this.dropdownList[key].domNode, 'display', 'block');
                 }else {
-                    domStyle.set(item.obj.domNode, 'display', 'none');
+                    domStyle.set(this.dropdownList[key].domNode, 'display', 'none');
                 }
-            });
+            }
             domClass.remove(this.filterDetail, 'smart-hidden');
             this._refreshFilterDetailScroll();
         },
@@ -227,14 +239,19 @@ define([
             
             filterTopFive.forEach(function(item) {
                 var resultItem, delBtn;
+                var itemArr = item.split('-');
                 
-                resultItem = domConstruct.create('div', {'class': 'smart-filterResult-item'}, me.filterResult, 'last');
-                domConstruct.create('div', {'class': '', innerHTML: item}, resultItem, 'last');
+                resultItem = domConstruct.create('div', {'class': 'smart-filterResult-item', 'data-source': itemArr[0]}, me.filterResult, 'last');
+                domConstruct.create('div', {'class': '', innerHTML: itemArr[1]}, resultItem, 'last');
                 delBtn = domConstruct.create('div', {'class': 'icon-delete'}, resultItem, 'last');
                 
                 on(delBtn, 'click', function(evt) {
+                    var dataSource = evt.target.parentElement.getAttribute('data-source');
+                    var data = {'val': item, 'customType': 'remove'};
+                    
                     domConstruct.destroy(evt.target.parentElement);
                     me.customFilterResult(data);
+                    me.dropdownList[dataSource].clearData(data);
                     me._refreshFilterScroll();
                     setTimeout(function() {me.requestForClient();}, 0);
                 });
@@ -243,8 +260,7 @@ define([
             clearAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-clearAll icon-delete'}, me.filterResult, 'last');
             
             on(clearAllBtn, 'click', function(evt) {
-                domConstruct.empty(me.filterResult);
-                me._refreshFilterScroll();
+                me.clearAllFilterResult();
                 setTimeout(function() {me.requestForClient();}, 0);
             });
             
@@ -258,6 +274,26 @@ define([
             }
             
             me._refreshFilterScroll();
+        },
+        
+        clearCurrentFilterResult: function() {
+        	
+        },
+        
+        clearAllFilterResult: function() {
+            var me = this;
+            
+            domConstruct.empty(me.filterResult);
+            me._refreshFilterScroll();
+            me.filterResultArray.length = 0;
+            
+//            me.dropdownList.forEach(function(item) {
+//                item.obj.clearAllData();
+//            });
+            
+            for(var key in me.dropdownList) {
+                me.dropdownList[key].clearAllData();
+            }
         },
         
         createNoBadgeView: function() {
