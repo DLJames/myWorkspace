@@ -14,12 +14,15 @@ define([
     './widgets/HeadColumn/HeadColumn',
     './widgets/smartClientList/SmartClientList',
     './widgets/FilterDropdowndetail/FilterDropdowndetail',
-    'dojo/text!./config/config.json'
+    'dojo/text!./config/config.json',
+    'dojo/text!./config/filterDetail.json'
     
-], function(declare, on, fx, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, config) {
+], function(declare, on, fx, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, config, filterDetailJSON) {
     var widget = declare('', [CustomUIWidget], {    
         baseClass: 'smartClientContainer',    
         templateString: template,    
+        filterResultArray: [],
+        pageNum: 0,
         postCreate: function() {    
             this.inherited(arguments);
             
@@ -32,7 +35,7 @@ define([
             on(me.filterDetail, 'click', function(evt) {
                 evt.stopPropagation();
             });
-//            
+            
 //            on(me.errorBtn, 'click', function() {
 //                me.hideError();
 //                setTimeout(function() {
@@ -44,7 +47,9 @@ define([
         startup : function() {    
             this.inherited(arguments);
             this.createTableHead();
-            this.sendRequest();
+            this.createFilterUtil();
+            this.requestForFilter();
+            this.requestForClient();
         },
         
         createTableHead: function() {
@@ -58,30 +63,91 @@ define([
                 me.columnCon.appendChild(headItem.domNode);
                 headItem.startup();
             });
-            
         },
         
-        sendRequest : function() {
-            var me = this;
-            var intranetID = ConsoleService.getCurrentUser().getIntranetId();
-            var clients = JSON.parse(config).data.clients;
-            
-            me.clientNum.innerHTML = clients.length;
-            me.createFilterItem();
-            me.createFilterDetail();
-            me.createClientBody(clients);
-        },
-        
-        createFilterItem: function() {
+        createFilterUtil: function() {
             var filterUtil = this.filterUtil = new FilterUtil();
             
-            filterUtil.parentView = this;
             this.filterScrollView.scroll_con.appendChild(filterUtil.domNode);
-            this.filterEventBind();
             filterUtil.startup();
         },
         
-        filterEventBind: function() {
+        requestForFilter : function() {
+            var me = this;
+            var intranetID = ConsoleService.getCurrentUser().getIntranetId();
+            var res = JSON.parse(filterDetailJSON).data;
+            
+//            var xxx = proxy.xxx();
+            
+            me.createFilterDetail(res);
+        },
+        
+        requestForClient: function() {
+            var me = this;
+            var intranetID = ConsoleService.getCurrentUser().getIntranetId();
+            var clients = JSON.parse(config).data.clients;
+            var params = JSON.stringify({
+                city: me.cityDropdown ? me.cityDropdown.selectedItems : [],
+                country: me.regionDropdown ? me.regionDropdown.selectedItems : [],
+                region: me.countryDropdown ? me.countryDropdown.selectedItems : [],
+                salesPlays: me.salesplayDropdown ? me.salesplayDropdown.selectedItems : [],
+                industry: me.industryDropdown ? me.industryDropdown.selectedItems : [],
+                pageIndex: me.pageNum
+            });
+            
+            console.log('filter====',params);
+            
+//          var yyy = proxy.yyy();
+          
+            me.showLoader();
+            setTimeout(function() {
+                me.hideLoader();
+                me.clientNum.innerHTML = clients.length;
+                me.createClientEntity(clients);
+            }, 2000);
+        },
+        
+        createFilterDetail: function(res) {
+            this.cityDropdown = new FilterDropdowndetail(res.city, 'filterOpt');
+            this.regionDropdown = new FilterDropdowndetail(res.region, 'filterOpt');
+            this.countryDropdown = new FilterDropdowndetail(res.country, 'filterOpt');
+            this.salesplayDropdown = new FilterDropdowndetail(res.salesPlays, 'filterOpt');
+            this.industryDropdown = new FilterDropdowndetail(res.industry, 'filterOpt');
+            
+            this.filterDeatilScrollView.scroll_con.appendChild(this.cityDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.regionDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.countryDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.salesplayDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.industryDropdown.domNode);
+            
+            this.dropdownList = [
+               {filterType: 'city', obj: this.cityDropdown},
+               {filterType: 'state', obj: this.regionDropdown},
+               {filterType: 'country', obj: this.countryDropdown},
+               {filterType: 'salesplay', obj: this.salesplayDropdown},
+               {filterType: 'industry', obj: this.industryDropdown}
+           ];
+            
+            this.filterUtilEventBind();
+            this.filterDetailEventBind();
+        },
+        
+        createClientEntity: function(clients) {
+            var me = this;
+            
+            clients.forEach(function(item) {
+                var smartClientList;
+                
+                smartClientList = new SmartClientList(item);
+                smartClientList.parentView = me;
+                me.bodyScrollView.scroll_con.appendChild(smartClientList.domNode);
+                smartClientList.startup();
+            });
+            
+            me._refreshClientBodyScroll();
+        },
+        
+        filterUtilEventBind: function() {
             var me = this;
             
             on(me.filterUtil, 'showFilterDetail', function(data) {
@@ -104,39 +170,8 @@ define([
             
             on(me.filterUtil, 'showFilterResult', function() {
                 me.showFilterResult();
+                me.requestForClient();
             });
-            
-        },
-        
-        createFilterDetail: function() {
-            var me = this;
-            var city = ['PARIS', 'Stabio', 'Linz', 'OOSTRUM', 'KEMPELE', 'Memmingen', 'Bielefeld'];
-            var state = ['France', 'DACH', 'BeNeLux', 'Nordic', 'UKI', 'CEE', 'Italy', 'SPGI'];
-            var country = ['France', 'Switzerland', 'Austria', 'Netherlands', 'Germany', 'United Kingdom','Italy','Finland','Spain','Switzerland','Denmark','Czech Republic','Finland','Netherlands','Poland','Sweden','Austria','Finland'];
-            var salesplay = ['SMARTSP-Power_SCO', 'SMARTSP-Tivoli_Refresh', 'SMARTSP-Spectrum_Anniversary', 'SMARTSP-MSP/CSP'];
-            var industry = ['Computer Service', 'Printing & Publishing', 'DP Education', 'Consumer Products', 'Consumer Products', 'Wholesale Distribution & Services', 'Life Sciences', 'Wholesale Distribution & Services'];
-            
-            me.cityDropdown = new FilterDropdowndetail(city);
-            me.stateDropdown = new FilterDropdowndetail(state);
-            me.countryDropdown = new FilterDropdowndetail(country);
-            me.salesplayDropdown = new FilterDropdowndetail(salesplay);
-            me.industryDropdown = new FilterDropdowndetail(industry);
-            
-            me.filterDeatilScrollView.scroll_con.appendChild(me.cityDropdown.domNode);
-            me.filterDeatilScrollView.scroll_con.appendChild(me.stateDropdown.domNode);
-            me.filterDeatilScrollView.scroll_con.appendChild(me.countryDropdown.domNode);
-            me.filterDeatilScrollView.scroll_con.appendChild(me.salesplayDropdown.domNode);
-            me.filterDeatilScrollView.scroll_con.appendChild(me.industryDropdown.domNode);
-            
-            me.dropdownList = [
-               {filterType: 'city', obj: me.cityDropdown},
-               {filterType: 'state', obj: me.stateDropdown},
-               {filterType: 'country', obj: me.countryDropdown},
-               {filterType: 'salesplay', obj: me.salesplayDropdown},
-               {filterType: 'industry', obj: me.industryDropdown}
-           ]
-            
-            me.filterDetailEventBind();
         },
         
         filterDetailEventBind: function() {
@@ -147,65 +182,6 @@ define([
                     me.customFilterResult(data);
                 });
             });
-        },
-        
-        customFilterResult: function(data) {
-            if(!this.filterResultArray) {
-                this.filterResultArray = [];
-            }
-            
-            if(!this.filterResultArray.length) {
-                this.filterResultArray.push(data.val);
-                return;
-            }
-            var _idx = this.filterResultArray.indexOf(data.val)
-            
-            if(data.customType === 'add' && _idx< 0) {
-                this.filterResultArray.push(data.val);
-                console.log('arr===', this.filterResultArray)
-                return;
-            }
-            
-            if(data.customType === 'remove' && _idx >= 0) {
-                this.filterResultArray.splice(_idx, 1);
-                console.log('arr===', this.filterResultArray)
-                return;
-            }
-            
-        },
-        
-        createClientBody: function(clients) {
-            var me = this;
-            
-            me.showLoader();
-            
-            setTimeout(function() {
-            	me.hideLoader();
-            	clients.forEach(function(client) {
-                    var smartClientList = new SmartClientList(client);
-                    
-                    smartClientList.parentView = me;
-                    me.scrollView.scroll_con.appendChild(smartClientList.domNode);
-                    smartClientList.startup();
-                });
-            	me.scrollView.resize();
-            }, 2000);
-            
-        },
-        
-        createNoBadgeView: function() {
-            domConstruct.create('div', {
-                'class': 'mb-noBadgeCon',
-                innerHTML: 'You don\'t have any clients available for now.'
-            }, this.domNode, 'last');
-        },
-        
-        getFilterDetail: function() {
-        	
-        },
-        
-        createTask: function() {
-        	
         },
         
         showFilterDetail: function(filterType, val) {
@@ -225,13 +201,31 @@ define([
             domClass.add(this.filterDetail, 'smart-hidden');
         },
         
+        customFilterResult: function(data) {
+            var _idx = this.filterResultArray.indexOf(data.val);
+            
+            if(data.customType === 'add' && _idx < 0) {
+                this.filterResultArray.push(data.val);
+                console.log('arr===', this.filterResultArray)
+            }
+            
+            if(data.customType === 'remove' && _idx >= 0) {
+                this.filterResultArray.splice(_idx, 1);
+                console.log('arr===', this.filterResultArray)
+            }
+            
+        },
+        
         showFilterResult: function() {
             var me = this;
-            var clearAllBtn;
+            var clearAllBtn, viewAllBtn;
+            var filterTopFive = me.filterResultArray.slice(0, 5) || [];
+            var filterRest = me.filterResultArray.slice(5) || [];
             
             domConstruct.empty(me.filterResult);
+            domConstruct.empty(me.bodyScrollView.scroll_con);
             
-            me.filterResultArray.forEach(function(item) {
+            filterTopFive.forEach(function(item) {
                 var resultItem, delBtn;
                 
                 resultItem = domConstruct.create('div', {'class': 'smart-filterResult-item'}, me.filterResult, 'last');
@@ -241,14 +235,44 @@ define([
                 on(delBtn, 'click', function(evt) {
                     domConstruct.destroy(evt.target.parentElement);
                     me.customFilterResult(data);
+                    me._refreshFilterScroll();
+                    setTimeout(function() {me.requestForClient();}, 0);
                 });
             });
             
-//            clearAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-clearAll icon-delete'}, me.filterResult, 'last');
-//            
-//            on(clearAllBtn, 'click', function(evt) {
-//                domConstruct.empty(me.filterResult);
-//            });
+            clearAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-clearAll icon-delete'}, me.filterResult, 'last');
+            
+            on(clearAllBtn, 'click', function(evt) {
+                domConstruct.empty(me.filterResult);
+                me._refreshFilterScroll();
+                setTimeout(function() {me.requestForClient();}, 0);
+            });
+            
+            if(filterRest.length) {
+                viewAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-viewAll', innerHTML: 'View all ...'}, me.filterResult, 'last');
+                on(viewAllBtn, 'click', function(evt) {
+                    
+                });
+//                me.filterRestDropdown = new FilterDropdowndetail(filterRest, 'filterRest');
+//                me.filterDeatilScrollView.scroll_con.appendChild(me.cityDropdown.domNode);
+            }
+            
+            me._refreshFilterScroll();
+        },
+        
+        createNoBadgeView: function() {
+            domConstruct.create('div', {
+                'class': 'mb-noBadgeCon',
+                innerHTML: 'You don\'t have any clients available for now.'
+            }, this.domNode, 'last');
+        },
+        
+        getFilterDetail: function() {
+        	
+        },
+        
+        createTask: function() {
+        	
         },
         
         _refreshFilterScroll: function() {
@@ -257,6 +281,10 @@ define([
         
         _refreshFilterDetailScroll: function() {
             this.filterDeatilScrollView.resize();
+        },
+        
+        _refreshClientBodyScroll: function() {
+            this.bodyScrollView.resize();
         },
         
         showCreateTaskBtn: function() {

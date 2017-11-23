@@ -64,12 +64,24 @@
     text-overflow: ellipsis;
     flex: 1;
 }
-.smartClientContainer .smart-filterCon .smart-filterHead .smart-filterResult .smart-filterResult-item .icon-delete{
+.smartClientContainer .smart-filterCon .smart-filterHead .smart-filterResult .icon-delete{
     cursor: pointer;
     line-height: 30px;
     font-size: 20px;
     color: #00b0da;
     width: 30px;
+}
+.smartClientContainer .smart-filterCon .smart-filterHead .smart-filterResult .smart-clearAll{
+    position: absolute;
+    width: 25px;
+    top: 0;
+    right: 10px;
+    line-height: 75px;
+    font-size: 30px;
+}
+.smartClientContainer .smart-filterCon .smart-filterHead .smart-filterResult .smart-viewAll{
+    cursor: pointer;
+    color: #00b0da;
 }
 .smartClientContainer .smart-filterCon .smart-filterItemCon{
     width: 100%;

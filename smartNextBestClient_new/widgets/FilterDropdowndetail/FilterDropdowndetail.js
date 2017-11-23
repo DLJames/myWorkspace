@@ -13,9 +13,11 @@ define([
     var widget = declare('FilterDropdownDetail', [CustomUIWidget, Evented], {    
         baseClass: 'FilterDropdownDetail',    
         templateString: template,
-        constructor: function(data) {
+        constructor: function(data, filterDetailType) {
             this.data = data;
+            this.filterDetailType = filterDetailType;
             this.itemCons = [];
+            this.selectedItems = [];
         },
         postCreate: function() {
             this.inherited(arguments);
@@ -23,11 +25,15 @@ define([
             var me = this;
             
             me.data.forEach(function(item) {
-                me.createView(item);
+                if(me.filterDetailType === 'filterOpt') {
+                    me.createOptView(item);
+                }else {
+                    me.createRestView(item);
+                }
             });
         },
         
-        createView: function(item) {
+        createOptView: function(item) {
             var itemCon, itemSel;
             var data = {'val': item};
             
@@ -38,10 +44,30 @@ define([
             on(itemCon, 'click', function(evt) {
                 domClass.toggle(itemSel, 'selectMe');
                 data.customType = domClass.contains(itemSel, 'selectMe') ? 'add' : 'remove';
+                this._customDataArr(data);
                 this.emit('customFilterResult', data);
             }.bind(this));
             
             this.itemCons.push(itemCon);
+        },
+        
+        createRestView: function() {
+        
+        },
+        
+        _customDataArr: function(data) {
+            var val = data.val;
+            var _idx = this.selectedItems.indexOf(val);
+            
+            if(data.customType === 'add' && _idx < 0) {
+                this.selectedItems.push(val);
+                console.log('arr2===', this.selectedItems)
+            }
+            
+            if(data.customType === 'remove' && _idx >= 0) {
+                this.selectedItems.splice(_idx, 1);
+                console.log('arr2===', this.selectedItems)
+            }
         },
         
         _filter: function(val) {
