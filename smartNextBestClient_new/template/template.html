@@ -2,10 +2,18 @@
     <div class="smart-filterCon" data-dojo-attach-point="filterCon">
         <div class="smart-filterHead" data-dojo-attach-point="filterHead">
             <div class="smart-filterTitle">Filter clients</div>
-            <div class="smart-filterResult" data-dojo-attach-point="filterResult"></div>
+            <div class="smart-filterResult" data-dojo-attach-point="filterResult">
+                <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterResultScrollView"></div>
+                <div class="smart-filterResult-item smart-clearAll smart-hidden icon-delete" data-dojo-attach-point="clearAllBtn"></div>
+            </div>
         </div>
         <div class="smart-filterItemCon" data-dojo-attach-point="filterItemCon">
-            <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterScrollView"></div>
+            <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterScrollView">
+                <div class="smart-completeTaskCon">
+                    <div class="smart-completeTaskBtn" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="completedBtn"></div>
+                    <div>show completed tasks</div>
+                </div>
+            </div>
         </div>
         <div class="smart-filterdetail smart-hidden" data-dojo-attach-point="filterDetail">
             <div>
@@ -19,9 +27,9 @@
                 <div class="smart-cHeadTitle"><span data-dojo-attach-point="clientNum">0</span> clients</div>
                 <div class="smart-serachCon" data-dojo-attach-point="serachCon">
                     <input class="smart-searchBtn" data-dojo-attach-point="searchBtn" placeholder="Search by client name or ID"/>
-                    <div class="smart-searchIcon icon-search-button" data-dojo-attach-point="search_btn"></div>
-                    <div class="smart-inputTip icon-delete smart-hidden" data-dojo-attach-point="input_tip"></div>
-                    <div class="smart-searchDetail" data-dojo-attach-point="searchDetail"></div>
+                    <div class="smart-searchIcon icon-search-button" data-dojo-attach-point="searchIcon"></div>
+                    <div class="smart-inputTip icon-delete smart-hidden" data-dojo-attach-point="inputTip"></div>
+                    <!-- <div class="smart-searchDetail" data-dojo-attach-point="searchDetail"></div> -->
                 </div>
             </div>
             <div class="smart-createTaskBtn smart-hidden" data-dojo-attach-point="createTaskBtn" data-dojo-attach-event="click:createTask">Create task</div>
@@ -33,6 +41,11 @@
             </div>
             <div class="smart-tableBody" data-dojo-attach-point="tableBody">
                 <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="bodyScrollView"></div>
+            </div>
+            <div class="paging-container">
+                <div class="prevBtn prevBtnDisabled icon-expand-graphic" data-dojo-attach-point="prevBtn"></div>
+                <div class="paging-label">Page <span data-dojo-attach-point="currentPage">0</span> of <span data-dojo-attach-point="totalPage">0</span></div>
+                <div class="nextBtn nextBtnDisabled icon-expand-graphic" data-dojo-attach-point="nextBtn"></div>
             </div>
             <div class="status-container" data-dojo-attach-point="loaderContainer">
                 <div class="loaderBtn"></div>

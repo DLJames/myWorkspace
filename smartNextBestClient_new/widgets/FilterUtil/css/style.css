@@ -67,7 +67,7 @@
 .FilterUtil .smart-filterItem .smart-filterItemBtn:hover{
     background-color: #008ABF;
 }
-.FilterUtil .smart-completeTaskCon{
+/* .FilterUtil .smart-completeTaskCon{
     display: flex;
     align-items: center;
     padding: 10px 10px 10px 20px;
@@ -79,7 +79,7 @@
 .FilterUtil .smart-completeTaskCon > div:nth-child(2){
     margin-left: 5px;
     height: 20px;
-}
+} */
 
 
 

@@ -5,29 +5,29 @@
                         "title": "Select",
                         "classname": "HeadColumn commonColumn",
                         "sortable": false,
-                        "flexnum": "1.5",
+                        "flexnum": "1",
                         "width": "8%"
                     },
                     {
                         "title": "Rank",
-                        "classname": "HeadColumn commonColumn sortable desc",
-                        "sortable": true,
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
                         "sort": "desc",
                         "flexnum": "1",
                         "width": "8%"
                     },
                     {
                         "title": "Score",
-                        "classname": "HeadColumn commonColumn sortable desc",
-                        "sortable": true,
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
                         "sort": "desc",
                         "flexnum": "1",
                         "width": "8%"
                     },
                     {
                         "title": "Reasons for call",
-                        "classname": "HeadColumn commonColumn sortable desc",
-                        "sortable": true,
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
                         "sort": "desc",
                         "flexnum": "1.5",
                         "width": "14%"
@@ -47,20 +47,20 @@
                         "width": "23%"
                     },
                     {
-                        "title": "Contacts",
+                        "title": "Tasks",
                         "classname": "HeadColumn commonColumn",
                         "sortable": false,
                         "flexnum": "1",
                         "width": "8%"
-                    },
-                    {
-                        "title": "Tasks",
-                        "classname": "HeadColumn commonColumn",
-                        "sortable": false,
-                        "flexnum": "1.5",
-                        "width": "8%"
                     }
                 ],
+        "temp": {
+            "title": "Contacts",
+            "classname": "HeadColumn commonColumn",
+            "sortable": false,
+            "flexnum": "1",
+            "width": "8%"
+            },
         "clients": [
             {
                 "hasTask": false,

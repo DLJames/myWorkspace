@@ -19,32 +19,32 @@ define([
             
             var domNode = this.domNode;
             
-            on(domNode, 'mouseover', function() {
-                if(domNode.getAttribute('data-column') === '0') return;
-                if(this.data.sortable) {
-                    domClass.add(domNode, 'showIcon');
-                    domClass.add(domNode, 'active');
-                }
-            }.bind(this));
-            
-            on(domNode, 'mouseleave', function() {
-                if(domNode.getAttribute('data-column') === '0') return;
-                if(this.data.sortable) {
-                    domClass.remove(domNode, 'showIcon');
-                    domClass.remove(domNode, 'active');
-                }
-            }.bind(this));
-            
-            on(domNode, 'click', function() {
-                if(!this.data.sortable) return;
-                if(this.data.sort === 'desc') {
-                    domClass.replace(domNode, 'asc', 'desc');
-                    this.data.sort = 'asc';
-                }else {
-                    domClass.replace(domNode, 'desc', 'asc');
-                    this.data.sort = 'desc';
-                }
-            }.bind(this));
+//            on(domNode, 'mouseover', function() {
+//                if(domNode.getAttribute('data-column') === '0') return;
+//                if(this.data.sortable) {
+//                    domClass.add(domNode, 'showIcon');
+//                    domClass.add(domNode, 'active');
+//                }
+//            }.bind(this));
+//            
+//            on(domNode, 'mouseleave', function() {
+//                if(domNode.getAttribute('data-column') === '0') return;
+//                if(this.data.sortable) {
+//                    domClass.remove(domNode, 'showIcon');
+//                    domClass.remove(domNode, 'active');
+//                }
+//            }.bind(this));
+//            
+//            on(domNode, 'click', function() {
+//                if(!this.data.sortable) return;
+//                if(this.data.sort === 'desc') {
+//                    domClass.replace(domNode, 'asc', 'desc');
+//                    this.data.sort = 'asc';
+//                }else {
+//                    domClass.replace(domNode, 'desc', 'asc');
+//                    this.data.sort = 'desc';
+//                }
+//            }.bind(this));
         },    
             
         startup: function() {    
@@ -59,8 +59,8 @@ define([
             if(this.data.subTitle) {
                 domConstruct.create('span', {'class': 'head-subname', innerHTML: this.data.subTitle}, this.domNode, 'last');
             }
-            domStyle.set(this.domNode, 'width', this.data.width);
-//            domStyle.set(this.domNode, 'flex', this.data.flexnum);
+//            domStyle.set(this.domNode, 'width', this.data.width);
+            domStyle.set(this.domNode, 'flex', this.data.flexnum);
         },
         
         _onFocus: function() {    

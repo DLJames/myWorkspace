@@ -5,23 +5,23 @@
             <div class="icon-expand-graphic"></div>
         </div>
         <div class="smart-filterItemBody">
-            <input class="smart-filter-input" filterType="city" placeholder="Enter city" data-dojo-attach-point="cityInput">
+            <input class="smart-filter-input" data-source="city" placeholder="Enter city" data-dojo-attach-point="cityInput">
         </div>
         <div class="smart-filterItemBody">
-            <input class="smart-filter-input" filterType="region" placeholder="State or province" data-dojo-attach-point="stateInput">
+            <input class="smart-filter-input" data-source="region" placeholder="State or province" data-dojo-attach-point="stateInput">
         </div>
         <div class="smart-filterItemBody">
-            <input class="smart-filter-input" filterType="country" placeholder="Country" data-dojo-attach-point="countryInput">
+            <input class="smart-filter-input" data-source="country" placeholder="Country" data-dojo-attach-point="countryInput">
         </div>
         <div class="smart-filterItemBtn" data-dojo-attach-point="locationDone">DONE</div>
     </div>
-    <div class="smart-filterItem bodyHide" data-filter-type="salesPlay">
+    <div class="smart-filterItem bodyHide" data-filter-type="salesPlays">
         <div class="smart-filterItemHead">
             <div class="smart-filterItemName">Sales plays</div>
             <div class="icon-expand-graphic"></div>
         </div>
         <div class="smart-filterItemBody">
-            <input class="smart-filter-input" filterType="salesPlays" placeholder="Enter an sales play" data-dojo-attach-point="spInput">
+            <input class="smart-filter-input" data-source="salesPlays" placeholder="Enter an sales play" data-dojo-attach-point="spInput">
         </div>
         <div class="smart-filterItemBtn" data-dojo-attach-point="spDone">DONE</div>
     </div>
@@ -31,12 +31,8 @@
             <div class="icon-expand-graphic"></div>
         </div>
         <div class="smart-filterItemBody">
-            <input class="smart-filter-input" filterType="industry" placeholder="Enter an industry" data-dojo-attach-point="industryInput">
+            <input class="smart-filter-input" data-source="industry" placeholder="Enter an industry" data-dojo-attach-point="industryInput">
         </div>
         <div class="smart-filterItemBtn" data-dojo-attach-point="industryDone">DONE</div>
-    </div>
-    <div class="smart-completeTaskCon">
-        <div class="smart-completeTaskBtn" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="checkboxBtn"></div>
-        <div>show completed tasks</div>
     </div>
 </div>

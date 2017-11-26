@@ -22,15 +22,16 @@ define([
             
             var me = this;
             
-            on(me.checkboxBtn, 'click', function() {
-                me.showCompleteTask();
-            });
+//            on(me.checkboxBtn, 'click', function() {
+//                me.showCompleteTask();
+//            });
             
         },
         
         startup : function() {    
             this.inherited(arguments);
             this.createView();
+            
         },
         
         createView: function() {
@@ -53,21 +54,31 @@ define([
             });
             
             filterInputs.forEach(function(item) {
-                var filterType = item.getAttribute('filterType');
+                var dataSource = item.getAttribute('data-source');
                 
                 on(item, 'input', function(evt) {
-                    me.controlFilterDetailView(evt, filterType);
+                    me.controlFilterDetailView(evt, dataSource);
                 });
                 
                 on(item, 'click', function(evt) {
-                    me.controlFilterDetailView(evt, filterType);
+                    me.controlFilterDetailView(evt, dataSource);
                     evt.stopPropagation();
                 });
             });
             
             filterButtons.forEach(function(item) {
-                on(item, 'click', function() {
-                    me.emit('showFilterResult');
+                on(item, 'click', function(evt) {
+                    var _parentElement = evt.target.parentElement;
+                    var _data = {
+                        'filterType': _parentElement.getAttribute('data-filter-type')
+                    };
+                    var _inputArr = _parentElement.querySelectorAll('.smart-filter-input');
+                    
+                    _inputArr.forEach(function(item) {
+                        item.value = '';
+                    });
+                    
+                    me.emit('showFilterResult', _data);
                 })
             });
         },
@@ -94,21 +105,15 @@ define([
             me.emit('refreshScroll');
         },
         
-        controlFilterDetailView: function(evt, filterType) {
+        controlFilterDetailView: function(evt, dataSource) {
             var val = evt.target.value.trim();
             var data = {
                 'show': val ? true : false,
-                'filterType': filterType,
+                'dataSource': dataSource,
                 'val': val
             };
             
             this.emit('showFilterDetail', data);
-        },
-        
-        showCompleteTask: function() {
-            var me = this;
-            
-//            proxy.xxx()
         },
         
         _onFocus: function() {    

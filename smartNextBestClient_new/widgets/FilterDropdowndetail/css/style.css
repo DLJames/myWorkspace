@@ -31,5 +31,9 @@
 .FilterDropdownDetail .smart-filterDetailItemCon .smart-filterItemName{
     
 }
+.FilterDropdownDetail .smart-filterDetailItemNone{
+    padding: 10px;
+    text-align: center;
+}
 
 

@@ -23,17 +23,37 @@ define([
         templateString: template,    
         filterResultArray: [],
         pageNum: 0,
+        isLoadMore: false,
+        showCompletedTask: false,
         postCreate: function() {    
             this.inherited(arguments);
             
             var me = this;
             
             on(me.searchBtn, 'input', function() {
-                me.getSearchDetail();
+                me.checkInputVal();
+            });
+            
+            on(me.searchIcon, 'click', function() {
+                setTimeout(function() {me.requestForClient();}, 0);
+                me.emptyInput();
+            });
+            
+            on(me.inputTip, 'click', function() {
+                me.emptyInput();
+            });
+            
+            on(me.clearAllBtn, 'click', function(evt) {
+                me.clearAllFilterResult(evt);
+                setTimeout(function() {me.requestForClient();}, 0);
             });
             
             on(me.filterDetail, 'click', function(evt) {
                 evt.stopPropagation();
+            });
+            
+            on(me.completedBtn, 'click', function() {
+                me.showCompletedTask();
             });
             
 //            on(me.errorBtn, 'click', function() {
@@ -68,7 +88,8 @@ define([
         createFilterUtil: function() {
             var filterUtil = this.filterUtil = new FilterUtil();
             
-            this.filterScrollView.scroll_con.appendChild(filterUtil.domNode);
+//            this.filterScrollView.scroll_con.appendChild(filterUtil.domNode);
+            domConstruct.place(filterUtil.domNode, this.filterScrollView.scroll_con, 'first');
             filterUtil.startup();
         },
         
@@ -87,12 +108,14 @@ define([
             var intranetID = ConsoleService.getCurrentUser().getIntranetId();
             var clients = JSON.parse(config).data.clients;
             var params = JSON.stringify({
-                city: me.cityDropdown ? me.cityDropdown.selectedItems : [],
-                region: me.regionDropdown ? me.regionDropdown.selectedItems : [],
-                country: me.countryDropdown ? me.countryDropdown.selectedItems : [],
-                salesPlays: me.salesplayDropdown ? me.salesplayDropdown.selectedItems : [],
-                industry: me.industryDropdown ? me.industryDropdown.selectedItems : [],
-                pageIndex: me.pageNum
+                city: me.cityDropdown ? me.cityDropdown.getSelectedItemsFinal() : [],
+                region: me.regionDropdown ? me.regionDropdown.getSelectedItemsFinal() : [],
+                country: me.countryDropdown ? me.countryDropdown.getSelectedItemsFinal() : [],
+                salesPlays: me.salesplayDropdown ? me.salesplayDropdown.getSelectedItemsFinal() : [],
+                industry: me.industryDropdown ? me.industryDropdown.getSelectedItemsFinal() : [],
+                bookmark: me.pageNum,
+                showSelectTask: false,
+                clientName: me.searchBtn.value
             });
             
             console.log('filter====',params);
@@ -108,25 +131,17 @@ define([
         },
         
         createFilterDetail: function(res) {
-            this.cityDropdown = new FilterDropdowndetail(res.city, 'filterOpt', 'city');
-            this.regionDropdown = new FilterDropdowndetail(res.region, 'filterOpt', 'region');
-            this.countryDropdown = new FilterDropdowndetail(res.country, 'filterOpt', 'country');
-            this.salesplayDropdown = new FilterDropdowndetail(res.salesPlays, 'filterOpt', 'salesPlays');
-            this.industryDropdown = new FilterDropdowndetail(res.industry, 'filterOpt', 'industry');
+            this.cityDropdown = new FilterDropdowndetail(res.city, 'city', 'location');
+            this.regionDropdown = new FilterDropdowndetail(res.region, 'region', 'location');
+            this.countryDropdown = new FilterDropdowndetail(res.country, 'country', 'location');
+            this.salesplayDropdown = new FilterDropdowndetail(res.salesPlays, 'salesPlays', 'salesPlays');
+            this.industryDropdown = new FilterDropdowndetail(res.industry, 'industry', 'industry');
             
             this.filterDeatilScrollView.scroll_con.appendChild(this.cityDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.regionDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.countryDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.salesplayDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.industryDropdown.domNode);
-            
-//            this.dropdownList = [
-//               {filterType: 'city', obj: this.cityDropdown},
-//               {filterType: 'state', obj: this.regionDropdown},
-//               {filterType: 'country', obj: this.countryDropdown},
-//               {filterType: 'salesplay', obj: this.salesplayDropdown},
-//               {filterType: 'industry', obj: this.industryDropdown}
-//           ];
             
             this.dropdownList = {
                 'city': this.cityDropdown,
@@ -137,7 +152,7 @@ define([
             };
             
             this.filterUtilEventBind();
-            this.filterDetailEventBind();
+//            this.filterDetailEventBind();
         },
         
         createClientEntity: function(clients) {
@@ -154,10 +169,6 @@ define([
             
             me._refreshClientBodyScroll();
         },
-        
-        loadMore: function() {
-        	
-        }
         
         filterUtilEventBind: function() {
             var me = this;
@@ -180,25 +191,25 @@ define([
                 me._refreshFilterScroll();
             });
             
-            on(me.filterUtil, 'showFilterResult', function() {
-                me.showFilterResult();
+            on(me.filterUtil, 'showFilterResult', function(data) {
+                me.showFilterResult(data);
                 me.requestForClient();
             });
         },
         
-        filterDetailEventBind: function() {
-            var me = this;
-            
-            for(var key in me.dropdownList) {
-                on(me.dropdownList[key], 'customFilterResult', function(data) {
-                    me.customFilterResult(data);
-                });
-            }
-        },
+//        filterDetailEventBind: function() {
+//            var me = this;
+//            
+//            for(var key in me.dropdownList) {
+//                on(me.dropdownList[key], 'customFilterResult', function(data) {
+//                    me.customFilterResult(data);
+//                });
+//            }
+//        },
         
         showFilterDetail: function(data) {
             for(var key in this.dropdownList) {
-                if(key === data.filterType) {
+                if(key === data.dataSource) {
                     this.dropdownList[key]._filter(data.val);
                     domStyle.set(this.dropdownList[key].domNode, 'display', 'block');
                 }else {
@@ -213,87 +224,97 @@ define([
             domClass.add(this.filterDetail, 'smart-hidden');
         },
         
-        customFilterResult: function(data) {
-            var _idx = this.filterResultArray.indexOf(data.val);
-            
-            if(data.customType === 'add' && _idx < 0) {
-                this.filterResultArray.push(data.val);
-                console.log('arr===', this.filterResultArray)
-            }
-            
-            if(data.customType === 'remove' && _idx >= 0) {
-                this.filterResultArray.splice(_idx, 1);
-                console.log('arr===', this.filterResultArray)
-            }
-            
-        },
-        
-        showFilterResult: function() {
+        showFilterResult: function(data) {
             var me = this;
-            var clearAllBtn, viewAllBtn;
-            var filterTopFive = me.filterResultArray.slice(0, 5) || [];
-            var filterRest = me.filterResultArray.slice(5) || [];
+            var clearAllBtn, _height = 0;
             
-            domConstruct.empty(me.filterResult);
+            domConstruct.empty(me.filterResultScrollView.scroll_con);
             domConstruct.empty(me.bodyScrollView.scroll_con);
+            domClass.add(me.clearAllBtn, 'smart-hidden');
             
-            filterTopFive.forEach(function(item) {
+            for(var key in me.dropdownList) {
+                var currentDropdown = me.dropdownList[key];
+                if(currentDropdown.filterType === data.filterType) {
+                    currentDropdown.updateSelectedItem();
+                    
+                    me.filterResultArray.forEach(function(item, idx) {
+                        if(currentDropdown.selectedItemsFinal.indexOf(item) < 0 && item.split('##')[0] === key) {
+                            me.filterResultArray.splic(idx, 1);
+                        }
+                    });
+                    
+                    currentDropdown.selectedItemsFinal.forEach(function(item) {
+                        if(me.filterResultArray.indexOf(item) < 0) {
+                            me.filterResultArray.push(item);
+                        }
+                    });
+                }
+            }
+            
+            me.filterResultArray.forEach(function(item, idx) {
                 var resultItem, delBtn;
-                var itemArr = item.split('-');
+                var itemArr = item.split('##');
                 
-                resultItem = domConstruct.create('div', {'class': 'smart-filterResult-item', 'data-source': itemArr[0]}, me.filterResult, 'last');
+                resultItem = domConstruct.create('div', {'class': 'smart-filterResult-item', 'data-source': itemArr[0]}, me.filterResultScrollView.scroll_con, 'last');
                 domConstruct.create('div', {'class': '', innerHTML: itemArr[1]}, resultItem, 'last');
                 delBtn = domConstruct.create('div', {'class': 'icon-delete'}, resultItem, 'last');
                 
                 on(delBtn, 'click', function(evt) {
-                    var dataSource = evt.target.parentElement.getAttribute('data-source');
-                    var data = {'val': item, 'customType': 'remove'};
-                    
-                    domConstruct.destroy(evt.target.parentElement);
-                    me.customFilterResult(data);
-                    me.dropdownList[dataSource].clearData(data);
-                    me._refreshFilterScroll();
+                    me.clearCurrentFilterResult(evt, item);
                     setTimeout(function() {me.requestForClient();}, 0);
                 });
+                
+                if(idx < 5) {
+                    _height += resultItem.offsetHeight;
+                }
+                domClass.remove(me.clearAllBtn, 'smart-hidden');
             });
             
-            clearAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-clearAll icon-delete'}, me.filterResult, 'last');
-            
-            on(clearAllBtn, 'click', function(evt) {
-                me.clearAllFilterResult();
-                setTimeout(function() {me.requestForClient();}, 0);
-            });
-            
-            if(filterRest.length) {
-                viewAllBtn = domConstruct.create('div', {'class': 'smart-filterResult-item smart-viewAll', innerHTML: 'View all ...'}, me.filterResult, 'last');
-                on(viewAllBtn, 'click', function(evt) {
-                    
-                });
-//                me.filterRestDropdown = new FilterDropdowndetail(filterRest, 'filterRest');
-//                me.filterDeatilScrollView.scroll_con.appendChild(me.cityDropdown.domNode);
-            }
-            
+            domStyle.set(me.filterResult, 'height', _height + 'px');
+            me._refreshFilterResultScroll();
             me._refreshFilterScroll();
         },
         
-        clearCurrentFilterResult: function() {
-        	
+        clearCurrentFilterResult: function(evt, item) {
+            var me = this;
+            var resultItem = evt.target.parentElement;
+            var dataSource = resultItem.getAttribute('data-source');
+            var data = {'val': item, 'selected': false};
+            var _height = resultItem.offsetHeight;
+            
+            domConstruct.destroy(resultItem);
+            me.dropdownList[dataSource].clearData(data);
+            
+            me.filterResultArray.splice(me.filterResultArray.indexOf(item), 1);
+            
+            if(me.filterResultArray.length < 5) {
+                domStyle.set(me.filterResult, 'height', me.filterResult.offsetHeight - _height + 'px');
+            }
+            if(me.filterResultArray.length === 0) {
+                domClass.add(me.clearAllBtn, 'smart-hidden');
+            }
+            me._refreshFilterResultScroll();
+            me._refreshFilterScroll();
         },
         
         clearAllFilterResult: function() {
             var me = this;
             
-            domConstruct.empty(me.filterResult);
+            domClass.add(me.clearAllBtn, 'smart-hidden');
+            domConstruct.empty(me.filterResultScrollView.scroll_con);
+            domStyle.set(me.filterResult, 'height', '0px');
             me._refreshFilterScroll();
             me.filterResultArray.length = 0;
-            
-//            me.dropdownList.forEach(function(item) {
-//                item.obj.clearAllData();
-//            });
             
             for(var key in me.dropdownList) {
                 me.dropdownList[key].clearAllData();
             }
+        },
+        
+        showCompletedTask: function() {
+            var me = this;
+            
+//            proxy.xxx()
         },
         
         createNoBadgeView: function() {
@@ -303,16 +324,16 @@ define([
             }, this.domNode, 'last');
         },
         
-        getFilterDetail: function() {
-        	
-        },
-        
         createTask: function() {
         	
         },
         
         _refreshFilterScroll: function() {
             this.filterScrollView.resize();
+        },
+        
+        _refreshFilterResultScroll: function() {
+            this.filterResultScrollView.resize();
         },
         
         _refreshFilterDetailScroll: function() {
@@ -325,6 +346,19 @@ define([
         
         showCreateTaskBtn: function() {
             domClass.remove(this.createTaskBtn, 'smart-hidden');
+        },
+        
+        checkInputVal: function() {
+            if(this.searchBtn.value) {
+                domClass.remove(this.inputTip, 'smart-hidden');
+            }else {
+                domClass.add(this.inputTip, 'smart-hidden');
+            }
+        },
+        
+        emptyInput: function() {
+            this.searchBtn.value = '';
+            domClass.add(this.inputTip, 'smart-hidden');
         },
         
         hideCreateTaskBtn: function() {
