@@ -28,11 +28,11 @@
                 <div class="smart-serachCon" data-dojo-attach-point="serachCon">
                     <input class="smart-searchBtn" data-dojo-attach-point="searchBtn" placeholder="Search by client name or ID"/>
                     <div class="smart-searchIcon icon-search-button" data-dojo-attach-point="searchIcon"></div>
-                    <div class="smart-inputTip icon-delete smart-hidden" data-dojo-attach-point="inputTip"></div>
+                    <div class="smart-inputTip icon-delete smart-hidden" data-searchMsg="" data-dojo-attach-point="inputTip"></div>
                     <!-- <div class="smart-searchDetail" data-dojo-attach-point="searchDetail"></div> -->
                 </div>
             </div>
-            <div class="smart-createTaskBtn smart-hidden" data-dojo-attach-point="createTaskBtn" data-dojo-attach-event="click:createTask">Create task</div>
+            <div class="smart-createTaskBtn smart-hidden" data-dojo-attach-point="createTaskBtn" data-dojo-attach-event="click:createScTask">Create task</div>
         </div>
         <div class="smart-tableContainer">
             <div class="smart-tableHead" data-dojo-attach-point="tableHead">
@@ -42,17 +42,13 @@
             <div class="smart-tableBody" data-dojo-attach-point="tableBody">
                 <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="bodyScrollView"></div>
             </div>
-            <div class="paging-container">
-                <div class="prevBtn prevBtnDisabled icon-expand-graphic" data-dojo-attach-point="prevBtn"></div>
-                <div class="paging-label">Page <span data-dojo-attach-point="currentPage">0</span> of <span data-dojo-attach-point="totalPage">0</span></div>
-                <div class="nextBtn nextBtnDisabled icon-expand-graphic" data-dojo-attach-point="nextBtn"></div>
-            </div>
+            <div data-dojo-type="myclients/view/widgets/smartNextBestClient/widgets/PagingUtil/PagingUtil" data-dojo-attach-point="pagingUtil"></div>
             <div class="status-container" data-dojo-attach-point="loaderContainer">
                 <div class="loaderBtn"></div>
             </div>
             <div class="status-container smart-hidden" data-dojo-attach-point="errorContainer">
                 <div class="errorBtn" data-dojo-attach-point="errorBtn"></div>
-                <div>An error has occurred, please check your network and try again.</div>
+                <div class="status-errorMsg">An error has occurred, please check your network and try again.</div>
             </div>
         </div>
     </div>

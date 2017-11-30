@@ -1,6 +1,6 @@
 <div class="smartClientList">
-    <div class="smartList-optionBtn btn" data-dojo-attach-point="optionBtn">
-        <div data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="optBtn" data-dojo-attach-event="click:sendTaskRequest"></div>
+    <div class="smartList-optionBtn btn" data-dojo-attach-point="optBtnCon">
+        <div data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="optBtn" data-dojo-attach-event="click:addPendingTask"></div>
     </div>
     <div class="smartList-rank text" data-dojo-attach-point="rank"></div>
     <div class="smartList-score text" data-dojo-attach-point="score"></div>
@@ -11,6 +11,6 @@
         <div class="smart-contact" data-dojo-attach-point="contactBtn" data-dojo-attach-event="click:loadContactModule"></div>
     </div> -->
     <div class="smartList-scTtask btn" data-dojo-attach-point="scTask">
-        <div class="icon-task-selected smart-hidden" data-dojo-attach-point="scTaskBtn" data-dojo-attach-event="click:showTask"></div>
+        <div class="icon-edit-task_graphic blue smart-hidden" data-dojo-attach-point="scTaskBtn" data-dojo-attach-event="click:showScTaskDialog"></div>
     </div>
 </div>

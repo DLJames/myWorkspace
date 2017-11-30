@@ -3,6 +3,7 @@
 @import url(../widgets/FilterDropdowndetail/css/style.css);
 @import url(../widgets/HeadColumn/css/style.css);
 @import url(../widgets/scTaskDetail/css/style.css);
+@import url(../widgets/PagingUtil/css/style.css);
 
 .smartClientContainer{
     display: flex;
@@ -108,7 +109,7 @@
     width: 400px;
     display: flex;
     position: absolute;
-    z-index: 100;
+    z-index: 101;
     top: 0;
     left: 230px;
 }
@@ -139,7 +140,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    z-index: 101;
+    z-index: 102;
 }
 .smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-cHeadTitle{
     font-size: 16px;
@@ -173,12 +174,6 @@
     cursor: pointer;
     font-size: 30px;
     color: #00B0DA;
-}
-.smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-serachCon .smart-filterDetail{
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
 }
 .smartClientContainer .smart-container .smart-cHead .smart-createTaskBtn{
     height: 44px;
@@ -215,45 +210,15 @@
 .smartClientContainer .smart-container .smart-tableContainer .smart-tableBody{
     flex: 1;
 }
-.smartClientContainer .smart-container .smart-tableContainer .paging-container{
-    position: absolute;
-    right: -10px;
-    bottom: -35px;
-    height: 35px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.smartClientContainer .smart-container .smart-tableContainer .smart-tableBody .smart-smartClientListCon{
+    width: 100%;
 }
-.smartClientContainer .smart-container .smart-tableContainer .paging-container .paging-label{
-    min-width: 64px;
+.smartClientContainer .smart-container .smart-tableContainer .smart-tableBody .smart-smartClientListCon .smart-noClientsCon{
     text-align: center;
+    height: 30px;
+    line-height: 30px;
 }
-.smartClientContainer .smart-container .smart-tableContainer .paging-container .prevBtn{
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    font-size: 28px;
-    transform: rotate(90deg);
-    color: #00b0da;
-    cursor: pointer;
-}
-.smartClientContainer .smart-container .smart-tableContainer .paging-container .prevBtn.prevBtnDisabled{
-    color: #B3B3B3;
-    cursor: default;
-}
-.smartClientContainer .smart-container .smart-tableContainer .paging-container .nextBtn{
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    font-size: 28px;
-    transform: rotate(270deg);
-    color: #00b0da;
-    cursor: pointer;
-}
-.smartClientContainer .smart-container .smart-tableContainer .paging-container .nextBtn.nextBtnDisabled{
-    color: #B3B3B3;
-    cursor: default;
-}
+
 
 /*loader, error*/
 .smartClientContainer .status-container{
@@ -286,6 +251,9 @@
     background-position: center;
     background-size: 35px 35px;
     cursor: pointer;
+}
+.smartClientContainer .status-errorMsg{
+    color: #000;
 }
 
 /* scroller bar */

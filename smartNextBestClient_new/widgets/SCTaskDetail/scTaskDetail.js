@@ -15,7 +15,7 @@ define([
         constructor: function(data) {
             this.data = data;
             this.formObj = {
-                    statusObj: ['Not Started', 'In Progress', 'Awaiting Input', 'Deferred', 'Canceled', 'Completed'],
+                    statusObj: ['Not Started', 'In Progress', 'Pending Input', 'Deferred', 'Canceled', 'Completed'],
                     outcomeObj: ['Wrong Solution', 'With Competition', 'No Budget', 'No Authority or Sign-Off', 'No Need/No CRA', 'Not at current time', 
                                  'Opportunity already in system', 'New Opportunity Created', 'Nurturing for future engagement']
                 }

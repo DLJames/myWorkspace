@@ -1,6 +1,7 @@
 define([    
     'dojo/_base/declare',    
     'dojo/on',
+    'dojo/Evented',
     'dojo/dom-style',
     'dojo/dom-class',
     'dojo/dom-construct',
@@ -10,20 +11,19 @@ define([
     'dijit/form/CheckBox',
     '../scTaskDetail/scTaskDetail'
     
-], function (declare, on, domStyle, domClass, domConstruct, ConsoleService, template, CustomUIWidget, CheckBox, scTaskDetail) {
-    var widget = declare('smartClientList', [CustomUIWidget], {    
+], function (declare, on, Evented, domStyle, domClass, domConstruct, ConsoleService, template, CustomUIWidget, CheckBox, scTaskDetail) {
+    var widget = declare('smartClientList', [CustomUIWidget, Evented], {    
         baseClass: 'smartClientList',    
         templateString: template,
         constructor: function(data) {
             this.data = data;
+            this.clicentIdentify = data._id;
         },
-        dataset: {},
         postCreate: function() {
             this.inherited(arguments);
             
             var domNode = this.domNode;
             
-            Object.assign(this.dataset, this.data);
         },
         
         startup : function() {
@@ -31,23 +31,53 @@ define([
             this.createView();
         },
         
-        sendTaskRequest: function() {
-            this.parentView.showCreateTaskBtn();
+        createView: function() {
+            this.rank.innerHTML = this.data.Unique_Rank_per_Rep;
+            this.score.innerHTML = this.data.Score;
+            this.reasons.innerHTML = this.data.reasonForCall;
+            this.client.innerHTML = this.data.Company_Name;
+            this.industry.innerHTML = this.data.Main_Industry_Description;
+            if(this.data.task_status) {
+                this.disableOptBtn();
+                this.showScTaskButton();
+            }
         },
         
-        showTask: function() {
+        showScTaskDialog: function() {
             var data = {
                 title: 'DDG_GTS_TSS_France_Q2_LISI_AEROSP',
                 status: 'Awaiting Input',
                 outcome: 'Opportunity already in system',
                 description: 'Opportunity already in system nothing ....'
             };
-            var scTask;
             
-            scTask = new scTaskDetail(data);
+            this.emit('showScTaskDialog', data);
+        },
+        
+        addPendingTask: function(evt) {
+            var data = {
+                'selected': evt.target.checked,
+                'clicentIdentify': this.clicentIdentify,
+                'clientEntity': this
+            }
             
-            this.parentView.domNode.appendChild(scTask.domNode);
-            scTask.startup();
+            this.emit('addPendingTask', data);
+        },
+        
+        createScTask: function() {
+            this.disableOptBtn();
+            this.showScTaskButton();
+            this.emit('hideCreateTaskBtn');
+        },
+        
+        disableOptBtn: function() {
+            this.optBtn.set('checked', false);
+            this.optBtn.set('disabled', true);
+            domClass.add(this.optBtnCon, 'smartList-disabled');
+        },
+        
+        showScTaskButton: function() {
+            domClass.remove(this.scTaskBtn, 'smart-hidden');
         },
         
         goToClient360: function() {
@@ -59,36 +89,6 @@ define([
 //            
 //            ConsoleService.loadLeftModule('contacts', obj);
         	alert('go to contacts module')
-        },
-        
-        showScTaskButton: function(evt) {
-            
-        },
-        
-        createView: function() {
-        	/*
-        	 * 
-        	"hasTask": true,
-        	"score": "5",
-            "reasons": "5",
-            "rank": "1",
-            "clientTitle": "Cardiff Univercity",
-            "industry": "Government, State/Provincial/Local",
-            "contacts": {},
-            "scTask": 0
-            */
-            if(this.dataset.hasTask) {
-                this.optBtn.set('checked', true);
-            }
-            this.rank.innerHTML = this.dataset.rank;
-            this.score.innerHTML = this.dataset.score;
-            this.reasons.innerHTML = this.dataset.reasons;
-            this.client.innerHTML = this.dataset.clientTitle;
-            this.industry.innerHTML = this.dataset.industry;
-//            this.contacts.innerHTML = '';
-            if(this.dataset.hasTask) {
-                domClass.remove(this.scTaskBtn, 'smart-hidden');
-            }
         },
         
         _onFocus: function() {    

@@ -134,7 +134,7 @@ define([
             var _num = 0;
             
             this.itemConArr.forEach(function(item) {
-                var _text = item.getAttribute('dataid').toLowerCase();
+                var _text = item.getAttribute('dataid').toLowerCase().split('##')[1];
                 
                 if(!_text.includes(_val)) {
                     domStyle.set(item, 'display', 'none');

@@ -30,6 +30,9 @@
 .smartClientList .smartList-optionBtn input[type="checkbox"]{
     cursor: pointer;
 }
+.smartClientList .smartList-optionBtn.smartList-disabled input[type="checkbox"]{
+    cursor: default;
+}
 .smartClientList .smartList-rank{
     /* width: 8%; */
     flex: 1;
@@ -72,7 +75,14 @@
     /* width: 8%; */
     flex: 1;
 }
-.smartClientList .smartList-scTtask .icon-task-selected{
+.smartClientList .smartList-scTtask .icon-edit-task_graphic{
+    font-size: 25px;
+    cursor: pointer;
+}
+.smartClientList .smartList-scTtask .icon-edit-task_graphic.blue{
+    color: #00B0DA;
+}
+.smartClientList .smartList-scTtask .icon-completed-task_graphic{
     font-size: 25px;
     color: #00B0DA;
     cursor: pointer;
