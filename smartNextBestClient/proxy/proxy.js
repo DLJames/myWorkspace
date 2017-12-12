@@ -1,6 +1,6 @@
 define([    
     'dojo/_base/declare',
-    'dojo/_base/xhr',
+    'dojo/request/xhr',
     'app/services/ConsoleService',
     'dojo/_base/lang',
     'dojo/Deferred',
@@ -10,64 +10,50 @@ define([
     var instance = null;
     var util = new ExtendUtil();
     var proxyRoot = ConsoleService.getConstants().proxyRoot;
-    var widget = declare('MA_proxy', [], {
+    var widget = declare('bestClient_proxy', [], {
         
-        ajax1 : function() {
+        bestClients: function(params) {
             var option = defaultOption();
+            var _url = proxyRoot + '/e2eProspecting/smart/best-clients';
             
             option = util.extend(true, option, {
-                url : ''
-            });
-            xhr.get(option);
-            return option.promise;
-        	
-        	
-//        	return new Promise(function(resolve, reject) {
-//        		var obj = {
-//        				url: '',
-//        				preventCache : true,
-//        	            headers : {
-//        	                'Content-Type' : 'application/json'
-//        	            },
-//        	            handleAs : 'json',
-//        	            load: function(res) {
-//        	            	resolve(res);
-//        	            },
-//        	            error: function(err) {
-//        	            	reject(err);
-//        	            }
-//        		}
-//        		
-//        		xhr.get(obj);
-//        	});
-        	
-//        	var deffered = new Deferred();
-//        	var obj = {
-//        		url: '',
-//        		preventCache: true,
-//        		headers: {
-//        			'Content-type': 'application/json'
-//        		},
-//        		handleAs: 'json',
-//        		load: function(res) {
-//        			deffered.resolve(res);
-//        		},
-//        		error: function(err) {
-//        			deffered.reject(err);
-//        		}
-//        	}
-//        	xhr.get(obj);
-//        	return deffered.promise;
+//                url: proxyRoot + '/e2eProspecting/smart/best-clients',
+                method: 'post'
+            }, params);
+            return xhr(_url, option);
         },
         
-        ajax2 : function(params) {
+        getFilter: function(intranetID) {
             var option = defaultOption();
+            var _url = proxyRoot + '/e2eProspecting/smart/filter?email=' + intranetID;
             
             option = util.extend(true, option, {
-                url : ''
+//                url: proxyRoot + '/e2eProspecting/smart/filter',
+                method: 'get'
+            });
+            return xhr(_url, option);
+        },
+        
+        createTask : function(params) {
+            var option = defaultOption();
+            var _url = proxyRoot + '/e2eProspecting/smart/tasks';
+            
+            option = util.extend(true, option, {
+//                url: proxyRoot + '/e2eProspecting/smart/tasks',
+                method: 'post'
             }, params);
-            xhr.post(option);
-            return option.promise;
+            return xhr(_url, option);
+        },
+        
+        editTask : function(params) {
+            var option = defaultOption();
+            var _url = proxyRoot + '/e2eProspecting/smart/tasks';
+            
+            option = util.extend(true, option, {
+//                url: proxyRoot + '/e2eProspecting/smart/tasks',
+                method: 'put'
+            }, params);
+            return xhr(_url, option);
         }
         
     });

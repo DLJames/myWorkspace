@@ -2,158 +2,80 @@
     "data": {
         "headerItems": [
                     {
-                        "title": "Score",
-                        "classname": "HeadColumn commonColumn sortable desc active showIcon",
-                        "sortable": true,
-                        "sort": "desc",
-                        "flexnum": "1"
-                    },
-                    {
-                        "title": "Reasons for call",
-                        "classname": "HeadColumn commonColumn sortable desc",
-                        "sortable": true,
-                        "sort": "desc",
-                        "flexnum": "1.5"
+                        "title": "Select",
+                        "key": "Select",
+                        "classname": "HeadColumn commonColumn",
+                        "sortable": false,
+                        "actived": false,
+                        "flexnum": "1",
+                        "width": "8%"
                     },
                     {
                         "title": "Rank",
-                        "classname": "HeadColumn commonColumn sortable desc",
+                        "key": "Unique_Rank_per_Rep",
+                        "classname": "HeadColumn commonColumn sortable asc",
                         "sortable": true,
-                        "sort": "desc",
-                        "flexnum": "1"
+                        "actived": true,
+                        "sortBy": "asc",
+                        "flexnum": "1",
+                        "width": "8%"
+                    },
+                    {
+                        "title": "Score",
+                        "key": "Score",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "flexnum": "1",
+                        "width": "8%"
+                    },
+                    {
+                        "title": "Reasons for call",
+                        "key": "reasonForCall",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "flexnum": "1.5",
+                        "width": "14%"
                     },
                     {
                         "title": "Client",
+                        "key": "Company_Name",
                         "classname": "HeadColumn largerColumn",
                         "sortable": false,
-                        "flexnum": "2"
+                        "actived": false,
+                        "sortBy": "asc",
+                        "flexnum": "2",
+                        "width": "23%"
                     },
                     {
                         "title": "Industry",
+                        "key": "Main_Industry_Description",
                         "classname": "HeadColumn largerColumn",
                         "sortable": false,
-                        "flexnum": "2"
+                        "actived": false,
+                        "sortBy": "asc",
+                        "flexnum": "2",
+                        "width": "23%"
                     },
                     {
-                        "title": "Contacts",
+                        "title": "Tasks",
+                        "key": "Tasks",
                         "classname": "HeadColumn commonColumn",
                         "sortable": false,
-                        "flexnum": "1"
-                    },
-                    {
-                        "title": "SC Task",
-                        "classname": "HeadColumn commonColumn",
-                        "sortable": false,
-                        "flexnum": "1"
-                    },
-                    {
-                        "title": "All/None",
-                        "classname": "HeadColumn commonColumn",
-                        "sortable": false,
-                        "flexnum": "1"
+                        "actived": false,
+                        "flexnum": "1",
+                        "width": "8%"
                     }
                 ],
-        "clients": [
-            {
-                "score": "5.9",
-                "reasons": "7",
-                "rank": "1",
-                "clientTitle": "Oxfordshire Country ....",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "4.9",
-                "reasons": "6",
-                "rank": "2",
-                "clientTitle": "University of Oxford",
-                "industry": "Education",
-                "contacts": {},
-                "scTask": 1,
-                "option": 1
-            },
-            {
-                "score": "2.9",
-                "reasons": "7",
-                "rank": "3",
-                "clientTitle": "Essex Country council",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 1,
-                "option": 1
-            },
-            {
-                "score": "3.9",
-                "reasons": "5",
-                "rank": "4",
-                "clientTitle": "City & Guilds of London Institute",
-                "industry": "Education",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "5.9",
-                "reasons": "7",
-                "rank": "1",
-                "clientTitle": "Cambridge Accessment",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 1,
-                "option": 1
-            },
-            {
-                "score": "5.9",
-                "reasons": "7",
-                "rank": "1",
-                "clientTitle": "Univercity of East Anglia Biology Department",
-                "industry": "Education",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "5",
-                "reasons": "5",
-                "rank": "1",
-                "clientTitle": "Cardiff Univercity",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "5.9",
-                "reasons": "7",
-                "rank": "1",
-                "clientTitle": "Univercity of Bristol",
-                "industry": "Education",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "5.9",
-                "reasons": "7",
-                "rank": "1",
-                "clientTitle": "Derbyshine Country Council",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
-            },
-            {
-                "score": "5.3",
-                "reasons": "6",
-                "rank": "1",
-                "clientTitle": "Una test.. ",
-                "industry": "Government, State/Provincial/Local",
-                "contacts": {},
-                "scTask": 0,
-                "option": 0
+        "temp": {
+            "title": "Contacts",
+            "classname": "HeadColumn commonColumn",
+            "sortable": false,
+            "flexnum": "1",
+            "width": "8%"
             }
-        ]
     }
 }

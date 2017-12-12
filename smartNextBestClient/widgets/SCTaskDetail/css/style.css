@@ -1,19 +1,23 @@
 .scTaskDetail{
     width: 100%;
-    height: 100%;
+    height: calc(100% + 30px);
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 15;
+    z-index: 10000;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.scTaskDetail .smart-hidden{
+    display: none !important;
+}
 .scTaskDetail .task-container{
-    width: 460px;
+    width: 500px;
     min-height: 200px;
     background-color: #fff;
+    position: relative;
 }
 .scTaskDetail .task-container .task-head{
     padding: 10px;
@@ -33,9 +37,12 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-.scTaskDetail .task-container .task-bodyForm .form-left .task-title > input{
+.scTaskDetail .task-container .task-bodyForm .form-left .task-titleCon .task-title{
+    padding-bottom: 5px;
+}
+.scTaskDetail .task-container .task-bodyForm .form-left .task-titleCon > input{
     width: 100%;
-    height: 25px;
+    height: 30px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -74,12 +81,16 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
+.scTaskDetail .task-container .task-bodyForm .form-left .task-dropdown .dropdownhead.task-disableMe{
+    background-color: #ccc;
+    cursor: default;
+}
 .scTaskDetail .task-container .task-bodyForm .form-left .task-dropdown .dropdownbody{
     position: absolute;
     top: 30;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 160px;
     padding: 10px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -88,8 +99,27 @@
     z-index: 1;
     box-shadow: 1px 1px 5px #b3b3b3;
 }
+.scTaskDetail .task-container .task-bodyForm .form-left .task-dropdown .dropdownbody .task-dropdown-item{
+    height: 30px;
+    line-height: 30px;
+    padding-left: 5px;
+    border-bottom: 1px solid #b3b3b3;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    cursor: pointer;
+}
+.scTaskDetail .task-container .task-bodyForm .form-left .task-dropdown .dropdownbody .task-dropdown-item:hover{
+    background-color: #999999;
+}
+.scTaskDetail .task-container .task-bodyForm .form-left .task-dropdown .dropdownbody .task-dropdown-item.active{
+    background-color: #999999;
+}
 .scTaskDetail .task-container .task-bodyForm .form-right{
     width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .scTaskDetail .task-container .task-bodyForm .form-right .task-description .descriptiontitle{
     padding-bottom: 5px;
@@ -100,24 +130,135 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
-.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons{
-    width: 100%;
-    padding-top: 10px;
+.scTaskDetail .task-container .task-bodyForm .form-right .task-description textarea.task-disableMe{
+    background-color: #ccc;
+    cursor: default;
+}
+.scTaskDetail .task-container .task-bodyForm .form-right .task-description .task-descriptionLimit{
     display: flex;
     justify-content: space-between;
+    padding-bottom: 10px;
+    color: #888;
+}
+.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 .scTaskDetail .task-container .task-bodyForm .form-right .form-buttons > div{
+    width: 80px;
     height: 44px;
     line-height: 44px;
-    background-color: #00B0DA;
-    padding-left: 25px;
-    padding-right: 25px;
-    color: #fff;
+    margin-left: 5px;
+    text-align: center;
     cursor: pointer;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
-.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons > div:hover{
+.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons .cancelBtn{
+    border: 1px solid #00B0DA;
+    color: #00B0DA;
+}
+.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons .cancelBtn:hover{
+    border-color: #008ABF;
+    color: #008ABF;
+}
+.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons .saveBtn{
+    background-color: #00B0DA;
+    color: #fff;
+}
+.scTaskDetail .task-container .task-bodyForm .form-right .form-buttons .saveBtn:hover{
     background-color: #008ABF;
 }
-
-
+.scTaskDetail .task-container .task-shadow{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.scTaskDetail .task-container .task-shadow .task-loader{
+    width : 35px;;
+    height: 35px;
+    background-image : url('../images/loader.gif');
+    background-repeat: no-repeat;
+    background-size: 35px 35px;
+}
+.scTaskDetail .task-container .task-errorMsg{
+    color: #F04E37;
+    position: absolute;
+    background-color: #FFF;
+    padding: 5px;
+    right: 2px;
+    bottom: -22px;
+    border: 1px solid #e5e5e5;
+}
+.scTaskDetail .task-container .task-errorMsg:before{
+    content: "";
+    position: absolute;
+    top: -24px;
+    right: 50px;
+    border-top: 12px solid transparent;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #e5e5e5;
+}
+.scTaskDetail .task-container .task-errorMsg:after{
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 52px;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #FFF;
+}
+/* scroller bar */
+.scTaskDetail .wrapper {
+    position: relative;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.scTaskDetail .scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: inherit;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.scTaskDetail .iScrollVerticalScrollbar{
+    right: 0 !important;
+    background-color: #d3d3d3 !important;
+    width: 4px !important;
+} 
+.scTaskDetail .iScrollIndicator{
+    background: #999999 !important;
+    border: none !important;
+    border-radius: 0px !important;
+}
 

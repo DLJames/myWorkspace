@@ -1,32 +1,44 @@
 <div class="scTaskDetail">
-    <div class="task-container">
+    <div class="task-container" data-dojo-attach-point="taskContainer">
         <div class="task-head">Edit task in Sales Connect</div>
         <div class="task-bodyForm">
             <div class="form-left">
-                <div class="task-title" data-dojo-attach-point="taskTitle">
-                    <input type="text" class="" placeholder="please input your task title">
+                <div class="task-titleCon">
+                    <div class="task-title">Task name</div>
+                    <input type="text" class="" placeholder="please input your task title" readonly="readonly" data-dojo-attach-point="taskTitle">
                 </div>
                 <div class="task-status task-dropdown" data-dojo-attach-point="taskStatus">
                     <div class="dropdowntitle">Status</div>
-                    <div class="status-head dropdownhead" data-dojo-attach-point="statusHead" data-dojo-attach-event="click:showStatusBody">xxxxx</div>
-                    <div class="status-body dropdownbody smart-hidden" data-dojo-attach-point="statusBody">zzzz</div>
+                    <div class="status-head dropdownhead" data-dojo-attach-point="statusHead"></div>
+                    <div class="status-body dropdownbody smart-hidden" data-dojo-attach-point="statusBody">
+                        <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="statusScrollView"></div>
+                    </div>
                 </div>
                 <div class="task-outcome task-dropdown" data-dojo-attach-point="taskOutcome">
                     <div class="dropdowntitle">Outcome</div>
-                    <div class="outcome-head dropdownhead" data-dojo-attach-point="outcomeHead" data-dojo-attach-event="click:showOutcomeBody">xxxxxx</div>
-                    <div class="outcome-body dropdownbody smart-hidden" data-dojo-attach-point="outcomeBody">zzzz</div>
+                    <div class="outcome-head dropdownhead" data-dojo-attach-point="outcomeHead"></div>
+                    <div class="outcome-body dropdownbody smart-hidden" data-dojo-attach-point="outcomeBody">
+                        <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="outcomeScrollView"></div>
+                    </div>
                 </div>
             </div>
             <div class="form-right">
                 <div class="task-description" data-dojo-attach-point="taskDescription">
                     <div class="descriptiontitle">Description:</div>
-                    <textarea rows="5" cols=""></textarea>
+                    <textarea maxlength="1000" rows="6" cols="" style="resize:none" data-dojo-attach-point="descriptionArea"></textarea>
+                    <div class="task-descriptionLimit">
+                        <div><span data-dojo-attach-point="descriptionUsedNum"> 0 </span> used</div>
+                        <div>0 min / 1000 max</div>
+                    </div>
                 </div>
                 <div class="form-buttons">
                     <div  class="cancelBtn" data-dojo-attach-point="cancelBtn" data-dojo-attach-event="click:destroyMe">Cancel</div>
                     <div  class="saveBtn" data-dojo-attach-point="saveBtn" data-dojo-attach-event="click:saveTask">Save</div>
                 </div>
            </div>
+        </div>
+        <div class="task-shadow smart-hidden" data-dojo-attach-point="shadowCon">
+            <div class="task-loader"></div>
         </div>
     </div>
 </div>

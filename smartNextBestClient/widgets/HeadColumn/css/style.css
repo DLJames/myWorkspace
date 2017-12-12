@@ -13,45 +13,48 @@
     justify-content: flex-start;
 }
 .HeadColumn.active{
-    background-color: #835C6F;
+    background: rgba(0, 0, 0, 0.1);
 }
-.HeadColumn span{
+.HeadColumn > span{
     cursor: default;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .HeadColumn.sortable,
-.HeadColumn.sortable span
+.HeadColumn.sortable > span
 {
     cursor: pointer;
 }
 .HeadColumn.sortable:hover{
-    background-color: #835C6F;
+    background: rgba(0, 0, 0, 0.1);
 }
 .HeadColumn.sortable.desc:after{
+    content: "";
+    font-size: 30px;
     position: absolute;
-    right: 0;
-    content: '';
-    width: 20px;
-    height: 20px;
+    right: 0px;
+    top: 7px;
     visibility: hidden;
-    background-image: url("../images/sort-icon.svg");
-    background-repeat: no-repeat;
     transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
+    font-family: isa;
 }
 .HeadColumn.sortable.desc.showIcon:after{
     visibility: visible;
 }
 .HeadColumn.sortable.asc:after{
+    content: "";
+    font-size: 30px;
     position: absolute;
-    right: 0;
-    content: '';
-    width: 20px;
-    height: 20px;
+    right: 0px;
+    top: 7px;
     visibility: hidden;
-    background-image: url("../images/sort-icon.svg");
-    background-repeat: no-repeat;
     transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
+    font-family: isa;
 }
 .HeadColumn.sortable.asc.showIcon:after{
     visibility: visible;

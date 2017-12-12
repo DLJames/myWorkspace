@@ -1,0 +1,124 @@
+.TaskConfirmDialog{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.TaskConfirmDialog .smart-hidden{
+    display: none !important;
+}
+.TaskConfirmDialog .tcd-container{
+    width: 500px;
+    min-height: 200px;
+    background-color: #fff;
+    position: relative;
+}
+.TaskConfirmDialog .tcd-container .tcd-head{
+    padding-left: 20px;
+    height: 40px;
+    line-height: 40px;
+    color: #000;
+    background-color:  #e5e5e5;
+    font-size: 16px;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm{
+    margin: 20px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formTop{
+    
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formTop .tcd-clientNames{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100px;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formTop .tcd-clientNames .tcd-clientName{
+    height: 20px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom > div{
+    width: 80px;
+    height: 44px;
+    line-height: 44px;
+    margin-left: 5px;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom .tcd-cancelBtn{
+    border: 1px solid #00B0DA;
+    color: #00B0DA;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom .tcd-cancelBtn:hover{
+    border-color: #008ABF;
+    color: #008ABF;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom .tcd-saveBtn{
+    background-color: #00B0DA;
+    color: #fff;
+}
+.TaskConfirmDialog .tcd-container .tcd-bodyForm .tcd-formBottom .tcd-saveBtn:hover{
+    background-color: #008ABF;
+}
+/* scroller bar */
+.TaskConfirmDialog .wrapper {
+    position: relative;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.TaskConfirmDialog .scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: inherit;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.TaskConfirmDialog .iScrollVerticalScrollbar{
+    right: 0 !important;
+    background-color: #d3d3d3 !important;
+    width: 4px !important;
+} 
+.TaskConfirmDialog .iScrollIndicator{
+    background: #999999 !important;
+    border: none !important;
+    border-radius: 0px !important;
+}
+
