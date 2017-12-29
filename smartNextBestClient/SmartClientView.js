@@ -19,9 +19,10 @@ define([
     './widgets/PagingUtil/PagingUtil',
     './widgets/SCTaskDetail/scTaskDetail',
     './widgets/TaskConfirmDialog/TaskConfirmDialog',
-    './widgets/MsgTooltip/MsgTooltip'
+    './widgets/MsgTooltip/MsgTooltip',
+    './widgets/SalesPlayDialog/SalesPlayDialog'
     
-], function(declare, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip) {
+], function(declare, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip, SalesPlayDialog) {
     var widget = declare('', [CustomUIWidget], {
         baseClass: 'smartClientContainer',    
         templateString: template,    
@@ -325,20 +326,31 @@ define([
         },
         
         showReasons: function(data) {
-            var me = this;
-            var _data = {'bodyClassName': 'smart-tooltip-left', 'tooltipTitle': 'Reasons for call', 'commonMsg': ''};
-            var salesPlaysArr = me.filterDataObj.salesPlays || [];
+            var _data, salesPlaysArr = this.filterDataObj.salesPlays || [];
             
-            if(!salesPlaysArr.length) {
-                _data.commonMsg += '<div>- no sales plays found</div>';
+            if(salesPlaysArr.length) {
+                this.showSalesPlayDialog();
+                return;
             }
             
-            salesPlaysArr.forEach(function(item) {
-                if(data[item] > 0) {
-                    _data.commonMsg += '<div class="smart-tooltip-left">- ' + item + '</div>';
-                }
-            });
-            me.showTooltipDialog(_data);
+            _data = {
+                'bodyClassName': 'smart-tooltip-left',
+                'tooltipTitle': 'Reasons for call',
+                'commonMsg': '<div>- no sales plays found</div>'
+            };
+            
+            this.showTooltipDialog(_data);
+        },
+        
+        showSalesPlayDialog: function() {
+            var salesPlayDialog;
+            
+            salesPlayDialog = new SalesPlayDialog();
+//            on(salesPlayDialog, 'addOpportunity', function() {
+//                this.addOpportunity();
+//            });
+            document.querySelector('.myclients_container').appendChild(salesPlayDialog.domNode);
+            salesPlayDialog.startup();
         },
         
         goToPage: function(data) {

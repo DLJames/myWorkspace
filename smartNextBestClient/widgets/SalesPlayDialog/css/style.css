@@ -1,0 +1,161 @@
+.SalesPlayDialog{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.SalesPlayDialog .smart-hidden{
+    display: none !important;
+}
+.SalesPlayDialog .smart-spTooltipCon{
+    width: 660px;
+    min-height: 300px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spTooltipHead{
+    height: 40px;
+    background-color: #e5e5e5;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spTooltipHead .icon-delete{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 30px;
+    color: #000;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnHead{
+    color: #000;
+    font-weight: bold;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnItem{
+    height: 40px;
+    padding-left: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnItem > div:nth-child(1){
+    flex: 2;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnItem > div:nth-child(2){
+    flex: 1;
+    text-align: center;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnItem > div:nth-child(3){
+    flex: 1;
+    text-align: center;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody{
+    width: 100%;
+    height: 160px;
+    flex: 1;
+    border-bottom: 2px solid #b3b3b3;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spConfidenceBar .smart-progress{
+    width: 80%;
+    height: 10px;
+    background-color: #ccc;
+    margin: 0 auto;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spConfidenceBar .smart-progress > div{
+    background-color: #8CC63F;
+    height: 10px;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtn{
+    font-size: 28px;
+    color: #00B0DA;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtn:hover{
+    color: #008ABF;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spTooltip-button{
+    width: 80px;
+    height: 44px;
+    line-height: 44px;
+    color: #00B0DA;
+    border: 1px solid #00B0DA;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 15px 40px;
+    align-self: flex-end;
+    font-size: 13px;
+    cursor: pointer;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spTooltip-button:hover{
+    color: #008ABF;
+    border-color: #008ABF;
+}
+.SalesPlayDialog .smart-spTooltipCon .smart-spTooltip-left{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* scroller bar */
+.SalesPlayDialog .wrapper {
+    position: relative;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.SalesPlayDialog .scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: inherit;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.SalesPlayDialog .iScrollVerticalScrollbar{
+    right: 1px !important;
+    background-color: #d3d3d3 !important;
+    width: 4px !important;
+} 
+.SalesPlayDialog .iScrollIndicator{
+    background: #999999 !important;
+    border: none !important;
+    border-radius: 0px !important;
+}
+

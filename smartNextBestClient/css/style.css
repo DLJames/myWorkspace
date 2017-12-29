@@ -6,6 +6,7 @@
 @import url(../widgets/PagingUtil/css/style.css);
 @import url(../widgets/TaskConfirmDialog/css/style.css);
 @import url(../widgets/MsgTooltip/css/style.css);
+@import url(../widgets/SalesPlayDialog/css/style.css);
 
 .smartClientContainer{
     display: flex;
