@@ -19,10 +19,10 @@ define([
     './widgets/PagingUtil/PagingUtil',
     './widgets/SCTaskDetail/scTaskDetail',
     './widgets/TaskConfirmDialog/TaskConfirmDialog',
-    './widgets/MsgTooltip/MsgTooltip',
-    './widgets/SalesPlayDialog/SalesPlayDialog'
+    './widgets/MsgTooltip/MsgTooltip'
+//    './widgets/SalesPlayDialog/SalesPlayDialog'
     
-], function(declare, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip, SalesPlayDialog) {
+], function(declare, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip) {
     var widget = declare('', [CustomUIWidget], {
         baseClass: 'smartClientContainer',    
         templateString: template,    
@@ -102,6 +102,7 @@ define([
             var me = this;
             
             ConsoleService.logActivity('13193', 'D12');
+            me._refreshFilterScroll();
             me._refreshFilterResultScroll();
             me._refreshClientBodyScroll();
         },
@@ -151,6 +152,7 @@ define([
             
             domConstruct.place(filterUtil.domNode, this.filterScrollView.scroll_con, 'first');
             filterUtil.startup();
+            this._refreshFilterScroll();
         },
         
         requestForFilter : function() {
@@ -224,24 +226,45 @@ define([
         },
         
         createFilterDetail: function(data) {
-            this.cityDropdown = new FilterDropdowndetail(data.city, 'city', 'location');
-            this.marketDropdown = new FilterDropdowndetail(data.market, 'market', 'location');
-            this.countryDropdown = new FilterDropdowndetail(data.country, 'country', 'location');
-            this.salesplayDropdown = new FilterDropdowndetail(data.salesPlays, 'salesPlays', 'salesPlays');
-            this.industryDropdown = new FilterDropdowndetail(data.industry, 'industry', 'industry');
+            this.cityDropdown = new FilterDropdowndetail(data.city, 'City', 'Location');
+            this.marketDropdown = new FilterDropdowndetail(data.market, 'Market', 'Location');
+            this.countryDropdown = new FilterDropdowndetail(data.country, 'Country', 'Location');
+            this.salesplayDropdown = new FilterDropdowndetail(data.salesPlays, 'SalesPlays', 'SalesPlays');
+            this.industryDropdown = new FilterDropdowndetail(data.industry, 'Industry', 'Industry');
+            
+            this.segmentDropdown = new FilterDropdowndetail(data.market, 'Segment', 'Segment');
+            this.buUpsellDropdown = new FilterDropdowndetail(data.market, 'BU Upsell', 'BU Upsell');
+            this.ibmClientDropdown = new FilterDropdowndetail(data.market, 'IBM Client', 'IBM Client');
+            this.channelDropdown = new FilterDropdowndetail(data.market, 'Channel', 'Channel');
+            this.upsellCycleDropdown = new FilterDropdowndetail(data.market, 'Upsell Cycle', 'Upsell Cycle');
+//            this.segmentDropdown = new FilterDropdowndetail(data.segment, 'segment', 'segment');
+//            this.buUpsellDropdown = new FilterDropdowndetail(data.buUpsell, 'buUpsell', 'buUpsell');
+//            this.ibmClientDropdown = new FilterDropdowndetail(data.ibmClient, 'ibmClient', 'ibmClient');
+//            this.channelDropdown = new FilterDropdowndetail(data.channel, 'channel', 'channel');
+//            this.upsellCycleDropdown = new FilterDropdowndetail(data.upsellCycle, 'upsellCycle', 'upsellCycle');
             
             this.filterDeatilScrollView.scroll_con.appendChild(this.cityDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.marketDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.countryDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.salesplayDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.industryDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.segmentDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.buUpsellDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.ibmClientDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.channelDropdown.domNode);
+            this.filterDeatilScrollView.scroll_con.appendChild(this.upsellCycleDropdown.domNode);
             
             this.dropdownList = {
-                'city': this.cityDropdown,
-                'market': this.marketDropdown,
-                'country': this.countryDropdown,
-                'salesPlays': this.salesplayDropdown,
-                'industry': this.industryDropdown
+                'City': this.cityDropdown,
+                'Market': this.marketDropdown,
+                'Country': this.countryDropdown,
+                'SalesPlays': this.salesplayDropdown,
+                'Industry': this.industryDropdown,
+                'Segment': this.segmentDropdown,
+                'BU Upsell': this.buUpsellDropdown,
+                'IBM Client': this.ibmClientDropdown,
+                'Channel': this.channelDropdown,
+                'Upsell Cycle': this.upsellCycleDropdown
             };
             
             this.filterUtilEventBind();
@@ -326,32 +349,49 @@ define([
         },
         
         showReasons: function(data) {
-            var _data, salesPlaysArr = this.filterDataObj.salesPlays || [];
+            var me = this;
+            var _data = {'bodyClassName': 'smart-tooltip-left', 'tooltipTitle': 'Reasons for call', 'commonMsg': ''};
+            var salesPlaysArr = me.filterDataObj.salesPlays || [];
             
-            if(salesPlaysArr.length) {
-                this.showSalesPlayDialog();
-                return;
+            if(!salesPlaysArr.length) {
+                _data.commonMsg += '<div>- no sales plays found</div>';
             }
             
-            _data = {
-                'bodyClassName': 'smart-tooltip-left',
-                'tooltipTitle': 'Reasons for call',
-                'commonMsg': '<div>- no sales plays found</div>'
-            };
-            
-            this.showTooltipDialog(_data);
+            salesPlaysArr.forEach(function(item) {
+                if(data[item] > 0) {
+                    _data.commonMsg += '<div class="smart-tooltip-left">- ' + item + '</div>';
+                }
+            });
+            me.showTooltipDialog(_data);
         },
         
-        showSalesPlayDialog: function() {
-            var salesPlayDialog;
-            
-            salesPlayDialog = new SalesPlayDialog();
-//            on(salesPlayDialog, 'addOpportunity', function() {
-//                this.addOpportunity();
-//            });
-            document.querySelector('.myclients_container').appendChild(salesPlayDialog.domNode);
-            salesPlayDialog.startup();
-        },
+//        showReasons: function(data) {
+//            var _data, salesPlaysArr = this.filterDataObj.salesPlays || [];
+//            
+//            if(salesPlaysArr.length) {
+//                this.showSalesPlayDialog();
+//                return;
+//            }
+//            
+//            _data = {
+//                'bodyClassName': 'smart-tooltip-left',
+//                'tooltipTitle': 'Reasons for call',
+//                'commonMsg': '<div>- no sales plays found</div>'
+//            };
+//            
+//            this.showTooltipDialog(_data);
+//        },
+//        
+//        showSalesPlayDialog: function() {
+//            var salesPlayDialog;
+//            
+//            salesPlayDialog = new SalesPlayDialog();
+////            on(salesPlayDialog, 'addOpportunity', function() {
+////                this.addOpportunity();
+////            });
+//            document.querySelector('.myclients_container').appendChild(salesPlayDialog.domNode);
+//            salesPlayDialog.startup();
+//        },
         
         goToPage: function(data) {
             var me = this;

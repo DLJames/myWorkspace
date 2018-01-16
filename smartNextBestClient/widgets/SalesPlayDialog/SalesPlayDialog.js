@@ -59,7 +59,7 @@ define([
         },
         
         createView: function() {
-            this.spNum.innerHTML = 6;
+            this.spNum.innerHTML = this.data.length;
             this.createSalesplayItem();
         },
         
@@ -67,14 +67,15 @@ define([
             var me = this;
             
             me.data.forEach(function(item) {
-                var itemCon, itemBar, progressBar, opptBtn;
+                var itemCon, itemBar, progressBar, opptBtnCon, opptBtn;
                 
                 itemCon = domConstruct.create('div', {'class': 'smart-spColumnItem'}, me.scrollView.scroll_con, 'last');
                 domConstruct.create('div', {'class': 'smart-spSalesplay', innerHTML: item.name}, itemCon, 'last');
                 itemBar = domConstruct.create('div', {'class': 'smart-spConfidenceBar'}, itemCon, 'last');
                 progressBar = domConstruct.create('div', {'class': 'smart-progress'}, itemBar, 'last');
                 domConstruct.create('div', {style: {width: item.num / 10 * 100 + '%'}}, progressBar, 'last');
-                opptBtn = domConstruct.create('div', {'class': 'smart-spOpptBtn icon-add-interaction'}, itemCon, 'last');
+                opptBtnCon = domConstruct.create('div', {'class': 'smart-spOpptBtnCon'}, itemCon, 'last');
+                opptBtn = domConstruct.create('div', {'class': 'smart-spOpptBtn icon-add-interaction'}, opptBtnCon, 'last');
                 
                 on(opptBtn, 'click', function() {
                     alert('go to create oppt')

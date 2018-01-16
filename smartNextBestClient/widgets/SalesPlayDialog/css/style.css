@@ -83,14 +83,15 @@
     background-color: #8CC63F;
     height: 10px;
 }
-.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtn{
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtnCon .smart-spOpptBtn{
     font-size: 28px;
     color: #00B0DA;
     width: 30px;
     height: 30px;
     cursor: pointer;
+    margin: 0 auto;
 }
-.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtn:hover{
+.SalesPlayDialog .smart-spTooltipCon .smart-spColumnBody .smart-spOpptBtnCon .smart-spOpptBtn:hover{
     color: #008ABF;
 }
 .SalesPlayDialog .smart-spTooltipCon .smart-spTooltip-button{
