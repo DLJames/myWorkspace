@@ -3,11 +3,12 @@
 @import url(../widgets/FilterUtilItem/css/style.css);
 @import url(../widgets/FilterDropdowndetail/css/style.css);
 @import url(../widgets/HeadColumn/css/style.css);
+@import url(../widgets/CustomHeadColumn/css/style.css);
 @import url(../widgets/SCTaskDetail/css/style.css);
 @import url(../widgets/PagingUtil/css/style.css);
 @import url(../widgets/TaskConfirmDialog/css/style.css);
 @import url(../widgets/MsgTooltip/css/style.css);
-@import url(../widgets/SalesPlayDialog/css/style.css);
+/* @import url(../widgets/SalesPlayDialog/css/style.css); */
 
 .smartClientContainer{
     display: flex;

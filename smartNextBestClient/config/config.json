@@ -7,6 +7,8 @@
                         "classname": "HeadColumn commonColumn",
                         "sortable": false,
                         "actived": false,
+                        "sortBy": "",
+                        "initShow": "default",
                         "flexnum": "1",
                         "width": "8%"
                     },
@@ -17,6 +19,7 @@
                         "sortable": true,
                         "actived": true,
                         "sortBy": "asc",
+                        "initShow": "default",
                         "flexnum": "1",
                         "width": "8%"
                     },
@@ -27,18 +30,9 @@
                         "sortable": true,
                         "actived": false,
                         "sortBy": "asc",
+                        "initShow": "default",
                         "flexnum": "1",
                         "width": "8%"
-                    },
-                    {
-                        "title": "Reasons for call",
-                        "key": "reasonForCall",
-                        "classname": "HeadColumn commonColumn sortable asc",
-                        "sortable": true,
-                        "actived": false,
-                        "sortBy": "asc",
-                        "flexnum": "1.5",
-                        "width": "14%"
                     },
                     {
                         "title": "Client",
@@ -47,8 +41,31 @@
                         "sortable": false,
                         "actived": false,
                         "sortBy": "asc",
+                        "initShow": "default",
                         "flexnum": "2",
                         "width": "23%"
+                    },
+                    {
+                        "title": "Sales plays",
+                        "key": "reasonForCall",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "default",
+                        "flexnum": "1",
+                        "width": "14%"
+                    },
+                    {
+                        "title": "Segment",
+                        "key": "Segment",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "",
+                        "flexnum": "1",
+                        "width": "14%"
                     },
                     {
                         "title": "Industry",
@@ -57,8 +74,53 @@
                         "sortable": false,
                         "actived": false,
                         "sortBy": "asc",
+                        "initShow": "",
                         "flexnum": "2",
                         "width": "23%"
+                    },
+                    {
+                        "title": "BU Upsell",
+                        "key": "BU Upsell",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "",
+                        "flexnum": "1",
+                        "width": "14%"
+                    },
+                    {
+                        "title": "IBM Client",
+                        "key": "IBM Client",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "default",
+                        "flexnum": "1",
+                        "width": "14%"
+                    },
+                    {
+                        "title": "Channel",
+                        "key": "Channel",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "",
+                        "flexnum": "1",
+                        "width": "14%"
+                    },
+                    {
+                        "title": "Upsell Cycle",
+                        "key": "Upsell Cycle",
+                        "classname": "HeadColumn commonColumn sortable asc",
+                        "sortable": true,
+                        "actived": false,
+                        "sortBy": "asc",
+                        "initShow": "",
+                        "flexnum": "1.5",
+                        "width": "14%"
                     },
                     {
                         "title": "Tasks",
@@ -66,6 +128,8 @@
                         "classname": "HeadColumn commonColumn",
                         "sortable": false,
                         "actived": false,
+                        "sortBy": "",
+                        "initShow": "default",
                         "flexnum": "1",
                         "width": "8%"
                     }

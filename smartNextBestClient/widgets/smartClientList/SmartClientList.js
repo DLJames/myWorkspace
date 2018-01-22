@@ -29,12 +29,28 @@ define([
             this.inherited(arguments);
             
             var domNode = this.domNode;
-            
+            this.domObj = {
+                'Rank': this.rank.domNode,
+                'Score': this.score.domNode,
+                'SalesPlays': this.reasons.domNode,
+                'Clients': this.goToClient360.domNode,
+                'Segment': this.segment.domNode,
+                'Industry': this.industry.domNode,
+                'BU Upsell': this.buUpsell.domNode,
+                'IBM Client': this.ibmClient.domNode,
+                'Channel': this.channel.domNode,
+                'Upsell Cycle': this.upsellCycle.domNode,
+                'Tasks': this.scTask.domNode
+            }
         },
         
         startup : function() {
             this.inherited(arguments);
             this.createView();
+        },
+        
+        updateView: function() {
+            
         },
         
         createView: function() {

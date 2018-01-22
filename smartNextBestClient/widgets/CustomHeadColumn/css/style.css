@@ -1,0 +1,132 @@
+.CustomHeadColumn{
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    top: -2px;
+    right: -5px;
+}
+.CustomHeadColumn .custom-icon{
+    width: 45px;
+    height: 45px;
+    background: url('../images/blue_column-preferences_graphic.svg') no-repeat 50% 50%;
+    cursor: pointer;
+}
+.CustomHeadColumn .custom-body{
+    background: #fff;
+    position: absolute;
+    z-index: 10;
+    right: 12px;
+    top: -135px;
+    transition: all .5s;
+    transform: scale(0);
+    transform-origin: right top;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+.CustomHeadColumn .custom-body.custom-body-show{
+    transform: scale(1);
+}
+.CustomHeadColumn .custom-body .custom-body-title{
+    width: 220px;
+    color: #808080;
+    font-size: 15px;
+    margin: 20px 10px 10px 20px;
+}
+.CustomHeadColumn .custom-body .custom-columns-list{
+    padding: 0 20px;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item{
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    transition: all .5s;
+    cursor: pointer;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item:hover{
+    background-color: #b3b3b3;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item.item-locked{
+    cursor: default;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item .select-button{
+    width: 15px;
+    height: 15px;
+    color: rgba(255,255,255,0);
+    margin-right: 10px;
+    border: solid 1px #404040;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    position: relative;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item .select-button:before{
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    width: 15px;
+    height: 15px;
+    top: -4px;
+    left: -3px;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item.item-checked .select-button{
+    color: #404040;
+}
+.CustomHeadColumn .custom-body .custom-columns-list .custom-list-item.item-locked .select-button{
+    color: #d3d3d3;
+    border: solid 1px #d3d3d3;
+}
+.CustomHeadColumn .custom-body .custom-body-button{
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 10px;
+    background: #00b0da;
+    color: #fff;
+    text-align: center;
+    transition: all .5s;
+    cursor: pointer;
+}
+.CustomHeadColumn .custom-body .custom-body-button:hover{
+    background-color: #008abf;
+}
+.custom-warning-dialog{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    background: #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transform: translate(-195px,-45px);
+    animation: messageProcess 3s;
+    -moz-animation: messageProcess 3s;
+    -webkit-animation: messageProcess 3s;
+}
+.custom-warning-dialog .body-alert-icon{
+    color: rgb(252, 175, 23);
+    font-size: 60px;
+    padding: 15px;
+}
+.custom-warning-dialog .body-alert-message{
+    height: 90px;
+    width: 300px;
+    box-sizing: border-box;
+    padding-top: 25px;
+    line-height: 20px;
+}
+@keyframes messageProcess{
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@-moz-keyframes messageProcess{
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@-webkit-keyframes messageProcess{
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0;}
+}

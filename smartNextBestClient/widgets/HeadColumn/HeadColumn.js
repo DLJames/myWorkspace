@@ -46,8 +46,9 @@ define([
         },
         
         createView: function() {
-            var me = this;
-            
+            if(this.data.initShow !== 'default') {
+                domClass.add(this.domNode, 'smart-hidden');
+            }
             this.name.innerHTML = this.data.title;
             if(this.data.actived) {
                 domClass.add(this.domNode, 'showIcon active');

@@ -1,5 +1,6 @@
 define([    
     'dojo/_base/declare',
+    'dojo/Stateful',
     'dojo/on',
     'dojo/fx',
     'dojo/dom-attr',
@@ -14,6 +15,7 @@ define([
     'dojo/text!./config/config.json',
     './widgets/FilterUtil/FilterUtil',
     './widgets/HeadColumn/HeadColumn',
+    './widgets/CustomHeadColumn/CustomHeadColumn',
     './widgets/smartClientList/SmartClientList',
     './widgets/FilterDropdowndetail/FilterDropdowndetail',
     './widgets/PagingUtil/PagingUtil',
@@ -22,7 +24,18 @@ define([
     './widgets/MsgTooltip/MsgTooltip'
 //    './widgets/SalesPlayDialog/SalesPlayDialog'
     
-], function(declare, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip) {
+], function(declare, Stateful, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, CustomHeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip) {
+    
+    var SmartListener = declare('', [Stateful], {
+        columnsArray: [],
+        _columnsArrayGetter: function() {
+            return this.columnsArray;
+        },
+        _columnsArraySetter: function(value) {
+            this.columnsArray = value;
+        }
+    });
+    
     var widget = declare('', [CustomUIWidget], {
         baseClass: 'smartClientContainer',    
         templateString: template,    
@@ -34,6 +47,7 @@ define([
         pendingTaskArr: [],
         createdTaskArr: [],
         filterResultArray: [],
+        totalHeadItems: [],
         sortabledHeadItems: [],
         taskProxyTotalNum: 0,
         taskProxySuccessNum: 0,
@@ -92,6 +106,7 @@ define([
         
         startup : function() {    
             this.inherited(arguments);
+            this.createSmartListener();
             this.createTableHead();
             this.createFilterUtil();
             this.requestForFilter();
@@ -107,9 +122,24 @@ define([
             me._refreshClientBodyScroll();
         },
         
+        createSmartListener: function() {
+            var me = this;
+            
+            me.smartListener = new SmartListener({
+                columnsArray: ['Select', 'Rank', 'Score', 'Client', 'Sales plays', 'Industry', 'Tasks']
+            });
+            
+            me.smartListener.watch('columnsArray', function(name, oldVal, val) {
+                console.log('name=', name,' oldval==', oldVal,' val==',val)
+                
+            });
+        },
+        
         createTableHead: function() {
             var me = this;
+            var customHeadColumn;
             var headItems = JSON.parse(config).data.headerItems;
+//            var _proxy = proxy.getCustom(me.intranetID);
             
             headItems.forEach(function(item) {
                 var headItem;
@@ -117,6 +147,8 @@ define([
                 headItem = new HeadColumn(item);
                 me.columnCon.appendChild(headItem.domNode);
                 headItem.startup();
+                
+                me.totalHeadItems.push(headItem);
                 
                 on(headItem, 'sortRequest', function(data) {
                     me.sortType = data.sortType;
@@ -133,6 +165,44 @@ define([
                 });
                 if(item.sortable) {
                     me.sortabledHeadItems.push(headItem);
+                }
+            });
+            
+            customHeadColumn = me.customHeadColumn = new CustomHeadColumn();
+            me.columnCon.appendChild(customHeadColumn.domNode);
+            customHeadColumn.startup();
+            
+            on(customHeadColumn, 'changeColumns', function(data) {
+                me.changeHeadColumns(data);
+            });
+            
+            setTimeout(function() {
+            	var _newColumns = ['Rank', 'Client', 'BU Upsell', 'Industry', 'Tasks'];
+            	me.customHeadColumn.updateView(_newColumns);
+            	me.changeHeadColumns(_newColumns)
+            	me.customColumns = _newColumns;
+            },12000);
+            
+//            _proxy.then(function(res) {
+//                if(res.data) {
+////                    me.smartListener.set('columnsArray', res.data);
+//                    me.customHeadColumn.updateView(res.data);
+//                }
+//            }, function() {
+//                
+//            });
+        },
+        
+        changeHeadColumns: function(_newColumns) {
+        	console.log('_newColumns===', _newColumns);
+            this.totalHeadItems.forEach(function(item) {
+                var _title = item.data.title;
+                if(_newColumns.includes(_title) && _title !== 'Select' && _title !== 'Client') {
+                    domClass.remove(item.domNode, 'smart-hidden');
+                }
+                
+                if(!_newColumns.includes(_title) && _title !== 'Select' && _title !== 'Client') {
+                    domClass.add(item.domNode, 'smart-hidden');
                 }
             });
         },
@@ -154,6 +224,18 @@ define([
             filterUtil.startup();
             this._refreshFilterScroll();
         },
+        
+//        requestForCustomColumns: function() {
+//            var me = this;
+//            
+//            proxy.xxx(me.intranetID).then(function(res) {
+//                if(res.data) {
+//                    me.smartListener.set('columnsArray', res.data);
+//                }
+//            }, function() {
+//                
+//            });
+//        },
         
         requestForFilter : function() {
             var me = this;
@@ -232,16 +314,11 @@ define([
             this.salesplayDropdown = new FilterDropdowndetail(data.salesPlays, 'SalesPlays', 'SalesPlays');
             this.industryDropdown = new FilterDropdowndetail(data.industry, 'Industry', 'Industry');
             
-            this.segmentDropdown = new FilterDropdowndetail(data.market, 'Segment', 'Segment');
-            this.buUpsellDropdown = new FilterDropdowndetail(data.market, 'BU Upsell', 'BU Upsell');
-            this.ibmClientDropdown = new FilterDropdowndetail(data.market, 'IBM Client', 'IBM Client');
-            this.channelDropdown = new FilterDropdowndetail(data.market, 'Channel', 'Channel');
-            this.upsellCycleDropdown = new FilterDropdowndetail(data.market, 'Upsell Cycle', 'Upsell Cycle');
-//            this.segmentDropdown = new FilterDropdowndetail(data.segment, 'segment', 'segment');
-//            this.buUpsellDropdown = new FilterDropdowndetail(data.buUpsell, 'buUpsell', 'buUpsell');
-//            this.ibmClientDropdown = new FilterDropdowndetail(data.ibmClient, 'ibmClient', 'ibmClient');
-//            this.channelDropdown = new FilterDropdowndetail(data.channel, 'channel', 'channel');
-//            this.upsellCycleDropdown = new FilterDropdowndetail(data.upsellCycle, 'upsellCycle', 'upsellCycle');
+            this.segmentDropdown = new FilterDropdowndetail(data.segment, 'Segment', 'Segment');
+            this.buUpsellDropdown = new FilterDropdowndetail(data.buUpsell, 'BU Upsell', 'BU Upsell');
+            this.ibmClientDropdown = new FilterDropdowndetail(data.ibmClient, 'IBM Client', 'IBM Client');
+            this.channelDropdown = new FilterDropdowndetail(data.channel, 'Channel', 'Channel');
+            this.upsellCycleDropdown = new FilterDropdowndetail(data.upsellCycle, 'Upsell Cycle', 'Upsell Cycle');
             
             this.filterDeatilScrollView.scroll_con.appendChild(this.cityDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.marketDropdown.domNode);
@@ -309,14 +386,6 @@ define([
                     me.showScTaskDialog(data);
                 });
                 
-//                on(smartClientList, 'clearPendingTask', function() {
-//                    me.clearPendingTask();
-//                });
-                
-//                on(smartClientList, 'hideCreateTaskBtn', function() {
-//                    me.hideCreateTaskBtn();
-//                });
-                
                 on(smartClientList, 'showReasons', function(data) {
                     me.showReasons(data);
                 });
@@ -328,8 +397,6 @@ define([
                 on(smartClientList, 'createTaskFail', function() {
                     me.createTaskFail();
                 });
-                
-                
                 
                 clientList.push(smartClientList);
             });
