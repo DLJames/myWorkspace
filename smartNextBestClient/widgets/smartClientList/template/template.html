@@ -1,14 +1,14 @@
 <div class="smartClientList">
     <div class="smartList-optionBtn smartList-btn" data-dojo-attach-point="optBtnCon">
-        <div data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="optBtn" data-dojo-attach-event="click:addPendingTask"></div>
+        <div data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="optBtn" data-dojo-attach-event="click:handlePendingTask"></div>
     </div>
     <div class="smartList-rank smartList-text" data-dojo-attach-point="rank"></div>
     <div class="smartList-score smartList-text" data-dojo-attach-point="score"></div>
-    <div class="smartList-reasons smartList-text" data-dojo-attach-point="reasons" data-dojo-attach-event="click:showReasons"></div>
-    <!-- <div class="smartList-client smartList-text" data-dojo-attach-point="goToClient360Btn" data-dojo-attach-event="click:goToClient360"></div> -->
     <div class="smartList-client smartList-text" data-dojo-attach-point="goToClient360">
         <a href="" target="_self" data-dojo-attach-point="goToClient360Btn"></a>
     </div>
+    <div class="smartList-reasons smartList-text" data-dojo-attach-point="reasons" data-dojo-attach-event="click:showReasons"></div>
+    <!-- <div class="smartList-client smartList-text" data-dojo-attach-point="goToClient360Btn" data-dojo-attach-event="click:goToClient360"></div> -->
     <div class="smartList-segment smartList-text smart-hidden" data-dojo-attach-point="segment"></div>
     <div class="smartList-industry smartList-text" data-dojo-attach-point="industry"></div>
     <div class="smartList-buUpsell smartList-text smart-hidden" data-dojo-attach-point="buUpsell"></div>
@@ -18,7 +18,7 @@
     <!-- <div class="smartList-contacts smartList-btn" data-dojo-attach-point="contacts">
         <div class="smart-contact" data-dojo-attach-point="contactBtn" data-dojo-attach-event="click:loadContactModule"></div>
     </div> -->
-    <div class="smartList-scTtask smartList-btn" data-dojo-attach-point="scTask">
-        <div class="icon-edit-task_graphic blue smart-hidden" data-dojo-attach-point="scTaskBtn" data-dojo-attach-event="click:showScTaskDialog"></div>
+    <div class="smartList-scTask smartList-btn" data-dojo-attach-point="scTask">
+        <div class="smart-scTask-btn icon-edit-task_graphic smart-hidden" data-dojo-attach-point="scTaskBtn" data-dojo-attach-event="click:showScTaskDialog"></div>
     </div>
 </div>

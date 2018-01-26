@@ -22,31 +22,19 @@ define([
     './widgets/SCTaskDetail/scTaskDetail',
     './widgets/TaskConfirmDialog/TaskConfirmDialog',
     './widgets/MsgTooltip/MsgTooltip'
-//    './widgets/SalesPlayDialog/SalesPlayDialog'
     
 ], function(declare, Stateful, on, fx, domAttr, domStyle, domClass, domConstruct, template, CustomUIWidget, IScrollView, ConsoleService, proxy, config, FilterUtil, HeadColumn, CustomHeadColumn, SmartClientList, FilterDropdowndetail, PagingUtil, scTaskDetail, TaskConfirmDialog, MsgTooltip) {
-    
-    var SmartListener = declare('', [Stateful], {
-        columnsArray: [],
-        _columnsArrayGetter: function() {
-            return this.columnsArray;
-        },
-        _columnsArraySetter: function(value) {
-            this.columnsArray = value;
-        }
-    });
-    
     var widget = declare('', [CustomUIWidget], {
         baseClass: 'smartClientContainer',    
         templateString: template,    
         serialNumber: ConsoleService.getCurrentUser().getSerialNumber(),
         intranetID: ConsoleService.getCurrentUser().getIntranetId(),
         filterDataObj: {},
-        totalClientEntityList: [],
-        totalClientList: [],
+        totalClientItemList: [],
+        totalClientConList: [],
         pendingTaskArr: [],
-        createdTaskArr: [],
         filterResultArray: [],
+        defaultColumns: [],
         totalHeadItems: [],
         sortabledHeadItems: [],
         taskProxyTotalNum: 0,
@@ -55,6 +43,7 @@ define([
         taskStatus: '',
         sortType: 'Unique_Rank_per_Rep',
         sortByDesc: false,
+        clientsRequestDone: false,
         postCreate: function() {    
             this.inherited(arguments);
             
@@ -106,7 +95,6 @@ define([
         
         startup : function() {    
             this.inherited(arguments);
-            this.createSmartListener();
             this.createTableHead();
             this.createFilterUtil();
             this.requestForFilter();
@@ -122,24 +110,11 @@ define([
             me._refreshClientBodyScroll();
         },
         
-        createSmartListener: function() {
-            var me = this;
-            
-            me.smartListener = new SmartListener({
-                columnsArray: ['Select', 'Rank', 'Score', 'Client', 'Sales plays', 'Industry', 'Tasks']
-            });
-            
-            me.smartListener.watch('columnsArray', function(name, oldVal, val) {
-                console.log('name=', name,' oldval==', oldVal,' val==',val)
-                
-            });
-        },
-        
         createTableHead: function() {
             var me = this;
             var customHeadColumn;
             var headItems = JSON.parse(config).data.headerItems;
-//            var _proxy = proxy.getCustom(me.intranetID);
+//            var _proxy = proxy.getCustomColumns(me.intranetID);
             
             headItems.forEach(function(item) {
                 var headItem;
@@ -148,16 +123,22 @@ define([
                 me.columnCon.appendChild(headItem.domNode);
                 headItem.startup();
                 
+//                if(item.title === 'Select') {
+//                    me.selectAllColumn = headItem;
+//                }
+                
                 me.totalHeadItems.push(headItem);
                 
+                if(item.defaultColumn) {
+                    me.defaultColumns.push(item.customKey);
+                }
+                
+                on(headItem, 'selectAllAction', function(data) {
+                    me.selectAllAction(data);
+                });
+                
                 on(headItem, 'sortRequest', function(data) {
-                    me.sortType = data.sortType;
-                    if(data.sortByDesc === 'desc') {
-                        me.sortByDesc = true;
-                    }else {
-                        me.sortByDesc = false;
-                    }
-                    me.requestForClient();
+                    me.sortRequest(data);
                 });
                 
                 on(headItem, 'changeActiveHeadItem', function(data) {
@@ -173,38 +154,66 @@ define([
             customHeadColumn.startup();
             
             on(customHeadColumn, 'changeColumns', function(data) {
+                me.defaultColumns = data;
                 me.changeHeadColumns(data);
+                me.changeBodyColumns(data);
             });
-            
-            setTimeout(function() {
-            	var _newColumns = ['Rank', 'Client', 'BU Upsell', 'Industry', 'Tasks'];
-            	me.customHeadColumn.updateView(_newColumns);
-            	me.changeHeadColumns(_newColumns)
-            	me.customColumns = _newColumns;
-            },12000);
             
 //            _proxy.then(function(res) {
 //                if(res.data) {
-////                    me.smartListener.set('columnsArray', res.data);
-//                    me.customHeadColumn.updateView(res.data);
+//                    var _newColumns = me.defaultColumns = ['Rank', 'Client', 'BU Upsell', 'Industry', 'Tasks'];
+//                    
+//                    me.customHeadColumn.updateView(_newColumns);
+//                    me.changeHeadColumns(_newColumns);
+//                    if(!me.clientsRequestDone) {
+//                        return;
+//                    }
+//                    me.changeBodyColumns(_newColumns);
 //                }
 //            }, function() {
 //                
 //            });
         },
         
-        changeHeadColumns: function(_newColumns) {
-        	console.log('_newColumns===', _newColumns);
-            this.totalHeadItems.forEach(function(item) {
-                var _title = item.data.title;
-                if(_newColumns.includes(_title) && _title !== 'Select' && _title !== 'Client') {
-                    domClass.remove(item.domNode, 'smart-hidden');
-                }
-                
-                if(!_newColumns.includes(_title) && _title !== 'Select' && _title !== 'Client') {
-                    domClass.add(item.domNode, 'smart-hidden');
+        selectAllAction: function(data) {
+            var currentClientItemList = [];
+            var _checked = data;
+            
+            currentClientItemList = this.getCurrentClientItem();
+            currentClientItemList.forEach(function(clientItem) {
+                clientItem.selectAllOptBtn(_checked);
+            });
+        },
+        
+        getSelectableItemNum: function() {
+            var currentClientItemList = [];
+            
+            currentClientItemList = this.getCurrentClientItem();
+            return currentClientItemList.filter(function(clientItem) {
+                return !clientItem.getOptBtnDisable();
+            }).length;
+        },
+        
+        getCurrentClientItem: function() {
+            var currentPageIdx;
+            
+            this.totalClientConList.forEach(function(item, idx) {
+                if(!domClass.contains(item, 'smart-hidden')) {
+                    currentPageIdx = idx;
                 }
             });
+            
+            return this.totalClientItemList[currentPageIdx];
+        },
+        
+        sortRequest: function(data) {
+            this.sortType = data.sortType;
+            if(data.sortByDesc === 'desc') {
+                this.sortByDesc = true;
+            }else {
+                this.sortByDesc = false;
+            }
+            this.requestForClient();
         },
         
         changeActiveHeadItem: function(activeItem) {
@@ -217,6 +226,38 @@ define([
             });
         },
         
+        changeHeadColumns: function(_newColumns) {
+            this.totalHeadItems.forEach(function(item) {
+                var _customKey = item.data.customKey;
+                
+                if(_customKey === 'Select' || _customKey === 'Client') {
+                    return;
+                }
+                
+                if(_newColumns.includes(_customKey)) {
+                    domClass.remove(item.domNode, 'smart-hidden');
+                }else {
+                    domClass.add(item.domNode, 'smart-hidden');
+                }
+            });
+        },
+        
+        changeBodyColumns: function(_newColumns) {
+            var me = this;
+            
+            try {
+                me.totalClientItemList.forEach(function(clientList) {
+                    clientList.forEach(function(item) {
+                        item.defaultColumns = me.defaultColumns;
+                        item.updateView();
+                    });
+                });
+            } catch (err) {
+                // TODO: handle exception
+                throw new Error(err);
+            }
+        },
+        
         createFilterUtil: function() {
             var filterUtil = this.filterUtil = new FilterUtil();
             
@@ -224,18 +265,6 @@ define([
             filterUtil.startup();
             this._refreshFilterScroll();
         },
-        
-//        requestForCustomColumns: function() {
-//            var me = this;
-//            
-//            proxy.xxx(me.intranetID).then(function(res) {
-//                if(res.data) {
-//                    me.smartListener.set('columnsArray', res.data);
-//                }
-//            }, function() {
-//                
-//            });
-//        },
         
         requestForFilter : function() {
             var me = this;
@@ -260,6 +289,11 @@ define([
                     'country': me.countryDropdown ? me.countryDropdown.getSelectedItemsFinal() : [],
                     'salesPlays': me.salesplayDropdown ? me.salesplayDropdown.getSelectedItemsFinal() : [],
                     'industry': me.industryDropdown ? me.industryDropdown.getSelectedItemsFinal() : [],
+                    'segment': me.segmentDropdown ? me.segmentDropdown.getSelectedItemsFinal() : [],
+                    'buUpsell': me.buUpsellDropdown ? me.buUpsellDropdown.getSelectedItemsFinal() : [],
+                    'ibmClient': me.ibmClientDropdown ? me.ibmClientDropdown.getSelectedItemsFinal() : [],
+                    'channel': me.channelDropdown ? me.channelDropdown.getSelectedItemsFinal() : [],
+                    'upsellCycle': me.upsellCycleDropdown ? me.upsellCycleDropdown.getSelectedItemsFinal() : [],
                     'bookmark': bookmark || '',
                     'employee_cnum': location.host === 'csa.dst.ibm.com' ? me.serialNumber : '057568613',
                     'email': me.intranetID || '',
@@ -269,41 +303,38 @@ define([
                 })
             };
             
-//            console.log('filter====',params);
-            
-            if(!bookmark) {
-                me.totalClientList.length = 0;
-            }
-            
-            me.clearPendingTask();
-            
 //            me.hideError();
             me.showLoader();
             proxy.bestClients(params).then(function(res) {
-                var data = res.data, clients = [], totalData = '', _bookmark = '';
+                var _data = res.data, _clients = [], _totalData = '', _newbookmark = '';
                 
+                me.clientsRequestDone = true;
                 me.hideLoader();
-                if(res.errorCode || !data || !data.docs) {
+                if(res.errorCode || !_data || !_data.docs) {
 //                    me.showError();
+                    me.clearPendingTask();
+//                    me.enableSelectAllBtn();
                     return;
                 }
                 try {
-                    clients = data.docs;
-                    totalData = data.total_rows;
-                    _bookmark = data.bookmark;
-                    me.clientNum.innerHTML = totalData;
-                    me.bookmark = _bookmark;
-                    me.createClientEntity(clients, bookmark);
+                    _clients = _data.docs;
+                    _totalData = _data.total_rows;
+                    _newbookmark = _data.bookmark;
+                    me.clientNum.innerHTML = _totalData;
+                    me.bookmark = _newbookmark;
+                    me.createClientEntity(_clients, bookmark);
                     if(!bookmark) {
-                        me.pagingUtil.createView(totalData);
+                        me.pagingUtil.createView(_totalData);
                     }
                 } catch (e) {
                     // TODO: handle exception
-                    console.log('error====', e);
+                    console.log('####error happened in requestForClient====', e);
                 }
             }, function() {
                 me.hideLoader();
 //                me.showError();
+                me.clearPendingTask();
+//                me.enableSelectAllBtn();
             });
         },
         
@@ -351,36 +382,41 @@ define([
         createClientEntity: function(clients, bookmark) {
             var me = this;
             var smartClientListCon;
-            var clientList = [];
+            var clientItemList = [];
+            var defaultColumns = me.defaultColumns.slice();
+            
+            me.clearPendingTask();
             
             if(!bookmark) {
+                me.totalClientItemList.length = 0;
+                me.totalClientConList.length = 0;
                 domConstruct.empty(me.bodyScrollView.scroll_con);
             }else {
-                me.totalClientList.forEach(function(item) {
+                me.totalClientConList.forEach(function(item) {
                     domClass.add(item, 'smart-hidden');
                 });
             }
             
-            smartClientListCon = domConstruct.create('div', {
-                'class': 'smart-smartClientListCon', 
-                'data-bookmark': bookmark
-            }, me.bodyScrollView.scroll_con, 'last');
+            smartClientListCon = domConstruct.create('div', {'class': 'smart-smartClientListCon'}, me.bodyScrollView.scroll_con, 'last');
             
             if(!clients.length) {
                 me.createNoClientsView(smartClientListCon);
             }
             
             clients.forEach(function(item) {
-                var smartClientList;
+                var smartClientList = new SmartClientList(item, defaultColumns);
                 
-                smartClientList = new SmartClientList(item);
-                smartClientList.parentView = me;
-                domConstruct.place(smartClientList.domNode, smartClientListCon, 'last');
-                smartClientList.startup();
+//                on(smartClientList, 'enableSelectAllBtn', function() {
+//                    me.enableSelectAllBtn();
+//                });
                 
-                on(smartClientList, 'addPendingTask', function(data) {
-                    me.addPendingTask(data);
+                on(smartClientList, 'handlePendingTask', function(data) {
+                    me.handlePendingTask(data);
                 });
+                
+//                on(smartClientList, 'selectAllToPendingTask', function(data) {
+//                    me.selectAllToPendingTask(data);
+//                });
                 
                 on(smartClientList, 'showScTaskDialog', function(data) {
                     me.showScTaskDialog(data);
@@ -398,20 +434,12 @@ define([
                     me.createTaskFail();
                 });
                 
-                clientList.push(smartClientList);
+                domConstruct.place(smartClientList.domNode, smartClientListCon, 'last');
+                smartClientList.startup();
+                clientItemList.push(smartClientList);
             });
-            me.totalClientEntityList.push(clientList);
-            me.totalClientList.push(smartClientListCon);
-            
-            me.totalClientList.forEach(function(item, idx) {
-                if(idx === me.totalClientList.length - 1) {
-                    domClass.remove(item, 'smart-hidden');
-                    me.pagingUtil.changeCurrentPage(me.totalClientList.length);
-                }else {
-                    domClass.add(item, 'smart-hidden');
-                }
-            });
-            
+            me.totalClientItemList.push(clientItemList);
+            me.totalClientConList.push(smartClientListCon);
             me._refreshClientBodyScroll();
         },
         
@@ -432,54 +460,30 @@ define([
             me.showTooltipDialog(_data);
         },
         
-//        showReasons: function(data) {
-//            var _data, salesPlaysArr = this.filterDataObj.salesPlays || [];
-//            
-//            if(salesPlaysArr.length) {
-//                this.showSalesPlayDialog();
-//                return;
-//            }
-//            
-//            _data = {
-//                'bodyClassName': 'smart-tooltip-left',
-//                'tooltipTitle': 'Reasons for call',
-//                'commonMsg': '<div>- no sales plays found</div>'
-//            };
-//            
-//            this.showTooltipDialog(_data);
-//        },
-//        
-//        showSalesPlayDialog: function() {
-//            var salesPlayDialog;
-//            
-//            salesPlayDialog = new SalesPlayDialog();
-////            on(salesPlayDialog, 'addOpportunity', function() {
-////                this.addOpportunity();
-////            });
-//            document.querySelector('.myclients_container').appendChild(salesPlayDialog.domNode);
-//            salesPlayDialog.startup();
-//        },
-        
         goToPage: function(data) {
             var me = this;
             var bookmark = me.bookmark;
-            var pageNum = data.pageNum;
-            var totalClientList = me.totalClientList;
-            var clientList = totalClientList[pageNum - 1];
-            var clientEntityList = me.totalClientEntityList[pageNum - 1];
+            var clientConIdx = data.pageNum - 1;
+            var totalClientConList = me.totalClientConList;
+            var clientCon = totalClientConList[clientConIdx];
+            var clientItemList = me.totalClientItemList[clientConIdx];
             
-            me.pendingTaskArr.forEach(function(item) {
-                item.smartClientItem.optBtn.set('checked', false);
-            });
-            
-            me.clearPendingTask();
-            
-            if(clientList) {
-                totalClientList.forEach(function(item) {
-                    domClass.add(item, 'smart-hidden');
+            if(clientCon) {
+                me.clearPendingTask();
+                
+                totalClientConList.forEach(function(item, idx) {
+                    if(idx === clientConIdx) {
+                        domClass.remove(item, 'smart-hidden');
+                    }else {
+                        domClass.add(item, 'smart-hidden');
+                    }
                 });
                 
-                domClass.remove(clientList, 'smart-hidden');
+//                clientItemList.forEach(function(clientItem) {
+//                    if(!clientItem.optBtn.get('disabled')) {
+//                        me.enableSelectAllBtn();
+//                    }
+//                });
                 me._refreshClientBodyScroll();
                 return;
             }
@@ -487,9 +491,40 @@ define([
             if(data.type === 'next') {
                 me.requestForClient(bookmark);
             }
+            
+//            if(data.type === 'prev') {
+//                
+//            }
         },
         
-        addPendingTask: function(data) {
+        handlePendingTask: function(data) {
+            var _id = data._id;
+            
+            if(data.selected) {
+                this.pendingTaskArr.push(data);
+            }
+            
+            if(!data.selected) {
+                this.pendingTaskArr = this.pendingTaskArr.filter(function(item) {
+                    return item._id !== _id;
+                });
+            }
+            
+//            if(this.getSelectableItemNum() === this.pendingTaskArr.length) {
+//                this.selectAllColumn.setSelectAllBtnCheck(true);
+//            }else {
+//                this.selectAllColumn.setSelectAllBtnCheck(false);
+//            }
+            
+            if(this.pendingTaskArr.length) {
+                this.showCreateTaskBtn();
+            }else {
+                this.hideCreateTaskBtn();
+            }
+//            console.log('=====this.pendingTaskArr====', this.pendingTaskArr);
+        },
+        
+        selectAllToPendingTask: function(data) {
             var _id = data._id;
             
             if(data.selected) {
@@ -507,8 +542,6 @@ define([
             }else {
                 this.hideCreateTaskBtn();
             }
-            
-//            console.log('=====this.pendingTaskArr====', this.pendingTaskArr);
         },
         
         showConfirmDialog: function() {
@@ -557,6 +590,7 @@ define([
             
             me.hideLoader();
             me.clearPendingTask();
+//            me.enableSelectAllBtn();
             if(taskProxySuccessNum === taskProxyTotalNum) {
                 data.tooltipTitle = 'Success';
                 data.commonMsg = '<div>' + taskProxyTotalNum + ' new tasks have been created in SalesConnect.</div>';
@@ -574,14 +608,23 @@ define([
         },
         
         clearPendingTask: function() {
-            var me = this;
-            
-//            me.pendingTaskArr.forEach(function(item) {
-//                me.createdTaskArr.push(item);
-//            });
-            me.pendingTaskArr.length = 0;
-            me.hideCreateTaskBtn();
+//            this.disableSelectAllBtn();
+            this.pendingTaskArr.forEach(function(item) {
+                item.smartClientItem.setOptBtnStatus(false);
+            });
+            this.pendingTaskArr.length = 0;
+            this.hideCreateTaskBtn();
         },
+        
+//        enableSelectAllBtn: function() {
+//            this.selectAllColumn.setSelectAllBtnCheck(false);
+//            this.selectAllColumn.setSelectAllBtnDisable(false);
+//        },
+//        
+//        disableSelectAllBtn: function() {
+//            this.selectAllColumn.setSelectAllBtnCheck(false);
+//            this.selectAllColumn.setSelectAllBtnDisable(true);
+//        },
         
         showScTaskDialog: function(data) {
             var me = this;

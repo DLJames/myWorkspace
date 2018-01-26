@@ -5,15 +5,19 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
+    padding: 0 10px;
 }
-.HeadColumn.commonColumn{
+.HeadColumn.columnCenter{
     justify-content: center;
 }
-.HeadColumn.largerColumn{
+.HeadColumn.columnLeft{
     justify-content: flex-start;
 }
 .HeadColumn.active{
     background: rgba(0, 0, 0, 0.1);
+}
+.HeadColumn > .smart-selectAllBtn input{
+    cursor: pointer;
 }
 .HeadColumn > span{
     cursor: default;

@@ -115,7 +115,7 @@ define([
             domConstruct.create('div', {'class': 'body-alert-icon icon-information-idle'}, warningDialog, 'last');
             domConstruct.create('div', {
                 'class': 'body-alert-message', 
-                innerHTML: 'Try choosing less columns to display so that it is easier to view the data on your device.'
+                innerHTML: 'Try choosing less columns to display, it is easier to view the data on your device.'
             }, warningDialog, 'last');
             
             setTimeout(function() {

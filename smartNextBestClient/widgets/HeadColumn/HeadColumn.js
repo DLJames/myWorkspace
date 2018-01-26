@@ -5,10 +5,11 @@ define([
     'dojo/dom-style',
     'dojo/dom-class',
     'dojo/dom-construct',
+    'dijit/form/CheckBox',
     'dojo/text!./template/template.html',
     'comlib/ui/CustomUIWidget',
     
-], function(declare, on, Evented, domStyle, domClass, domConstruct, template, CustomUIWidget) {
+], function(declare, on, Evented, domStyle, domClass, domConstruct, CheckBox, template, CustomUIWidget) {
     var widget = declare('HeadColumn', [CustomUIWidget, Evented], {    
         baseClass: 'HeadColumn',
         templateString: template,
@@ -46,15 +47,31 @@ define([
         },
         
         createView: function() {
-            if(this.data.initShow !== 'default') {
+            if(!this.data.defaultColumn) {
                 domClass.add(this.domNode, 'smart-hidden');
             }
             this.name.innerHTML = this.data.title;
+//            if(this.data.title === 'Select') {
+//                this.selectAllBtn = new CheckBox({
+//                    'class': 'smart-selectAllBtn',
+//                    'disabled': true
+//                });
+//                domConstruct.place(this.selectAllBtn.domNode, this.domNode, 'last');
+//                on(this.selectAllBtn, 'click', function(evt) {
+//                    this.selectAllAction(evt);
+//                }.bind(this));
+//            }else {
+//                this.name.innerHTML = this.data.title;
+//            }
             if(this.data.actived) {
                 domClass.add(this.domNode, 'showIcon active');
             }
             domStyle.set(this.domNode, 'flex', this.data.flexnum);
 //            domStyle.set(this.domNode, 'width', this.data.width);
+        },
+        
+        selectAllAction: function(evt) {
+            this.emit('selectAllAction', evt.target.checked);
         },
         
         sortAction: function() {
@@ -93,8 +110,20 @@ define([
         
         initMe: function() {
             this.data.actived = false;
-            domClass.replace(this.domNode, 'HeadColumn commonColumn sortable asc');
+            if(domClass.contains(this.domNode, 'smart-hidden')) {
+                domClass.replace(this.domNode, 'HeadColumn commonColumn sortable asc smart-hidden');
+            }else {
+                domClass.replace(this.domNode, 'HeadColumn commonColumn sortable asc');
+            }
             this.data.sortBy = 'asc';
+        },
+        
+        setSelectAllBtnCheck: function(flag) {
+            this.selectAllBtn.set('checked', flag);
+        },
+        
+        setSelectAllBtnDisable: function(flag) {
+            this.selectAllBtn.set('disabled', flag);
         },
         
         _onFocus: function() {    

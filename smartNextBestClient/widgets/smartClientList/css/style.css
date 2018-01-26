@@ -1,5 +1,4 @@
 .smartClientList{
-    padding: 12px 0;
     margin-right: 10px;
     border-bottom: 1px solid #e5e5e5;
     background-color: #fff;
@@ -17,15 +16,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 12px 10px;
 }
 .smartClientList > div.smartList-btn{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 12px 10px;
 }
 .smartClientList .smartList-optionBtn{
     /* width: 8%; */
-    flex: 1;
+    flex: 0.5;
 }
 .smartClientList .smartList-optionBtn input[type="checkbox"]{
     cursor: pointer;
@@ -45,7 +46,7 @@
 }
 .smartClientList .smartList-reasons{
     /* width: 14%; */
-    flex: 1.5;
+    flex: 1;
     text-align: center;
 }
 .smartClientList .smartList-reasons.smartList-clickable{
@@ -57,11 +58,10 @@
     flex: 2;
     color: #00B0DA;
     cursor: pointer;
-    padding-right: 5px;
 }
 .smartClientList .smartList-segment{
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .smartClientList .smartList-industry{
     /* width: 23%; */
@@ -70,22 +70,22 @@
 .smartClientList .smartList-buUpsell{
     /* width: 23%; */
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .smartClientList .smartList-ibmClient{
     /* width: 23%; */
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .smartClientList .smartList-channel{
     /* width: 23%; */
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .smartClientList .smartList-upsellCycle{
     /* width: 23%; */
     flex: 1.5;
-    text-align: center;
+    text-align: left;
 }
 .smartClientList .smartList-contacts{
     /* width: 8%; */
@@ -99,27 +99,18 @@
     background-position: -7px -4px;
     cursor: pointer;
 }
-.smartClientList .smartList-scTtask{
+.smartClientList .smartList-scTask{
     /* width: 8%; */
     flex: 1;
 }
-.smartClientList .smartList-scTtask .icon-edit-task_graphic{
+.smartClientList .smartList-scTask .smart-scTask-btn{
     width: 20px;
     height: 20px;
     line-height: 20px;
     font-size: 30px;
     cursor: pointer;
-}
-.smartClientList .smartList-scTtask .icon-edit-task_graphic.blue{
     color: #00B0DA;
 }
-.smartClientList .smartList-scTtask .icon-completed-task_graphic{
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    font-size: 30px;
-    color: #00B0DA;
-    cursor: pointer;
-}
+
 
 

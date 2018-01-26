@@ -18,29 +18,29 @@ define([
         templateString: template,
         serialNumber: ConsoleService.getCurrentUser().getSerialNumber(),
         intranetID: ConsoleService.getCurrentUser().getIntranetId(),
-        constructor: function(data) {
+        constructor: function(data, defaultColumns) {
             this.data = data;
             this._id = data._id;
             this.market = data.Market;
             this.sprint = data.Sprint;
             this.companyName = data.Company_Name;
+            this.defaultColumns = defaultColumns;
         },
         postCreate: function() {
             this.inherited(arguments);
             
             var domNode = this.domNode;
-            this.domObj = {
-                'Rank': this.rank.domNode,
-                'Score': this.score.domNode,
-                'SalesPlays': this.reasons.domNode,
-                'Clients': this.goToClient360.domNode,
-                'Segment': this.segment.domNode,
-                'Industry': this.industry.domNode,
-                'BU Upsell': this.buUpsell.domNode,
-                'IBM Client': this.ibmClient.domNode,
-                'Channel': this.channel.domNode,
-                'Upsell Cycle': this.upsellCycle.domNode,
-                'Tasks': this.scTask.domNode
+            this.customDomObj = {
+                'Rank': this.rank,
+                'Score': this.score,
+                'Sales plays': this.reasons,
+                'Segment': this.segment,
+                'Industry': this.industry,
+                'BU Upsell': this.buUpsell,
+                'IBM Client': this.ibmClient,
+                'Channel': this.channel,
+                'Upsell Cycle': this.upsellCycle,
+                'Tasks': this.scTask
             }
         },
         
@@ -50,26 +50,41 @@ define([
         },
         
         updateView: function() {
-            
+            for(var key in this.customDomObj) {
+                if(this.defaultColumns.includes(key)) {
+                    domClass.remove(this.customDomObj[key], 'smart-hidden');
+                }else {
+                    domClass.add(this.customDomObj[key], 'smart-hidden');
+                }
+            }
         },
         
         createView: function() {
             this.rank.innerHTML = this.data.Unique_Rank_per_Rep;
             this.score.innerHTML = this.data.Score;
+            this.goToClient360Btn.innerHTML = this.data.Company_Name;
+            domAttr.set(this.goToClient360Btn, 'title', this.data.Company_Name);
+            domAttr.set(this.goToClient360Btn, 'href', this.data.CSA_360_URL.split('/sales/console/')[1]);
             this.reasons.innerHTML = this.data.reasonForCall;
             if(this.data.reasonForCall > 0) {
                 domClass.add(this.reasons, 'smartList-clickable');
             }
-            this.goToClient360Btn.innerHTML = this.data.Company_Name;
-            domAttr.set(this.goToClient360Btn, 'title', this.data.Company_Name);
-            domAttr.set(this.goToClient360Btn, 'href', this.data.CSA_360_URL.split('/sales/console/')[1]);
             this.industry.innerHTML = this.data.Main_Industry_Description;
             domAttr.set(this.industry, 'title', this.data.Main_Industry_Description);
             if(this.data.task_client_relation) {
-                this.disableOptBtn();
+                this.setOptBtnDisable();
                 this.showScTaskButton();
                 this.setScBtnStatus(this.data.task_client_relation.status);
+            }else {
+                this.emit('enableSelectAllBtn');
             }
+            this.segment.innerHTML = this.data.Sector_ISU;
+            this.buUpsell.innerHTML = this.data.TSS_Land_or_Expand;
+            this.ibmClient.innerHTML = this.data.IBM_Client_Flg;
+            this.channel.innerHTML = this.data.TSS_Channel;
+            this.upsellCycle.innerHTML = this.data.Upsell_Cycle;
+            if(!this.defaultColumns.length) return;
+            this.updateView();
         },
         
         showReasons: function() {
@@ -96,14 +111,31 @@ define([
             this.emit('showScTaskDialog', data);
         },
         
-        addPendingTask: function(evt) {
+        selectAllOptBtn: function(flag) {
+            if(!this.optBtn.get('disabled')) {
+                this.setOptBtnStatus(flag);
+                this.selectAllToPendingTask(flag);
+            }
+        },
+        
+        selectAllToPendingTask: function(flag) {
             var data = {
-                selected: evt.target.checked,
+                selected: flag,
                 _id: this._id,
                 smartClientItem: this
             }
             
-            this.emit('addPendingTask', data);
+            this.emit('selectAllToPendingTask', data);
+        },
+        
+        handlePendingTask: function() {
+            var data = {
+                selected: this.optBtn.checked,//evt.target.checked,
+                _id: this._id,
+                smartClientItem: this
+            }
+            
+            this.emit('handlePendingTask', data);
         },
         
         createScTask: function() {
@@ -123,29 +155,51 @@ define([
             
             proxy.createTask(params).then(function(res) {
                 if(res.errorCode) {
-                    me.optBtn.set('checked', false);
                     me.emit('createTaskFail');
                     return;
                 }
-                me.disableOptBtn();
+                me.setOptBtnDisable();
                 me.showScTaskButton();
                 me.data.task_client_relation = res.data;
                 me.emit('createTaskSuccess');
             }, function() {
-                me.optBtn.set('checked', false);
                 me.emit('createTaskFail');
             });
         },
         
-        disableOptBtn: function() {
-            this.optBtn.set('checked', false);
+        getOptBtnStatus: function(flag) {
+            return this.optBtn.get('checked');
+        },
+        
+        setOptBtnStatus: function(flag) {
+            this.optBtn.set('checked', flag);
+        },
+        
+        getOptBtnDisable: function() {
+            return this.optBtn.get('disabled');
+        },
+        
+        setOptBtnDisable: function() {
             this.optBtn.set('disabled', true);
             domClass.add(this.optBtnCon, 'smartList-disabled');
         },
         
         setScBtnStatus: function(status) {
-            if(status === 'Completed') {
-                domClass.replace(this.scTaskBtn, 'icon-completed-task_graphic blue', 'icon-edit-task_graphic blue');
+            switch (status) {
+                case 'Not Started': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-notstart-task_graphic')
+                    break;
+                case 'In Progress': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-progress-task_graphic')
+                    break;
+                case 'Pending Input': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-pending-task_graphic')
+                    break;
+                case 'Deferred': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-deferred-task_graphic')
+                    break;
+                case 'Canceled': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-canceld-task_graphic')
+                    break;
+                case 'Completed': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-completed-task_graphic')
+                    break;
+                default: 
+                    break;
             }
         },
         

@@ -212,7 +212,7 @@ define([
             
             me.showLoader();
             proxy.editTask(params).then(function(res) {
-                var data = {
+                var _data = {
                     'bodyClassName': 'smart-tooltip-center',
                     'tooltipTitle': 'Error',
                     'commonMsg': '<div>It wasn’t possible to create/edit tasks in SalesConnect due to API restriction, please try it again later.</div>'
