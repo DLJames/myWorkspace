@@ -50,19 +50,18 @@ define([
             if(!this.data.defaultColumn) {
                 domClass.add(this.domNode, 'smart-hidden');
             }
-            this.name.innerHTML = this.data.title;
-//            if(this.data.title === 'Select') {
-//                this.selectAllBtn = new CheckBox({
-//                    'class': 'smart-selectAllBtn',
-//                    'disabled': true
-//                });
-//                domConstruct.place(this.selectAllBtn.domNode, this.domNode, 'last');
-//                on(this.selectAllBtn, 'click', function(evt) {
-//                    this.selectAllAction(evt);
-//                }.bind(this));
-//            }else {
-//                this.name.innerHTML = this.data.title;
-//            }
+            if(this.data.title === 'Select') {
+                this.selectAllBtn = new CheckBox({
+                    'class': 'smart-selectAllBtn',
+                    'disabled': true
+                });
+                domConstruct.place(this.selectAllBtn.domNode, this.domNode, 'last');
+                on(this.selectAllBtn, 'click', function(evt) {
+                    this.selectAllAction(evt);
+                }.bind(this));
+            }else {
+                this.name.innerHTML = this.data.title;
+            }
             if(this.data.actived) {
                 domClass.add(this.domNode, 'showIcon active');
             }

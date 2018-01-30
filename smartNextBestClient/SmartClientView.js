@@ -30,6 +30,7 @@ define([
         serialNumber: ConsoleService.getCurrentUser().getSerialNumber(),
         intranetID: ConsoleService.getCurrentUser().getIntranetId(),
         filterDataObj: {},
+        specialFilterDetail: {},
         totalClientItemList: [],
         totalClientConList: [],
         pendingTaskArr: [],
@@ -41,6 +42,7 @@ define([
         taskProxySuccessNum: 0,
         searchBtnVal: '',
         taskStatus: '',
+        tasks: [],
         sortType: 'Unique_Rank_per_Rep',
         sortByDesc: false,
         clientsRequestDone: false,
@@ -88,6 +90,11 @@ define([
                 }, 1000);
             });
             
+            on(me.filterUtil, 'createFilterDetail', function(data) {
+                me.filterDataObj = data;
+                me.createFilterDetail(data);
+            });
+            
             on(me.errorBtn, 'click', function() {
                 me.requestForClient();
             });
@@ -96,8 +103,8 @@ define([
         startup : function() {    
             this.inherited(arguments);
             this.createTableHead();
-            this.createFilterUtil();
-            this.requestForFilter();
+//            this.createFilterUtil();
+//            this.requestForFilter();
             this.requestForClient();
         },
         
@@ -123,9 +130,9 @@ define([
                 me.columnCon.appendChild(headItem.domNode);
                 headItem.startup();
                 
-//                if(item.title === 'Select') {
-//                    me.selectAllColumn = headItem;
-//                }
+                if(item.title === 'Select') {
+                    me.selectAllColumn = headItem;
+                }
                 
                 me.totalHeadItems.push(headItem);
                 
@@ -258,26 +265,26 @@ define([
             }
         },
         
-        createFilterUtil: function() {
-            var filterUtil = this.filterUtil = new FilterUtil();
-            
-            domConstruct.place(filterUtil.domNode, this.filterScrollView.scroll_con, 'first');
-            filterUtil.startup();
-            this._refreshFilterScroll();
-        },
+//        createFilterUtil: function() {
+//            var filterUtil = this.filterUtil = new FilterUtil();
+//            
+//            domConstruct.place(filterUtil.domNode, this.filterScrollView.scroll_con, 'first');
+//            filterUtil.startup();
+//            this._refreshFilterScroll();
+//        },
         
-        requestForFilter : function() {
-            var me = this;
-            
-            proxy.getFilter(me.intranetID).then(function(res) {
-                if(res.data) {
-                    me.filterDataObj = res.data;
-                    me.createFilterDetail(res.data);
-                }
-            }, function() {
-                
-            });
-        },
+//        requestForFilter : function() {
+//            var me = this;
+//            
+//            proxy.getFilter(me.intranetID).then(function(res) {
+//                if(res.data) {
+//                    me.filterDataObj = res.data;
+//                    me.createFilterDetail(res.data);
+//                }
+//            }, function() {
+//                
+//            });
+//        },
         
         requestForClient: function(bookmark) {
             var me = this;
@@ -294,6 +301,7 @@ define([
                     'ibmClient': me.ibmClientDropdown ? me.ibmClientDropdown.getSelectedItemsFinal() : [],
                     'channel': me.channelDropdown ? me.channelDropdown.getSelectedItemsFinal() : [],
                     'upsellCycle': me.upsellCycleDropdown ? me.upsellCycleDropdown.getSelectedItemsFinal() : [],
+//                    'tasks': me.tasks || [],
                     'bookmark': bookmark || '',
                     'employee_cnum': location.host === 'csa.dst.ibm.com' ? me.serialNumber : '057568613',
                     'email': me.intranetID || '',
@@ -313,7 +321,7 @@ define([
                 if(res.errorCode || !_data || !_data.docs) {
 //                    me.showError();
                     me.clearPendingTask();
-//                    me.enableSelectAllBtn();
+                    me.enableSelectAllBtn();
                     return;
                 }
                 try {
@@ -334,7 +342,7 @@ define([
                 me.hideLoader();
 //                me.showError();
                 me.clearPendingTask();
-//                me.enableSelectAllBtn();
+                me.enableSelectAllBtn();
             });
         },
         
@@ -342,9 +350,8 @@ define([
             this.cityDropdown = new FilterDropdowndetail(data.city, 'City', 'Location');
             this.marketDropdown = new FilterDropdowndetail(data.market, 'Market', 'Location');
             this.countryDropdown = new FilterDropdowndetail(data.country, 'Country', 'Location');
-            this.salesplayDropdown = new FilterDropdowndetail(data.salesPlays, 'SalesPlays', 'SalesPlays');
+            this.salesplayDropdown = new FilterDropdowndetail(data.salesPlays, 'Sales Plays', 'Sales Plays');
             this.industryDropdown = new FilterDropdowndetail(data.industry, 'Industry', 'Industry');
-            
             this.segmentDropdown = new FilterDropdowndetail(data.segment, 'Segment', 'Segment');
             this.buUpsellDropdown = new FilterDropdowndetail(data.buUpsell, 'BU Upsell', 'BU Upsell');
             this.ibmClientDropdown = new FilterDropdowndetail(data.ibmClient, 'IBM Client', 'IBM Client');
@@ -362,11 +369,11 @@ define([
             this.filterDeatilScrollView.scroll_con.appendChild(this.channelDropdown.domNode);
             this.filterDeatilScrollView.scroll_con.appendChild(this.upsellCycleDropdown.domNode);
             
-            this.dropdownList = {
+            this.filterDetailList = {
                 'City': this.cityDropdown,
                 'Market': this.marketDropdown,
                 'Country': this.countryDropdown,
-                'SalesPlays': this.salesplayDropdown,
+                'Sales Plays': this.salesplayDropdown,
                 'Industry': this.industryDropdown,
                 'Segment': this.segmentDropdown,
                 'BU Upsell': this.buUpsellDropdown,
@@ -406,17 +413,17 @@ define([
             clients.forEach(function(item) {
                 var smartClientList = new SmartClientList(item, defaultColumns);
                 
-//                on(smartClientList, 'enableSelectAllBtn', function() {
-//                    me.enableSelectAllBtn();
-//                });
+                on(smartClientList, 'enableSelectAllBtn', function() {
+                    me.enableSelectAllBtn();
+                });
                 
                 on(smartClientList, 'handlePendingTask', function(data) {
                     me.handlePendingTask(data);
                 });
                 
-//                on(smartClientList, 'selectAllToPendingTask', function(data) {
-//                    me.selectAllToPendingTask(data);
-//                });
+                on(smartClientList, 'selectAllToPendingTask', function(data) {
+                    me.selectAllToPendingTask(data);
+                });
                 
                 on(smartClientList, 'showScTaskDialog', function(data) {
                     me.showScTaskDialog(data);
@@ -479,11 +486,11 @@ define([
                     }
                 });
                 
-//                clientItemList.forEach(function(clientItem) {
-//                    if(!clientItem.optBtn.get('disabled')) {
-//                        me.enableSelectAllBtn();
-//                    }
-//                });
+                clientItemList.forEach(function(clientItem) {
+                    if(!clientItem.optBtn.get('disabled')) {
+                        me.enableSelectAllBtn();
+                    }
+                });
                 me._refreshClientBodyScroll();
                 return;
             }
@@ -510,11 +517,11 @@ define([
                 });
             }
             
-//            if(this.getSelectableItemNum() === this.pendingTaskArr.length) {
-//                this.selectAllColumn.setSelectAllBtnCheck(true);
-//            }else {
-//                this.selectAllColumn.setSelectAllBtnCheck(false);
-//            }
+            if(this.getSelectableItemNum() === this.pendingTaskArr.length) {
+                this.selectAllColumn.setSelectAllBtnCheck(true);
+            }else {
+                this.selectAllColumn.setSelectAllBtnCheck(false);
+            }
             
             if(this.pendingTaskArr.length) {
                 this.showCreateTaskBtn();
@@ -590,7 +597,7 @@ define([
             
             me.hideLoader();
             me.clearPendingTask();
-//            me.enableSelectAllBtn();
+            me.enableSelectAllBtn();
             if(taskProxySuccessNum === taskProxyTotalNum) {
                 data.tooltipTitle = 'Success';
                 data.commonMsg = '<div>' + taskProxyTotalNum + ' new tasks have been created in SalesConnect.</div>';
@@ -608,7 +615,7 @@ define([
         },
         
         clearPendingTask: function() {
-//            this.disableSelectAllBtn();
+            this.disableSelectAllBtn();
             this.pendingTaskArr.forEach(function(item) {
                 item.smartClientItem.setOptBtnStatus(false);
             });
@@ -616,15 +623,15 @@ define([
             this.hideCreateTaskBtn();
         },
         
-//        enableSelectAllBtn: function() {
-//            this.selectAllColumn.setSelectAllBtnCheck(false);
-//            this.selectAllColumn.setSelectAllBtnDisable(false);
-//        },
-//        
-//        disableSelectAllBtn: function() {
-//            this.selectAllColumn.setSelectAllBtnCheck(false);
-//            this.selectAllColumn.setSelectAllBtnDisable(true);
-//        },
+        enableSelectAllBtn: function() {
+            this.selectAllColumn.setSelectAllBtnCheck(false);
+            this.selectAllColumn.setSelectAllBtnDisable(false);
+        },
+        
+        disableSelectAllBtn: function() {
+            this.selectAllColumn.setSelectAllBtnCheck(false);
+            this.selectAllColumn.setSelectAllBtnDisable(true);
+        },
         
         showScTaskDialog: function(data) {
             var me = this;
@@ -656,9 +663,9 @@ define([
                 });
             });
             
-            on(me.filterUtil, 'refreshScroll', function(data) {
-                me._refreshFilterScroll();
-            });
+//            on(me.filterUtil, 'refreshScroll', function(data) {
+//                me._refreshFilterScroll();
+//            });
             
             on(me.filterUtil, 'showFilterResult', function(data) {
                 me.showFilterResult(data);
@@ -669,20 +676,20 @@ define([
         filterDetailEventBind: function() {
             var me = this;
             
-            for(var key in me.dropdownList) {
-                on(me.dropdownList[key], 'showFilterDoneBtn', function(data) {
+            for(var key in me.filterDetailList) {
+                on(me.filterDetailList[key], 'showFilterDoneBtn', function(data) {
                     me.filterUtil.showFilterDoneBtn(data);
                 });
             }
         },
         
         showFilterDetail: function(data) {
-            for(var key in this.dropdownList) {
+            for(var key in this.filterDetailList) {
                 if(key === data.dataSource) {
-                    this.dropdownList[key]._filter(data.val);
-                    domStyle.set(this.dropdownList[key].domNode, 'display', 'block');
+                    this.filterDetailList[key]._filter(data.val);
+                    domStyle.set(this.filterDetailList[key].domNode, 'display', 'block');
                 }else {
-                    domStyle.set(this.dropdownList[key].domNode, 'display', 'none');
+                    domStyle.set(this.filterDetailList[key].domNode, 'display', 'none');
                 }
             }
             domClass.remove(this.filterDetail, 'smart-hidden');
@@ -693,15 +700,29 @@ define([
             domClass.add(this.filterDetail, 'smart-hidden');
         },
         
-        showFilterResult: function(data) {
+        filterResult4special: function(data) {
             var me = this;
-            var clearAllBtn, _height = 0;
+            var val = data.value.split('##');
             
-            domConstruct.empty(me.filterResultScrollView.scroll_con);
-            domClass.add(me.clearAllBtn, 'smart-hidden');
+            me.specialFilterDetail[val[0]] = data.self;
+            if(data.selected) {
+                me.tasks.push(val[1]);
+                me.filterResultArray.push(data.value);
+            }else {
+                me.tasks = me.tasks.filter(function(item) {
+                    return item !== val[1];
+                });
+                me.filterResultArray = me.filterResultArray.filter(function(item) {
+                    return item !== data.value;
+                });
+            }
+        },
+        
+        filterResult4common: function(data) {
+            var me = this;
             
-            for(var key in me.dropdownList) {
-                var currentDropdown = me.dropdownList[key];
+            for(var key in me.filterDetailList) {
+                var currentDropdown = me.filterDetailList[key];
                 
                 if(currentDropdown.filterType === data.filterType) {
                     currentDropdown.updateSelectedItem();
@@ -711,6 +732,20 @@ define([
                         }
                     });
                 }
+            }
+        },
+        
+        showFilterResult: function(data) {
+            var me = this;
+            var clearAllBtn, _height = 0;
+            
+            domConstruct.empty(me.filterResultScrollView.scroll_con);
+            domClass.add(me.clearAllBtn, 'smart-hidden');
+            
+            if(data.filterType === 'Tasks') {
+                me.filterResult4special(data);
+            }else {
+                me.filterResult4common(data);
             }
             
             me.filterResultArray.forEach(function(item, idx) {
@@ -739,13 +774,20 @@ define([
         
         clearCurrentFilterResult: function(evt, item) {
             var me = this;
+            var val = item.split('##')[1];
             var resultItem = evt.target.parentElement;
             var dataSource = resultItem.getAttribute('data-source');
             var _height = resultItem.offsetHeight;
             
             domConstruct.destroy(resultItem);
-            me.dropdownList[dataSource].clearCurrentData(item);
-            
+            if(dataSource === 'Tasks') {
+                me.tasks = me.tasks.filter(function(taskItem) {
+                    return val !== taskItem;
+                });
+                me.specialFilterDetail[dataSource].clearCurrentData(val);
+            }else {
+                me.filterDetailList[dataSource].clearCurrentData(item);
+            }
             me.filterResultArray.splice(me.filterResultArray.indexOf(item), 1);
             
             if(me.filterResultArray.length < 5) {
@@ -767,8 +809,12 @@ define([
             me._refreshFilterScroll();
             me.filterResultArray.length = 0;
             
-            for(var key in me.dropdownList) {
-                me.dropdownList[key].clearAllData();
+            for(var key in me.filterDetailList) {
+                me.filterDetailList[key].clearAllData();
+            }
+            
+            for(var key in me.specialFilterDetail) {
+                me.specialFilterDetail[key].clearAllData();
             }
         },
         
@@ -785,10 +831,12 @@ define([
         },
         
         showCreateTaskBtn: function() {
+            this.selectedNum.innerHTML = '(' + this.pendingTaskArr.length + ' selected)';
             domClass.remove(this.createTaskBtn, 'smart-hidden');
         },
         
         hideCreateTaskBtn: function() {
+            this.selectedNum.innerHTML = '';
             domClass.add(this.createTaskBtn, 'smart-hidden');
         },
         
@@ -847,7 +895,8 @@ define([
         },
         
         _refreshFilterScroll: function() {
-            this.filterScrollView.resize();
+//            this.filterScrollView.resize();
+            this.filterUtil._refreshFilterScroll();
         },
         
         _refreshFilterResultScroll: function() {

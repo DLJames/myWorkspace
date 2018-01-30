@@ -140,7 +140,7 @@
     -webkit-box-sizing: border-box;
 }
 .smartClientContainer .smart-container .smart-cHead .smart-chead-left{
-    width: 50%;
+    width: 70%;
     display: flex;
     align-items: center;
     position: relative;
@@ -149,10 +149,13 @@
 .smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-cHeadTitle{
     font-size: 16px;
 }
+.smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-selectedNum{
+    font-size: 16px;
+    margin: 0 10px;
+}
 .smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-serachCon{
     position: relative;
-    margin-left: 20px;
-    width: 60%;
+    width: 50%;
 }
 .smartClientContainer .smart-container .smart-cHead .smart-chead-left .smart-serachCon .smart-searchBtn{
     width: 100%;

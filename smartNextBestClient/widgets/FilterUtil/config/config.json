@@ -1,0 +1,58 @@
+{
+    "data": [
+        {
+            "dataSource": ["City", "Market", "Country"], 
+            "filterType": "Location", 
+            "filterItemName": "Location",
+            "location": []
+        },
+        {
+            "dataSource": ["Sales Plays"], 
+            "filterType": "Sales Plays", 
+            "filterItemName": "Sales Plays",
+            "salesPlays": []
+        },
+        {
+            "dataSource": ["Industry"], 
+            "filterType": "Industry", 
+            "filterItemName": "Industry",
+            "industry": []
+        },
+        {
+            "dataSource": ["Segment"], 
+            "filterType": "Segment", 
+            "filterItemName": "Segment",
+            "segment": []
+        },
+        {
+            "dataSource": ["BU Upsell"], 
+            "filterType": "BU Upsell", 
+            "filterItemName": "BU Upsell",
+            "buUpsell": []
+        },
+        {
+            "dataSource": ["IBM Client"], 
+            "filterType": "IBM Client", 
+            "filterItemName": "IBM Client",
+            "ibmClient": []
+        },
+        {
+            "dataSource": ["Channel"], 
+            "filterType": "Channel", 
+            "filterItemName": "Channel",
+            "channel": []
+        },
+        {
+            "dataSource": ["Upsell Cycle"], 
+            "filterType": "Upsell Cycle", 
+            "filterItemName": "Upsell Cycle",
+            "upsellCycle": []
+        },
+        {
+            "dataSource": ["Tasks"], 
+            "filterType": "Tasks", 
+            "filterItemName": "Tasks",
+            "tasks": ["Not Start", "In Progress", "Completed"]
+        }
+    ]
+}

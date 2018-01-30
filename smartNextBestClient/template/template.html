@@ -8,12 +8,13 @@
             </div>
         </div>
         <div class="smart-filterItemCon" data-dojo-attach-point="filterItemCon">
-            <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterScrollView">
-                <!-- <div class="smart-completeTaskCon">
+            <div data-dojo-type="myclients/view/widgets/smartNextBestClient/widgets/FilterUtil/FilterUtil" data-dojo-attach-point="filterUtil"></div>
+            <!-- <div data-dojo-type="comlib/ui/IScrollView" data-dojo-attach-point="filterScrollView">
+                <div class="smart-completeTaskCon">
                     <div class="smart-completeTaskBtn" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="completedBtn"></div>
                     <div>show completed tasks only</div>
-                </div> -->
-            </div>
+                </div>
+            </div> -->
         </div>
         <div class="smart-filterdetail smart-hidden" data-dojo-attach-point="filterDetail">
             <div>
@@ -25,6 +26,7 @@
         <div class="smart-cHead">
             <div class="smart-chead-left">
                 <div class="smart-cHeadTitle"><span data-dojo-attach-point="clientNum">0</span> clients</div>
+                <div class="smart-selectedNum" data-dojo-attach-point="selectedNum"></div>
                 <div class="smart-serachCon" data-dojo-attach-point="serachCon">
                     <input class="smart-searchBtn" data-dojo-attach-point="searchBtn" placeholder="Search by client name or ID"/>
                     <div class="smart-searchIcon icon-search-button" data-dojo-attach-point="searchIcon"></div>

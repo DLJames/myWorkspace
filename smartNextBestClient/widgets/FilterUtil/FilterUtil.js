@@ -5,39 +5,55 @@ define([
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/Evented',
+    '../../proxy/proxy',
+    'app/services/ConsoleService',
     'dojo/text!./template/template.html',
     'comlib/ui/CustomUIWidget',
+    'dojo/text!./config/config.json',
     '../FilterUtilItem/FilterUtilItem'
     
-], function (declare, on, domStyle, domClass, domConstruct, Evented, template, CustomUIWidget, FilterUtilItem) {
+], function (declare, on, domStyle, domClass, domConstruct, Evented, proxy, ConsoleService, template, CustomUIWidget, config, FilterUtilItem) {
     var widget = declare('FilterUtil', [CustomUIWidget, Evented], {
         baseClass: 'FilterUtil',
         templateString: template,
-        constructor: function(data) {
-            this.data = [
-                         {'dataSource': ['City', 'Market', 'Country'], 'filterType': 'Location', 'filterItemName': 'Location'},
-                         {'dataSource': ['SalesPlays'], 'filterType': 'SalesPlays', 'filterItemName': 'Sales plays'},
-                         {'dataSource': ['Industry'], 'filterType': 'Industry', 'filterItemName': 'Industry'},
-                         {'dataSource': ['Segment'], 'filterType': 'Segment', 'filterItemName': 'Segment'},
-                         {'dataSource': ['BU Upsell'], 'filterType': 'BU Upsell', 'filterItemName': 'BU Upsell'},
-                         {'dataSource': ['IBM Client'], 'filterType': 'IBM Client', 'filterItemName': 'IBM Client'},
-                         {'dataSource': ['Channel'], 'filterType': 'Channel', 'filterItemName': 'Channel'},
-                         {'dataSource': ['Upsell Cycle'], 'filterType': 'Upsell Cycle', 'filterItemName': 'Upsell Cycle'}
-                         ];
+        intranetID: ConsoleService.getCurrentUser().getIntranetId(),
+        constructor: function() {
+            this.filterItems = JSON.parse(config).data;
             this.filterUtilItemObj = {};
         },
         postCreate: function() {
             this.inherited(arguments);
             
             var me = this;
-            
         },
         
         startup : function() {    
             this.inherited(arguments);
-            this.data.forEach(function(item) {
-                this.createView(item);
-            }.bind(this));
+            this.createDefaultView();
+            this.requestForFilter();
+        },
+        
+        createDefaultView: function() {
+            var me = this;
+            
+            me.filterItems.forEach(function(item) {
+                me.createView(item);
+            });
+        },
+        
+        requestForFilter : function() {
+            var me = this;
+            
+            proxy.getFilter(me.intranetID).then(function(res) {
+                var _data = res.data;
+                
+                if(_data) {
+                    me.createSpecialFilterDetail(_data);
+                    me.emit('createFilterDetail', _data);
+                }
+            }, function() {
+                me.createNoDataView();
+            });
         },
         
         createView: function(item) {
@@ -45,7 +61,7 @@ define([
             var me = this;
             
             filterUtilItem = new FilterUtilItem(item);
-            me.domNode.appendChild(filterUtilItem.domNode);
+            me.filterScrollView.scroll_con.appendChild(filterUtilItem.domNode);
             filterUtilItem.startup();
             
             me.filterUtilItemObj[item.filterType] = filterUtilItem;
@@ -63,8 +79,11 @@ define([
             });
             
             on(filterUtilItem, 'refreshScroll', function() {
-                me.emit('refreshScroll');
+//                me.emit('refreshScroll');
+                me._refreshFilterScroll();
             });
+            
+            me._refreshFilterScroll();
         },
         
         hideAllItem: function(filterType) {
@@ -75,8 +94,23 @@ define([
             }
         },
         
+        createSpecialFilterDetail: function(data) {
+            var _taskData = data['tasks'] || ["Not Start", "In Progress", "Completed"]
+            
+            this.filterUtilItemObj['Tasks'].createTasksView(_taskData);
+        },
+        
         showFilterDoneBtn: function(data) {
             this.filterUtilItemObj[data.filterType].showFilterDoneBtn(data);
+        },
+        
+        _refreshFilterScroll: function() {
+            this.filterScrollView.resize();
+        },
+        
+        createNoDataView: function() {
+            domConstruct.empty(this.domNode);
+            domConstruct.create('div',{'class': 'smart-noFilterView', 'innerHTML': 'No data available'}, this.domNode, 'last');
         },
         
         _onFocus: function() {    

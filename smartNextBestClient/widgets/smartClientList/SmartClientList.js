@@ -73,7 +73,6 @@ define([
             domAttr.set(this.industry, 'title', this.data.Main_Industry_Description);
             if(this.data.task_client_relation) {
                 this.setOptBtnDisable();
-                this.showScTaskButton();
                 this.setScBtnStatus(this.data.task_client_relation.status);
             }else {
                 this.emit('enableSelectAllBtn');
@@ -112,7 +111,12 @@ define([
         },
         
         selectAllOptBtn: function(flag) {
-            if(!this.optBtn.get('disabled')) {
+            if(flag && !this.getOptBtnDisable() && !this.getOptBtnStatus()) {
+                this.setOptBtnStatus(flag);
+                this.selectAllToPendingTask(flag);
+            }
+            
+            if(!flag && !this.getOptBtnDisable() && this.getOptBtnStatus()) {
                 this.setOptBtnStatus(flag);
                 this.selectAllToPendingTask(flag);
             }
@@ -159,7 +163,7 @@ define([
                     return;
                 }
                 me.setOptBtnDisable();
-                me.showScTaskButton();
+                me.setScBtnStatus('Not Started');
                 me.data.task_client_relation = res.data;
                 me.emit('createTaskSuccess');
             }, function() {
@@ -167,7 +171,7 @@ define([
             });
         },
         
-        getOptBtnStatus: function(flag) {
+        getOptBtnStatus: function() {
             return this.optBtn.get('checked');
         },
         
@@ -186,17 +190,17 @@ define([
         
         setScBtnStatus: function(status) {
             switch (status) {
-                case 'Not Started': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-notstart-task_graphic')
+                case 'Not Started': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-not-started')
                     break;
-                case 'In Progress': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-progress-task_graphic')
+                case 'In Progress': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-in-progress')
                     break;
-                case 'Pending Input': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-pending-task_graphic')
+                case 'Pending Input': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-pending-input')
                     break;
-                case 'Deferred': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-deferred-task_graphic')
+                case 'Deferred': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-deferred')
                     break;
-                case 'Canceled': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-canceld-task_graphic')
+                case 'Canceled': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-cancelled')
                     break;
-                case 'Completed': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-completed-task_graphic')
+                case 'Completed': domClass.replace(this.scTaskBtn, 'smart-scTask-btn icon-icon-task-completed')
                     break;
                 default: 
                     break;
@@ -206,10 +210,6 @@ define([
         updateTaskData: function(resData) {
             this.data.task_client_relation = resData;
             this.setScBtnStatus(resData.status);
-        },
-        
-        showScTaskButton: function() {
-            domClass.remove(this.scTaskBtn, 'smart-hidden');
         },
         
 //        goToClient360: function() {
