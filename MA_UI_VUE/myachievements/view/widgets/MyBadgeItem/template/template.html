@@ -1,0 +1,12 @@
+<div class="MyBadgeItem">
+    <div class="mbi-topCon">
+        <div class="mbi-badgeImage" :style="styleObj"></div>
+        <div class="mbi-badgeInfoCon">
+            <div class="mbi-badgeName">{{attr.name}}</div>
+            <div class="mbi-issueDate"><span>Issued: </span>{{attr.issueDate}}</div>
+        </div>
+    </div>
+    <div class="mbi-bottomCon">
+        <div class="mbi-cclaim" @click="openCclaimPage"></div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="ma-myCertificate">
+    <div class="mc-headline">
+        <div class="mc-headTitle">My External Accomplishments</div>
+        <div class="mc-addNew" :class="addNewConShow" @click="showNewCertificate">
+            <span class="mc-addNewIcon">+</span> Add
+        </div>
+        <div class="mc-seeMoreCon" :class="seeMoreConShow" @click="showMoreCertificates">
+            <div class="mc-seeMoreText">See more</div>
+            <div class="mc-seeMoreIcon"></div>
+        </div>
+    </div>
+    <div class="mc-noCertificateCon" :class='noDataConShow'>You don't have any certificates available for now.</div>
+    <paging-util :class="pagingUtilShow" :pagingParams='pagingParams'></paging-util>
+    <div class="status-container" :class="statusConShow">
+        <div :class="statusIcon" @click="sendRequest"></div>
+        <div>{{statusIcon === 'error' ? 'An error has occurred' : ''}}</div>
+    </div>
+</div>

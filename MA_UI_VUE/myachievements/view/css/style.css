@@ -1,0 +1,96 @@
+@import url(../widgets/MyBadge/css/style.css);
+@import url(../widgets/FilterUtil/css/style.css);
+@import url(../widgets/PagingUtil/css/style.css);
+@import url(../widgets/MyBadgeItem/css/style.css);
+@import url(../widgets/MyCertificate/css/style.css);
+@import url(../widgets/MyCertificateItem/css/style.css);
+@import url(../widgets/CertificateNewAdd/css/style.css);
+
+.myachievements{
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    position: relative;
+}
+.myachievements .ma-hidden{
+    display: none !important;
+}
+.myachievements .ma-headText{
+    font-size: 13px;
+    font-family: Helvetica Neue Medium for IBM;
+    color: #000;
+}
+.myachievements .ma-bodyText{
+    font-size: 13px;
+    font-family: Helvetica Neue Roman for IBM;
+    color: #404040;
+}
+.myachievements .ma-headNav{
+    padding: 10px 44px;
+}
+.myachievements .ma-headNav .icon-chevron-right{
+    font-size: 12px;
+}
+.myachievements .ma-bodyCon{
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+.myachievements .ma-bodyCon.ma-horizontal{
+    flex-direction: row;
+}
+.myachievements .ma-bodyCon .ma-filterCon{
+    padding: 12px 0 10px 44px;
+    box-sizing: border-box;
+}
+.myachievements .ma-bodyCon .ma-cardCon{
+    flex: 1 1 auto;
+}
+.myachievements .ma-myBadgeCon{
+    /* padding: 20px 44px; */
+}
+.myachievements .ma-myCertificatesCon{
+    padding-bottom: 20px;
+}
+/* scroller bar */
+.myachievements .wrapper {
+    position: relative;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.myachievements .scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: inherit;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.myachievements .iScrollVerticalScrollbar{
+    right: 1px !important;
+    background-color: #d3d3d3 !important;
+    width: 4px !important;
+} 
+.myachievements .iScrollIndicator{
+    background: #999999 !important;
+    border: none !important;
+    border-radius: 0px !important;
+}

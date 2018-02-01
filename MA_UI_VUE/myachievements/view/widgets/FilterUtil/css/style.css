@@ -1,0 +1,77 @@
+.ma-filterUtil{
+    width: 100%;
+    height: 100%;
+}
+.ma-filterUtil .fu-filterBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 44px;
+    text-align: center;
+    color: #fff;
+    background-color: #00B0DA;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ma-filterUtil .fu-filterBtn .fu-filterBtnIcon{
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/filterBtn.svg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+.ma-filterUtil .fu-filterBtn .fu-showBtn{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+.ma-filterUtil .fu-filterBtn .fu-hideBtn{
+    
+}
+.ma-filterUtil .fu-filterBtn .fu-filterBtnText{
+    padding-left: 10px;
+}
+.ma-filterUtil .fu-filterBody .fu-clearBtn{
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    font-size: 13px;
+    padding: 15px 0;
+    text-align: right;
+    color: #00B0DA;
+    cursor: pointer;
+}
+.ma-filterUtil .fu-filterBody .fu-filterHead{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    font-family: Helvetica Neue Medium for IBM;
+    color: #000;
+    background-color: #B3B3B3;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+.ma-filterUtil .fu-filterBody .fu-filterItem{
+    padding: 10px 0;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.ma-filterUtil .fu-filterBody .fu-filterItem.fu-itemTop{
+    margin-top: 15px;
+    border-bottom: 2px solid #d3d3d3;
+}
+.ma-filterUtil .fu-filterBody .fu-filterItem.fu-itemBottom{
+    margin-bottom: 15px;
+}
+.ma-filterUtil .fu-filterBody .fu-filterItem > span{
+    padding-left: 10px;
+}
+.ma-filterUtil .fu-filterBody .fu-filterItem > input{
+    cursor: pointer;
+}
+.ma-filterUtil{
+    
+}

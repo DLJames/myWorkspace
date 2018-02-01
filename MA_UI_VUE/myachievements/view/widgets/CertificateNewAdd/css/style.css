@@ -1,0 +1,207 @@
+.ma-certificateNewAdd{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+.ma-certificateNewAdd .mna-headNav{
+    padding: 10px 44px 50px;
+    box-size: border-box;
+    align-self: flex-start;
+}
+.ma-certificateNewAdd .mna-headNav .mna-navLink{
+    cursor: pointer;
+}
+.ma-certificateNewAdd .mna-bodyCon{
+    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper{
+    position: relative;
+    width: 60%;
+    min-height: 300px;
+    background-color: #fff;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-drapCon{
+    width: 100%;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: #808080;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-drapCon .mna-drapIcon{
+    font-size: 80px;
+    cursor: pointer;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-drapCon .mna-draptext{
+    font-size: 16px;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-formColumnCon{
+    width: 80%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: 2px solid #d3d3d3;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-formColumnCon input.mna-commonInput{
+    width: 100%;
+    height: 20px;
+    border: none;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .icon-inactive_alert{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 25px;
+    color: #00B0DA;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .icon-suppress-deselected_graphic_Artboard-38{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 35px;
+    color: #F04E37;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-urlCon .mna-linkIcon{
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/link.svg");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-issueDateCon{
+    width: 80%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-issueDateCon #widget_mna_issueDate{
+    width: 45%;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px solid #d3d3d3;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-issueDateCon #widget_mna_issueDate .dijitInputField{
+    height: 30px;
+    background: url(../images/calendar.svg);
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    background-position: 98% 75%;
+    padding-left: 10px;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-issueDateCon #widget_mna_issueDate .dijitInputField input[type='text']{
+    height: 30px;
+    font-size: 13px;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-issueDateCon #widget_mna_issueDate .dijitValidationContainer > input{
+    display: none;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-btnCon{
+    width: 80%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-btnCon .mna-saveBtn{
+    width: 80px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    color: #fff;
+    background-color: #00B0DA;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-btnCon .mna-saveBtn:hover{
+    background-color: #008ABF;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-btnCon .mna-cancelBtn{
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #00B0DA;
+    border: 2px solid #00B0DA;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-formCon .mna-btnCon .mna-cancelBtn:hover{
+    color: #008ABF;
+    border-color: #008ABF;
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-shadowCon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.5);
+}
+.ma-certificateNewAdd .mna-bodyCon .mna-wraper .mna-shadowCon .mna-loading{
+    width: 35px;
+    height: 35px;
+    background-image: url("../images/loader.gif");
+    background-repeat: no-repeat;
+    background-size: 35px 35px;
+}
+.mna-ExceptionTooltip{
+    display: block;  
+    position: absolute;  
+    z-index: 1001;  
+    height:auto !important;  
+    -webkit-box-shadow: 0px 0px 10px #333;  
+    border: none;
+    color: red;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px; 
+    max-width: 500px;
+}
+.mna-ExceptionTooltip > div{
+    padding: 5px;
+}
+.mna-ExceptionTooltip:after{
+    position: absolute;
+    bottom: -8px;
+    left: 40%;
+    content: '';
+    border-top: 10px solid #fff;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}

@@ -1,0 +1,11 @@
+{	
+	"id" 	: "myachievements_vue_id",	
+	"strInfo" : [	
+		{	
+			"id" : "style",	
+			"src" : "./view/css/style.css"	
+		}	
+	],	
+	"imagesInfo" : []	
+		
+}	

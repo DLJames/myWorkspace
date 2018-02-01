@@ -1,0 +1,27 @@
+<div class="ma-filterUtil">
+    <div class="fu-filterBtn" @click="filterShowOpt">
+        <div class="fu-filterBtnIcon" :class="filterBtnShow"></div>
+        <div class="fu-filterBtnText">{{filterBtnText}}</div>
+    </div>
+    <div class="fu-filterBody" :class="filterBodyHide">
+        <div class="fu-clearBtn" @click="clearAllOptions">Clear</div>
+        <div class="fu-filterHead fu-categoryHead">Category</div>
+        <div class="fu-filterItem fu-itemTop">
+            <input type="checkbox" value="badge" v-model="filterOptArr"/>
+            <span>Badges</span>
+        </div>
+        <div class="fu-filterItem fu-itemBottom">
+            <input type="checkbox" value="certificate" v-model="filterOptArr"/>
+            <span>Certificates</span>
+        </div>
+        <div class="fu-filterHead fu-sortHead">Sort by</div>
+        <div class="fu-filterItem fu-itemTop">
+            <input type="checkbox" value="name" v-model="sortOptArr"/>
+            <span>Name</span>
+        </div>
+        <div class="fu-filterItem fu-itemBottom">
+            <input type="checkbox" value="date" v-model="sortOptArr"/>
+            <span>Date</span>
+        </div>
+    </div>
+</div>

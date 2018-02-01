@@ -1,0 +1,30 @@
+<div class="pu-pagingUtilCon">
+    <div class="pu-slideCon" :style="slideConStyleObj">
+        <div class="pu-slideBody" :style="slideBodyStyleObj">
+            <div 
+            class="slideItemCon" 
+            :style="slideItemConStyleObj" 
+            v-for="(cards, idx) in cardCategory" 
+            :class="idx === cardCategory.length - 1 ? 'slideItemCon-end':''">
+                <template v-if="pagingParams.cardType === 'mybadge'">
+                    <my-badgeItem v-for="card in cards" :attr="card"></my-badgeItem>
+                </template>
+                <template v-else>
+                    <my-certificateItem v-for="card in cards" :attr="card"></my-certificateItem>
+                </template>
+            </div>
+        </div>
+    </div>
+    <div class="pu-dotCon" v-if="hasDotCon">
+        <div class="pu-imageColumn pu-goToFirstBtn" :class="firstBtnDisabled" @click="goToPage(1)"></div>
+        <div class="pu-imageColumn pu-prevBtn" :class="prevBtnDisabled" @click="goToPage(currentPage-1)"></div>
+        <ul class="pu-dotItemCon">
+            <li 
+            class="pu-dotItem" 
+            v-for="dotItem in totalPage" :class="dotItem === currentPage ? 'active' : ''"
+            @click="goToPage(dotItem)">{{dotItem}}</li>
+        </ul>
+        <div class="pu-imageColumn pu-nextBtn" :class="nextBtnDisabled" @click="goToPage(currentPage+1)"></div>
+        <div class="pu-imageColumn pu-goToLastBtn" :class="lastBtnDisabled" @click="goToPage(totalPage)"></div>
+    </div>
+</div>

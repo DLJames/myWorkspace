@@ -1,0 +1,96 @@
+.ma-myCertificate{
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.ma-myCertificate .mc-headline{
+    /* display: flex;
+    justify-content: space-between; */
+    height: 30px;
+    line-height: 30px;
+    padding: 10px 44px 0;
+}
+.ma-myCertificate .mc-headline .mc-headTitle{
+    font-size: 16px;
+    /* font-family: Helvetica Neue Medium for IBM;
+    color: #000; */
+    padding-right: 20px;
+    float: left;
+}
+.ma-myCertificate .mc-headline .mc-addNew{
+    width:60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 2px;
+    float: left;
+    color: #fff;
+    background-color: #0092c5;
+    cursor: pointer;
+}
+.ma-myCertificate .mc-headline .mc-addNew .mc-addNewIcon{
+    font-size: 16px;
+    font-weight: bold;
+}
+.ma-myCertificate .mc-headline .mc-seeMoreCon{
+    color: #0092c5;
+    float: right;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.ma-myCertificate .mc-headline .mc-seeMoreCon .mc-seeMoreText{
+    padding-right: 10px;
+}
+.ma-myCertificate .mc-headline .mc-seeMoreCon .mc-seeMoreIcon{
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/see_more-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+.ma-myCertificate .mc-noCertificateCon{
+    font-size: 16px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #FDB813;
+    margin: 0 44px;
+}
+
+/*loader, error*/
+.ma-myCertificate .loader-container,
+.ma-myCertificate .error-container{
+    width: 100%;
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.ma-myCertificate .loader{
+    width : 100%;
+    height: 35px;
+    background-image : url('../images/loader.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+}
+.ma-myCertificate .error{
+    width : 100%;
+    height: 35px;
+    background-image : url('../images/error.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+    cursor: pointer;
+}
+
+

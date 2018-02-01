@@ -1,0 +1,40 @@
+<div class="ma-certificateNewAdd">
+    <div class="mna-headNav">
+        <span class="" data-dojo-attach-point="goToProfileLevel">My Profile </span>
+        <span class="icon-chevron-right"></span>
+        <span class="mna-navLink" data-dojo-attach-point="goToAchivLevel"> My Achievements </span>
+        <span class="icon-chevron-right"></span>
+        <span class="ma-headText"> Add New</span>
+    </div>
+    <div class="mna-bodyCon">
+        <div class="mna-wraper">
+            <div class="mna-drapCon" data-dojo-attach-point="drapCon">
+                <div class="mna-drapIcon">+</div>
+                <div class="mna-draptext">Drap and drop your image here - {{age}}</div>
+            </div>
+            <div class="mna-formCon">
+                <div class="mna-titleCon mna-formColumnCon">
+                    <input class="mna-commonInput" type="text" placeholder="Title" data-dojo-attach-point="titleItem"/>
+                    <div class="ma-hidden" data-dojo-attach-point="titleItemIcon"></div>
+                </div>
+                <div class="mna-urlCon mna-formColumnCon">
+                    <input class="mna-commonInput" type="text" placeholder="URL" data-dojo-attach-point="urlItem"/>
+                    <div class="mna-linkIcon" data-dojo-attach-point="urlItemIcon"></div>
+                </div>
+                <div class="mna-issueDateCon" data-dojo-attach-point="issueDateCon">
+                    <!-- <input type="date" class="mna-date" data-dojo-attach-point="issueDateItem"/> -->
+                    <!-- <input value="2017-9-30" data-dojo-type="dijit/form/DateTextBox" required="true" /> -->
+                    <!-- <input class="mna-iuuseDate" data-dojo-attach-point="issueDate" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{fullYear: false}" required="true"/> -->
+                    <div class="icon-inactive_alert" data-dojo-attach-point="dateItemIcon"></div>
+                </div>
+                <div class="mna-btnCon">
+                    <div class="mna-saveBtn" data-dojo-attach-point="saveBtn">Save</div>
+                    <div class="mna-cancelBtn" data-dojo-attach-point="cancelBtn">Cancel</div>
+                </div>
+            </div>
+            <div class="mna-shadowCon ma-hidden" data-dojo-attach-point="shadowCon">
+                <div class="mna-loading"></div>
+            </div>
+        </div>
+    </div>
+</div>

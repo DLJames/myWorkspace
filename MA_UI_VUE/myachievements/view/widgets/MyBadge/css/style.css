@@ -1,0 +1,75 @@
+.ma-myBadge{
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.ma-myBadge .mb-headline{
+    padding: 10px 44px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.ma-myBadge .mb-headline .mb-headTitle{
+    font-size: 16px;
+    /* font-family: Helvetica Neue Medium for IBM;
+    color: #000; */
+}
+.ma-myBadge .mb-headline .mb-seeMoreCon{
+    color: #0092c5;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.ma-myBadge .mb-headline .mb-seeMoreCon .mb-seeMoreText{
+    padding-right: 10px;
+}
+.ma-myBadge .mb-headline .mb-seeMoreCon .mb-seeMoreIcon{
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/see_more-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+.ma-myBadge .mb-noBadgeCon{
+    font-size: 16px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #FDB813;
+    margin: 0 44px;
+}
+
+/*loader, error*/
+.ma-myBadge .status-container{
+    width: 100%;
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.ma-myBadge .status-container .loader{
+    width : 100%;
+    height: 35px;
+    background-image : url('../images/loader.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+}
+.ma-myBadge .status-container .error{
+    width : 100%;
+    height: 35px;
+    background-image : url('../images/error.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px 35px;
+    cursor: pointer;
+}
+
+

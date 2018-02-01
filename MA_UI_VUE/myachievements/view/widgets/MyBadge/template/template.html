@@ -1,0 +1,15 @@
+<div class="ma-myBadge">
+    <div class="mb-headline">
+        <div class="mb-headTitle">My IBM Badges</div>
+        <div class="mb-seeMoreCon" :class="seeMoreConShow" @click="showMoreBadges">
+            <div class="mb-seeMoreText">See more</div>
+            <div class="mb-seeMoreIcon"></div>
+        </div>
+    </div>
+    <div class="mb-noBadgeCon" :class='noDataConShow'>You don't have any badges available for now.</div>
+    <paging-util :class="pagingUtilShow" :pagingParams='pagingParams'></paging-util>
+    <div class="status-container" :class="statusConShow">
+        <div :class="statusIcon" @click="sendRequest"></div>
+        <div>{{statusIcon === 'error' ? 'An error has occurred' : ''}}</div>
+    </div>
+</div>

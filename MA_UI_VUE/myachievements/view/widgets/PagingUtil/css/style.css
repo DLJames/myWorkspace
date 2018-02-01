@@ -1,0 +1,97 @@
+.pu-pagingUtilCon{
+    /* display: flex;
+    justify-content: center; */
+    max-height: 350px;
+    margin-left: 34px;
+    margin-right: 34px;
+}
+.pu-pagingUtilCon .pu-slideCon{
+    width: 100%;
+    min-height: 210px;
+    position: relative;
+    overflow: hidden;
+}
+.pu-pagingUtilCon .pu-slideCon .pu-slideBody{
+    position: absolute;
+    display: flex;
+    transform: translate3d(0,0,0);
+    transition-duration: 1.5s;
+}
+.pu-pagingUtilCon .pu-slideCon .pu-slideBody .slideItemCon{
+    padding: 10px 10px 20px;
+    /* background-color: #000; */
+    display: flex;
+    justify-content: space-between;
+}
+.pu-pagingUtilCon .pu-slideCon .pu-slideBody .slideItemCon-end{
+    justify-content: flex-start !important;
+}
+.pu-pagingUtilCon .pu-slideCon .pu-slideBody .slideItemCon-end > div{
+    margin-right: 25px !important;
+}
+.pu-pagingUtilCon .pu-dotCon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-imageColumn{
+    width: 15px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-goToFirstBtn{
+    background-image: url("../images/first_page-arrow.svg");
+}
+.pu-pagingUtilCon .pu-dotCon .pu-firstBtnDisabled{
+    background-image: url("../images/first_page-arrow-disabled.svg");
+    cursor: default;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-prevBtn{
+    background-image: url("../images/left-arrow.svg");
+}
+.pu-pagingUtilCon .pu-dotCon .pu-prevBtnDisabled{
+    background-image: url("../images/left-arrow-disabled.svg");
+    cursor: default;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-nextBtn{
+    background-image: url("../images/right-arrow.svg");
+}
+.pu-pagingUtilCon .pu-dotCon .pu-nextBtnDisabled{
+    background-image: url("../images/right-arrow-disabled.svg");
+    cursor: default;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-goToLastBtn{
+    background-image: url("../images/last_page-arrow.svg");
+}
+.pu-pagingUtilCon .pu-dotCon .pu-lastBtnDisabled{
+    background-image: url("../images/last_page-arrow-disabled.svg");
+    cursor: default;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-dotItemCon{
+    
+}
+.pu-pagingUtilCon .pu-dotCon .pu-dotItemCon > li{
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    list-style: none;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    color: #000;
+    text-align: center;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-dotItemCon > li:hover{
+    background-color: #0092c5;
+    color: #fff;
+}
+.pu-pagingUtilCon .pu-dotCon .pu-dotItemCon > li.active{
+    background-color: #006d8d;
+    color: #fff;
+}
+
+

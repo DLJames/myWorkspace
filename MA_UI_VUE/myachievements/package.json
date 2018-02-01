@@ -1,0 +1,13 @@
+{
+    "name": "myachievements_vue",
+    "description": "myachievements_vue",
+    "version": "1.0",
+    "keywords": ["AppFramework"],
+    "maintainers": [{
+        "name": "Nick li"
+    }],
+    "contributors": [{
+        "name": "Nick li"
+    }],
+    "dojoBuild": "myachievements.profile.js"
+}
