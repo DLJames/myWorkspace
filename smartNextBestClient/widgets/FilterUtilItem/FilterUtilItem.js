@@ -16,6 +16,7 @@ define([
             this.dataSource = data.dataSource;
             this.filterType = data.filterType;
             this.filterItemName = data.filterItemName;
+//            this.specialItems = ['Tasks', 'Sales Plays'];
             this.specialItems = ['Tasks'];
         },
         postCreate: function() {
@@ -68,25 +69,6 @@ define([
             })
         },
         
-        getStatusClass: function(status) {
-            switch(status) {
-                case 'Not Started': return 'smart-filterTaskIcon icon-icon-task-not-started'
-                    break;
-                case 'In Progress': return 'smart-filterTaskIcon icon-icon-task-in-progress'
-                    break;
-                case 'Pending Input': return 'smart-filterTaskIcon icon-icon-task-pending-input'
-                    break;
-                case 'Deferred': return 'smart-filterTaskIcon icon-icon-task-deferred'
-                    break;
-                case 'Canceled': return 'smart-filterTaskIcon icon-icon-task-cancelled'
-                    break;
-                case 'Completed': return 'smart-filterTaskIcon icon-icon-task-completed'
-                    break;
-                default: return 'smart-filterTaskIcon icon-icon-task-not-started'
-                    break;
-            }
-        },
-        
         showFilterItem: function() {
             domClass.toggle(this.domNode, 'bodyHide');
             this.emit('hideAllItem', this.filterType);
@@ -121,18 +103,22 @@ define([
             });
         },
         
-        createTasksView: function(data) {
+        createViewWithIcon: function(data) {
             var me = this;
             var itemBody;
             
             itemBody = domConstruct.create('div', {'class': 'smart-filterItemBody'}, me.domNode, 'last');
+            if(!data || !data.length) {
+                domConstruct.create('div', {'class': 'smart-filterIconItem', innerHTML: 'Not found'}, itemBody, 'last');
+                return;
+            }
             data.forEach(function(item) {
-                var taskStatusItem, itemSel;
+                var filterIconItem, itemSel;
                 
-                taskStatusItem = domConstruct.create('div', {'class': 'smart-filterTaskItem'}, itemBody, 'last');
-                itemSel = domConstruct.create('div', {'class': 'smart-statusCheckbox icon-completed-idle'}, taskStatusItem, 'last');
-                domConstruct.create('div', {'class': 'smart-filterTaskName', 'innerHTML': item}, taskStatusItem, 'last');
-                domConstruct.create('div', {'class': me.getStatusClass(item)}, taskStatusItem, 'last');
+                filterIconItem = domConstruct.create('div', {'class': 'smart-filterIconItem'}, itemBody, 'last');
+                itemSel = domConstruct.create('div', {'class': 'smart-filterCheckbox icon-completed-idle'}, filterIconItem, 'last');
+                domConstruct.create('div', {'class': 'smart-filterIconName', innerHTML: item.split('_').join(' ')}, filterIconItem, 'last');
+                domConstruct.create('div', {'class': me.getFilterIconClass(item)}, filterIconItem, 'last');
                 
                 on(itemSel, 'click', function(evt) {
                     var _data = {
@@ -148,16 +134,87 @@ define([
             });
         },
         
+//        createTasksView: function(data) {
+//            var me = this;
+//            var itemBody;
+//            
+//            itemBody = domConstruct.create('div', {'class': 'smart-filterItemBody'}, me.domNode, 'last');
+//            if(!data || !data.length) {
+//                domConstruct.create('div', {'class': 'smart-filterTaskItem', innerHTML: 'Not found'}, itemBody, 'last');
+//                return;
+//            }
+//            data.forEach(function(item) {
+//                var taskStatusItem, itemSel;
+//                
+//                taskStatusItem = domConstruct.create('div', {'class': 'smart-filterTaskItem'}, itemBody, 'last');
+//                itemSel = domConstruct.create('div', {'class': 'smart-statusCheckbox icon-completed-idle'}, taskStatusItem, 'last');
+//                domConstruct.create('div', {'class': 'smart-filterTaskName', innerHTML: item}, taskStatusItem, 'last');
+//                domConstruct.create('div', {'class': me.getStatusClass(item)}, taskStatusItem, 'last');
+//                
+//                on(itemSel, 'click', function(evt) {
+//                    var _data = {
+//                            'filterType': me.filterType,
+//                            'value': me.filterType + '##' + item,
+//                            'self': me
+//                        };
+//                        
+//                    domClass.toggle(itemSel, 'selectMe');
+//                    _data.selected = domClass.contains(itemSel, 'selectMe');
+//                    me.emit('showFilterResult', _data);
+//                });
+//            });
+//        },
+        
+        getFilterIconClass: function(status) {
+            switch(status) {
+                case 'Waxit': return 'smart-filterIcon icon-icon-number-1'
+                    break;
+                case 'SWMA': return 'smart-filterIcon icon-icon-number-2'
+                    break;
+                case 'IMS_Upsell': return 'smart-filterIcon icon-icon-number-3'
+                    break;
+                case 'Cloud_Upsell': return 'smart-filterIcon icon-icon-number-4'
+                    break;
+                case 'Networking_Upsell': return 'smart-filterIcon icon-icon-number-5'
+                    break;
+                case 'Linux_SW': return 'smart-filterIcon icon-icon-number-6'
+                    break;
+                case 'IMS_Whitespace': return 'smart-filterIcon icon-icon-number-7'
+                    break;
+                case 'IS_Whitespace': return 'smart-filterIcon icon-icon-number-8'
+                    break;
+                case 'Networking_Whitespace': return 'smart-filterIcon icon-icon-number-9'
+                    break;
+                case 'Cloud_Whitespace': return 'smart-filterIcon icon-icon-number-10'
+                    break;
+                case 'Not Started': return 'smart-filterIcon icon-icon-task-not-started'
+                    break;
+                case 'In Progress': return 'smart-filterIcon icon-icon-task-in-progress'
+                    break;
+                case 'Pending Input': return 'smart-filterIcon icon-icon-task-pending-input'
+                    break;
+                case 'Deferred': return 'smart-filterIcon icon-icon-task-deferred'
+                    break;
+                case 'Canceled': return 'smart-filterIcon icon-icon-task-cancelled'
+                    break;
+                case 'Completed': return 'smart-filterIcon icon-icon-task-completed'
+                    break;
+                default: return 'smart-filterIcon icon-icon-task-not-started'
+                    break;
+            }
+        },
+        
         clearCurrentData: function(item) {
-            this.domNode.querySelectorAll('.smart-filterTaskItem').forEach(function(taskItem) {
-                if(taskItem.children[1].innerHTML === item) {
+            var _text = item.split('_').join(' ');
+            this.domNode.querySelectorAll('.smart-filterIconItem').forEach(function(taskItem) {
+                if(taskItem.children[1].innerHTML === _text) {
                     domClass.remove(taskItem.children[0], 'selectMe');
                 }
             });
         },
         
         clearAllData: function() {
-            this.domNode.querySelectorAll('.smart-filterTaskItem').forEach(function(taskItem) {
+            this.domNode.querySelectorAll('.smart-filterIconItem').forEach(function(taskItem) {
                 domClass.remove(taskItem.children[0], 'selectMe');
             });
         },

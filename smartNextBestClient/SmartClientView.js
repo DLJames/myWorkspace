@@ -31,6 +31,8 @@ define([
         intranetID: ConsoleService.getCurrentUser().getIntranetId(),
         filterDataObj: {},
         specialFilterDetail: {},
+//        specialFilterItems: ['Tasks', 'Sales Plays'],
+        specialFilterItems: ['Tasks'],
         totalClientItemList: [],
         totalClientConList: [],
         pendingTaskArr: [],
@@ -43,6 +45,7 @@ define([
         searchBtnVal: '',
         taskStatus: '',
         tasks: [],
+        sps: [],
         sortType: 'Unique_Rank_per_Rep',
         sortByDesc: false,
         clientsRequestDone: false,
@@ -103,8 +106,6 @@ define([
         startup : function() {    
             this.inherited(arguments);
             this.createTableHead();
-//            this.createFilterUtil();
-//            this.requestForFilter();
             this.requestForClient();
         },
         
@@ -165,21 +166,6 @@ define([
                 me.changeHeadColumns(data);
                 me.changeBodyColumns(data);
             });
-            
-//            _proxy.then(function(res) {
-//                if(res.data) {
-//                    var _newColumns = me.defaultColumns = ['Rank', 'Client', 'BU Upsell', 'Industry', 'Tasks'];
-//                    
-//                    me.customHeadColumn.updateView(_newColumns);
-//                    me.changeHeadColumns(_newColumns);
-//                    if(!me.clientsRequestDone) {
-//                        return;
-//                    }
-//                    me.changeBodyColumns(_newColumns);
-//                }
-//            }, function() {
-//                
-//            });
         },
         
         selectAllAction: function(data) {
@@ -265,27 +251,6 @@ define([
             }
         },
         
-//        createFilterUtil: function() {
-//            var filterUtil = this.filterUtil = new FilterUtil();
-//            
-//            domConstruct.place(filterUtil.domNode, this.filterScrollView.scroll_con, 'first');
-//            filterUtil.startup();
-//            this._refreshFilterScroll();
-//        },
-        
-//        requestForFilter : function() {
-//            var me = this;
-//            
-//            proxy.getFilter(me.intranetID).then(function(res) {
-//                if(res.data) {
-//                    me.filterDataObj = res.data;
-//                    me.createFilterDetail(res.data);
-//                }
-//            }, function() {
-//                
-//            });
-//        },
-        
         requestForClient: function(bookmark) {
             var me = this;
             var params = {
@@ -295,13 +260,14 @@ define([
                     'city': me.cityDropdown ? me.cityDropdown.getSelectedItemsFinal() : [],
                     'country': me.countryDropdown ? me.countryDropdown.getSelectedItemsFinal() : [],
                     'salesPlays': me.salesplayDropdown ? me.salesplayDropdown.getSelectedItemsFinal() : [],
+//                    'salesPlays': me.specialFilterObj ? me.specialFilterObj['Sales Plays'] : [],
                     'industry': me.industryDropdown ? me.industryDropdown.getSelectedItemsFinal() : [],
                     'segment': me.segmentDropdown ? me.segmentDropdown.getSelectedItemsFinal() : [],
                     'buUpsell': me.buUpsellDropdown ? me.buUpsellDropdown.getSelectedItemsFinal() : [],
                     'ibmClient': me.ibmClientDropdown ? me.ibmClientDropdown.getSelectedItemsFinal() : [],
                     'channel': me.channelDropdown ? me.channelDropdown.getSelectedItemsFinal() : [],
                     'upsellCycle': me.upsellCycleDropdown ? me.upsellCycleDropdown.getSelectedItemsFinal() : [],
-//                    'tasks': me.tasks || [],
+//                    'tasks': me.specialFilterObj ? me.specialFilterObj['Tasks'] || [],
                     'bookmark': bookmark || '',
                     'employee_cnum': location.host === 'csa.dst.ibm.com' ? me.serialNumber : '057568613',
                     'email': me.intranetID || '',
@@ -381,6 +347,11 @@ define([
                 'Channel': this.channelDropdown,
                 'Upsell Cycle': this.upsellCycleDropdown
             };
+            
+            this.specialFilterObj = {
+                'Sales Plays': [],
+                'Tasks': []
+            }
             
             this.filterUtilEventBind();
             this.filterDetailEventBind();
@@ -499,9 +470,7 @@ define([
                 me.requestForClient(bookmark);
             }
             
-//            if(data.type === 'prev') {
-//                
-//            }
+//            if(data.type === 'prev') {}
         },
         
         handlePendingTask: function(data) {
@@ -663,10 +632,6 @@ define([
                 });
             });
             
-//            on(me.filterUtil, 'refreshScroll', function(data) {
-//                me._refreshFilterScroll();
-//            });
-            
             on(me.filterUtil, 'showFilterResult', function(data) {
                 me.showFilterResult(data);
                 me.requestForClient();
@@ -706,10 +671,10 @@ define([
             
             me.specialFilterDetail[val[0]] = data.self;
             if(data.selected) {
-                me.tasks.push(val[1]);
+                me.specialFilterObj[val[0]].push(val[1]);
                 me.filterResultArray.push(data.value);
             }else {
-                me.tasks = me.tasks.filter(function(item) {
+                me.specialFilterObj[val[0]] = me.specialFilterObj[val[0]].filter(function(item) {
                     return item !== val[1];
                 });
                 me.filterResultArray = me.filterResultArray.filter(function(item) {
@@ -742,7 +707,7 @@ define([
             domConstruct.empty(me.filterResultScrollView.scroll_con);
             domClass.add(me.clearAllBtn, 'smart-hidden');
             
-            if(data.filterType === 'Tasks') {
+            if(me.specialFilterItems.includes(data.filterType)) {
                 me.filterResult4special(data);
             }else {
                 me.filterResult4common(data);
@@ -780,8 +745,8 @@ define([
             var _height = resultItem.offsetHeight;
             
             domConstruct.destroy(resultItem);
-            if(dataSource === 'Tasks') {
-                me.tasks = me.tasks.filter(function(taskItem) {
+            if(me.specialFilterItems.includes(dataSource)) {
+                me.specialFilterObj[dataSource] = me.specialFilterObj[dataSource].filter(function(taskItem) {
                     return val !== taskItem;
                 });
                 me.specialFilterDetail[dataSource].clearCurrentData(val);

@@ -95,9 +95,11 @@ define([
         },
         
         createSpecialFilterDetail: function(data) {
-            var _taskData = data['tasks'] || ["Not Start", "In Progress", "Completed"]
+//            var _spData = data['salesPlays'] || [];
+            var _taskData = data['tasks'] || ["Not Start", "In Progress", "Completed", 'Pending Input', 'Deferred', 'Canceled'];
             
-            this.filterUtilItemObj['Tasks'].createTasksView(_taskData);
+//            this.filterUtilItemObj['Sales Plays'].createViewWithIcon(_spData);
+            this.filterUtilItemObj['Tasks'].createViewWithIcon(_taskData);
         },
         
         showFilterDoneBtn: function(data) {

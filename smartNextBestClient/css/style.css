@@ -25,7 +25,7 @@
     display: none !important;
 }
 .smartClientContainer .smart-filterCon{
-    width: 230px;
+    width: 240px;
     border-right: 1px solid #B3B3B3;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -115,7 +115,7 @@
     position: absolute;
     z-index: 101;
     top: 0;
-    left: 230px;
+    left: 240px;
 }
 .smartClientContainer .smart-filterCon .smart-filterdetail > div{
     margin-top: 70px;
