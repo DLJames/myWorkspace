@@ -1,0 +1,40 @@
+{
+    "errorCode": "",
+    "errorMessage": "",
+    "data": {
+        "jobs": [
+            {
+                "name": "DM_001",
+                "status": "success",
+                "startTime": "4/1/2018 01:00",
+                "planTime": "20",
+                "endTime": "4/1/2018 01:30",
+                "logMessage": "get new data and update DB."
+            },
+            {
+                "name": "ML_job",
+                "status": "success",
+                "startTime": "4/1/2018 01:00",
+                "endTime": "4/1/2018 02:50",
+                "planTime": "30",
+                "logMessage": "get RIQ data."
+            },
+            {
+                "name": "DM_002",
+                "status": "success",
+                "startTime": "4/1/2018 02:10",
+                "endTime": "4/1/2018 02:50",
+                "planTime": "10",
+                "logMessage": "detele old data."
+            },
+            {
+                "name": "DM_003",
+                "status": "fail",
+                "startTime": "4/1/2018 03:20",
+                "endTime": "4/1/2018 03:42",
+                "planTime": "15",
+                "logMessage": "login failed"
+            }
+        ]
+    }
+}
