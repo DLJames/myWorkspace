@@ -1,5 +1,7 @@
 <template>
-    <div class="jms-dashboard jms-scrollBar">dashboard</div>
+    <div class="jms-dashboard jms-scrollBar">
+        <div class="jms-dashboard-header">DashBoard</div>
+    </div>
 </template>
 
 <script>
@@ -30,8 +32,17 @@ export default {
     .jms-dashboard{
         margin: 20px 10px;
         flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 5px;
     }
-    .jms-dashboard {
-        
+    .jms-dashboard > div{
+        color: #fff;
+        background: antiquewhite;
+        font-size: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
