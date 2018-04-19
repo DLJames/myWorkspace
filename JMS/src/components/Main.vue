@@ -1,7 +1,8 @@
 <template>
     <div class="jms-wraper">
-        <Header></Header>
+        <Header @menucontroller="menuController"></Header>
         <div class="jms-mainContent">
+            <Menu :showmenu="showMenu"></Menu>
             <DashBoard :jobtitle='jobtitle'></DashBoard>
         </div>
         <div v-show="showCalendar" class="jms-calendarCon">
@@ -14,6 +15,7 @@
 /* eslint-disable */
 
 import Header from './Header'
+import Menu from './Menu'
 import DashBoard from './DashBoard'
 import Calendar from './Calendar'
 
@@ -22,10 +24,16 @@ export default {
     data() {
         return {
             showCalendar: false,
-            jobtitle: 'DM_001'
+            jobtitle: 'DM_001',
+            showMenu: false
         }
     },
-    components: {Header, DashBoard, Calendar}
+    components: {Header, Menu, DashBoard, Calendar},
+    methods: {
+        menuController(data) {
+            this.showMenu = data.menuIsClosed;
+        }
+    }
 }
 </script>
 
@@ -37,7 +45,7 @@ export default {
         height: 100%;
     }
     .jms-wraper .jms-mainContent{
-        margin: 0 30px 30px 30px;
+        margin: 90px 30px 30px 30px;
         flex: 1;
         display: flex;
         flex-direction: column;

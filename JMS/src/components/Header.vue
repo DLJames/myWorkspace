@@ -3,7 +3,7 @@
         <div class="jms-nav-wrapper">
             <div class="jms-navbar-header">
                 <div class="jms-navbar-header-leftCon">
-                    <div class="jms-opener-left-menu is-closed">
+                    <div class="jms-opener-left-menu" :class="[menuIsClosed ? 'is-closed' : 'is-open']" @click="showMenu">
                         <span class="top"></span>
                         <span class="middle"></span>
                         <span class="bottom"></span>
@@ -21,7 +21,7 @@
                 <div class="jms-navbar-header-rightCon">
                     <div class="jms-navbar-username"><span>{{username}}</span></div>
                     <div class="jms-navbar-profile">
-                        <img src="http://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/AVEKTK672" class="img-circle" :alt="username">
+                        <img :src="userphoto" class="img-circle" :alt="username">
                     </div>
                 </div>
             </div>
@@ -36,11 +36,19 @@ export default {
     data() {
         return {
             username: 'BaoNan (James) Shan',
-            jobname: ''
+            userphoto: 'http://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/AVEKTK672',
+            jobname: '',
+            menuIsClosed: true
         }
     },
     methods: {
-
+        showMenu() {
+            let _data = {
+                menuIsClosed: this.menuIsClosed
+            }
+            this.menuIsClosed = !this.menuIsClosed;
+            this.$emit('menucontroller', _data);
+        }
     }
 }
 </script>
@@ -162,7 +170,7 @@ export default {
     }
     .jms-opener-left-menu.is-open .top,
     .jms-opener-left-menu.is-open .bottom {
-        margin-top: -2px;
+        margin-top: -15px;
     }
     .jms-opener-left-menu.is-open .top {
         -webkit-transform: rotate(45deg);
@@ -223,7 +231,6 @@ export default {
     .jms-navbar .jms-nav-wrapper .jms-navbar-header .jms-navbar-header-leftCon .jms-search-nav{
         width: 300px;
         padding-left: 10px;
-
     }
     .jms-navbar .jms-nav-wrapper .jms-navbar-header .jms-navbar-header-leftCon .jms-navbar-right{
         float: right;
@@ -234,10 +241,14 @@ export default {
         align-content: center;
     }
     .jms-navbar .jms-nav-wrapper .jms-navbar-header .jms-navbar-header-rightCon .jms-navbar-username{
-
+        display: flex;
+        align-items: center;
     }
     .jms-navbar .jms-nav-wrapper .jms-navbar-header .jms-navbar-header-rightCon .jms-navbar-profile{
-
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        margin-right: 20px;
     }
     .jms-navbar .jms-nav-wrapper .jms-navbar-header .jms-navbar-header-rightCon .jms-navbar-profile .img-circle{
         height: 40px;

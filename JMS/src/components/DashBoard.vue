@@ -1,5 +1,5 @@
 <template>
-    <div class="jms-dashboard jms-scrollBar">
+    <div class="jms-dashboard">
         <ChartUtil :jobtitle="jobtitle"></ChartUtil>
         <Calendar></Calendar>
     </div>
@@ -38,9 +38,12 @@ export default {
     .jms-dashboard{
         flex: 1;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr;
         grid-gap: 5px;
+    }
+    .jms-dashboard .jms-chartUtil{
+        grid-column: 1 / 3;
     }
     /* .jms-dashboard > div{
         color: #fff;
