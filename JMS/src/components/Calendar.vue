@@ -26,19 +26,19 @@ export default {
                 return time.getTime() > Date.now();
             },
             shortcuts: [{
-                text: '今天',
+                text: 'Today',
                 onClick(picker) {
                 picker.$emit('pick', new Date());
                 }
             }, {
-                text: '昨天',
+                text: 'Yesterday',
                 onClick(picker) {
                 const date = new Date();
                 date.setTime(date.getTime() - 3600 * 1000 * 24);
                 picker.$emit('pick', date);
                 }
             }, {
-                text: '一周前',
+                text: 'A week ago',
                 onClick(picker) {
                 const date = new Date();
                 date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
@@ -50,8 +50,12 @@ export default {
         }
     },
     methods: {
-        valueChange(evt) {
-            console.log('=====', evt)
+        valueChange(date) {
+            let data = {
+                date: date
+            }
+
+            this.$emit('showchartbydate', data);
         }
     },
     components: {}
